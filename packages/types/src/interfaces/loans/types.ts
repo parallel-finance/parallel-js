@@ -2,21 +2,13 @@
 /* eslint-disable */
 
 import type { Enum, Struct, bool, u128 } from '@polkadot/types';
+import type { Rate, Ratio } from '@parallel-js/types/interfaces/primitives';
+import type { Balance } from '@parallel-js/types/interfaces/runtime';
 
 /** @name BorrowSnapshot */
 export interface BorrowSnapshot extends Struct {
   readonly principal: Balance;
   readonly borrowIndex: u128;
-}
-
-/** @name CurrencyId */
-export interface CurrencyId extends Enum {
-  readonly isDot: boolean;
-  readonly isKsm: boolean;
-  readonly isUsdt: boolean;
-  readonly isXDot: boolean;
-  readonly isXKsm: boolean;
-  readonly isNative: boolean;
 }
 
 /** @name CurveModel */

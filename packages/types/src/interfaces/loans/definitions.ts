@@ -3,9 +3,6 @@ import { Definitions } from '@polkadot/types/types';
 export default {
       rpc: {},
       types: {
-            CurrencyId: {
-                  _enum: ['DOT', 'KSM', 'USDT', 'xDOT', 'xKSM', 'Native']
-            },
             Deposits: {
                   voucherBalance: 'Balance',
                   isCollateral: 'bool'
