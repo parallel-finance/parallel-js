@@ -1,0 +1,18 @@
+{
+  "name": "@parallel-js/types",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@babel/runtime": "^7.10.2",
+    "@open-web3/api-mobx": "^0.9.4-7",
+    "@open-web3/orml-types": "^0.9.4-7",
+    "@polkadot/api": "^4.14.1",
+    "@polkadot/typegen": "^4.14.1",
+    "@polkadot/types": "^4.14.1"
+  },
+  "devDependencies": {
+    "@types/websocket": "^1.0.0",
+    "websocket": "^1.0.31"
+  }
+}

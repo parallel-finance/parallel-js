@@ -1,1 +1,1 @@
-# parallel-js
+# parallel.js
