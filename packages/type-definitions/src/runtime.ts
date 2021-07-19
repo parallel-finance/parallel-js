@@ -1,7 +1,7 @@
 export default {
-    rpc: {},
-    types: {
-        OracleKey: 'CurrencyId',
-        OracleValue: 'Price',
-    }
-}
+  rpc: {},
+  types: {
+    OracleKey: 'CurrencyId',
+    OracleValue: 'Price'
+  }
+};

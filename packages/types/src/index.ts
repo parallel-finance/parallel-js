@@ -1,16 +1,16 @@
 import {
-    typesBundle as parallelTypesBundle,
-    types as parallelTypes,
-    typesAlias as parallelTypeAlias,
-    rpc as parallelRpc,
-    signedExtensions as parallelSignedExtensions
+  typesBundle as parallelTypesBundle,
+  types as parallelTypes,
+  typesAlias as parallelTypeAlias,
+  rpc as parallelRpc,
+  signedExtensions as parallelSignedExtensions
 } from '@parallel-js/type-definitions';
 import {
-    OverrideBundleType,
-    OverrideModuleType,
-    RegistryTypes,
-    DefinitionRpc,
-    DefinitionRpcSub
+  OverrideBundleType,
+  OverrideModuleType,
+  RegistryTypes,
+  DefinitionRpc,
+  DefinitionRpcSub
 } from '@polkadot/types/types';
 
 import './interfaces/augment-api';
@@ -28,6 +28,6 @@ export const rpc: Record<string, Record<string, DefinitionRpc | DefinitionRpcSub
 
 export const typesAlias: Record<string, OverrideModuleType> = parallelTypeAlias;
 
-export const typesBundle = (parallelTypesBundle as unknown) as OverrideBundleType;
+export const typesBundle = parallelTypesBundle as unknown as OverrideBundleType;
 
 export const signedExtensions = parallelSignedExtensions;

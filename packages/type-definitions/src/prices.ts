@@ -1,6 +1,4 @@
 export default {
-    rpc: {},
-    types: {
-
-    }
-}
+  rpc: {},
+  types: {}
+};

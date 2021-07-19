@@ -3,9 +3,9 @@ import { Definitions } from '@polkadot/types/types';
 import runtime from '@parallel-js/type-definitions/runtime';
 
 export default {
-    rpc: {},
-    types: {
-        ...definitions.types,
-        ...runtime.types
-    }
+  rpc: {},
+  types: {
+    ...definitions.types,
+    ...runtime.types
+  }
 } as Definitions;
