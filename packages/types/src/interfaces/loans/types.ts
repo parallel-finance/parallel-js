@@ -3,7 +3,7 @@
 
 import type { Enum, Struct, bool, u128 } from '@polkadot/types';
 import type { Rate, Ratio } from '@parallel-js/types/interfaces/primitives';
-import type { Balance } from '@parallel-js/types/interfaces/runtime';
+import type { Balance, FixedU128 } from '@parallel-js/types/interfaces/runtime';
 
 /** @name BorrowSnapshot */
 export interface BorrowSnapshot extends Struct {
@@ -44,6 +44,9 @@ export interface JumpModel extends Struct {
   readonly jumpUtilization: Ratio;
 }
 
+/** @name Liquidity */
+export interface Liquidity extends FixedU128 {}
+
 /** @name Market */
 export interface Market extends Struct {
   readonly collateralFactor: Ratio;
@@ -60,5 +63,8 @@ export interface MarketState extends Enum {
   readonly isPending: boolean;
   readonly isSupervision: boolean;
 }
+
+/** @name Shortfalls */
+export interface Shortfalls extends FixedU128 {}
 
 export type PHANTOM_LOANS = 'loans';

@@ -38,6 +38,8 @@ export default {
         },
         MarketState: {
             _enum: ['Active', 'Pending', 'Supervision']
-        }
+        },
+        Shortfalls: 'FixedU128',
+        Liquidity: 'FixedU128'
     }
 }

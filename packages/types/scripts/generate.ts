@@ -14,6 +14,7 @@ import {
 } from '@polkadot/typegen/generate';
 import { registerDefinitions } from '@polkadot/typegen/util';
 import generateMobx from '@open-web3/api-mobx/scripts/mobx';
+import metaHex from '../src/metadata/static-latest';
 
 import * as defaultDefinations from '@polkadot/types/interfaces/definitions';
 
@@ -32,6 +33,10 @@ const definations = {
     '@open-web3/orml-types/interfaces': ormlModulesDefinations,
     '@parallel-js/types/interfaces': parallelDefinations
 } as any;
+
+const registry = new TypeRegistry();
+registerDefinitions(registry, definations);
+const metadata = new Metadata(registry, metaHex);
 
 generateTsDef(definations, 'packages/types/src/interfaces', '@parallel-js/types/interfaces');
 generateInterfaceTypes(definations, 'packages/types/src/interfaces/augment-types.ts');

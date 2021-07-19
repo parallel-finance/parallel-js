@@ -9,9 +9,10 @@ import type { PoolInfo, Share } from '@open-web3/orml-types/interfaces/rewards';
 import type { OrmlAccountData, OrmlBalanceLock } from '@open-web3/orml-types/interfaces/tokens';
 import type { AuctionInfo, DelayedDispatchTime, DispatchId, Price } from '@open-web3/orml-types/interfaces/traits';
 import type { OrmlVestingSchedule, VestingScheduleOf } from '@open-web3/orml-types/interfaces/vesting';
-import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Market, MarketState } from '@parallel-js/types/interfaces/loans';
-import type { Amount, CurrencyId, PriceDetail, Rate, Ratio, Timestamp } from '@parallel-js/types/interfaces/primitives';
-import type { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, ChangesTrieSignal, CodecHash, Consensus, ConsensusEngineId, Digest, DigestItem, EncodedJustification, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H32, H512, H64, Hash, Header, HeaderPartial, I32F32, Index, IndicesLookupSource, Justification, Justifications, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, MultiSigner, OpaqueCall, Origin, OriginCaller, PalletId, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, SignedBlockWithJustification, SignedBlockWithJustifications, Slot, StorageData, StorageProof, TransactionInfo, TransactionPriority, TransactionStorageProof, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@parallel-js/types/interfaces/runtime';
+import type { UnstakeInfo } from '@parallel-js/types/interfaces/liquidStaking';
+import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Liquidity, Market, MarketState, Shortfalls } from '@parallel-js/types/interfaces/loans';
+import type { Amount, AmountOf, CurrencyId, CurrencyIdOf, PriceDetail, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-js/types/interfaces/primitives';
+import type { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, ChangesTrieSignal, CodecHash, Consensus, ConsensusEngineId, Digest, DigestItem, EncodedJustification, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H32, H512, H64, Hash, Header, HeaderPartial, I32F32, Index, IndicesLookupSource, Justification, Justifications, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, MultiSigner, OpaqueCall, OracleKey, OracleValue, Origin, OriginCaller, PalletId, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, SignedBlockWithJustification, SignedBlockWithJustifications, Slot, StorageData, StorageProof, TransactionInfo, TransactionPriority, TransactionStorageProof, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@parallel-js/types/interfaces/runtime';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
 import type { RawAuraPreDigest } from '@polkadot/types/interfaces/aura';
@@ -106,11 +107,13 @@ declare module '@polkadot/types/types/registry' {
     'Compact<KeyTypeId>': Compact<KeyTypeId>;
     'Compact<LeasePeriod>': Compact<LeasePeriod>;
     'Compact<LeasePeriodOf>': Compact<LeasePeriodOf>;
+    'Compact<Liquidity>': Compact<Liquidity>;
     'Compact<MemberCount>': Compact<MemberCount>;
     'Compact<Moment>': Compact<Moment>;
     'Compact<MomentOf>': Compact<MomentOf>;
     'Compact<NominatorIndex>': Compact<NominatorIndex>;
     'Compact<OffchainAccuracy>': Compact<OffchainAccuracy>;
+    'Compact<OracleValue>': Compact<OracleValue>;
     'Compact<OverweightIndex>': Compact<OverweightIndex>;
     'Compact<PageCounter>': Compact<PageCounter>;
     'Compact<ParaId>': Compact<ParaId>;
@@ -140,6 +143,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<SetId>': Compact<SetId>;
     'Compact<SetIndex>': Compact<SetIndex>;
     'Compact<Share>': Compact<Share>;
+    'Compact<Shortfalls>': Compact<Shortfalls>;
     'Compact<SiLookupTypeId>': Compact<SiLookupTypeId>;
     'Compact<Slot>': Compact<Slot>;
     'Compact<SlotNumber>': Compact<SlotNumber>;
@@ -202,6 +206,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<AliveContractInfo>': Option<AliveContractInfo>;
     'Option<AllowedSlots>': Option<AllowedSlots>;
     'Option<Amount>': Option<Amount>;
+    'Option<AmountOf>': Option<AmountOf>;
     'Option<AnySignature>': Option<AnySignature>;
     'Option<ApiId>': Option<ApiId>;
     'Option<ApplyExtrinsicResult>': Option<ApplyExtrinsicResult>;
@@ -362,6 +367,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<CoreOccupied>': Option<CoreOccupied>;
     'Option<CreatedBlock>': Option<CreatedBlock>;
     'Option<CurrencyId>': Option<CurrencyId>;
+    'Option<CurrencyIdOf>': Option<CurrencyIdOf>;
     'Option<CurveModel>': Option<CurveModel>;
     'Option<Data>': Option<Data>;
     'Option<DataProviderId>': Option<DataProviderId>;
@@ -619,6 +625,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<LeasePeriodOf>': Option<LeasePeriodOf>;
     'Option<Limits>': Option<Limits>;
     'Option<LimitsTo264>': Option<LimitsTo264>;
+    'Option<Liquidity>': Option<Liquidity>;
     'Option<LocalValidationData>': Option<LocalValidationData>;
     'Option<LockIdentifier>': Option<LockIdentifier>;
     'Option<LookupSource>': Option<LookupSource>;
@@ -708,6 +715,8 @@ declare module '@polkadot/types/types/registry' {
     'Option<OpenTipFinderTo225>': Option<OpenTipFinderTo225>;
     'Option<OpenTipTip>': Option<OpenTipTip>;
     'Option<OpenTipTo225>': Option<OpenTipTo225>;
+    'Option<OracleKey>': Option<OracleKey>;
+    'Option<OracleValue>': Option<OracleValue>;
     'Option<OrderedSet>': Option<OrderedSet>;
     'Option<Origin>': Option<Origin>;
     'Option<OriginCaller>': Option<OriginCaller>;
@@ -776,6 +785,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<Prevotes>': Option<Prevotes>;
     'Option<Price>': Option<Price>;
     'Option<PriceDetail>': Option<PriceDetail>;
+    'Option<PriceWithDecimal>': Option<PriceWithDecimal>;
     'Option<Priority>': Option<Priority>;
     'Option<PriorLock>': Option<PriorLock>;
     'Option<PropIndex>': Option<PropIndex>;
@@ -883,6 +893,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<SetId>': Option<SetId>;
     'Option<SetIndex>': Option<SetIndex>;
     'Option<Share>': Option<Share>;
+    'Option<Shortfalls>': Option<Shortfalls>;
     'Option<SiField>': Option<SiField>;
     'Option<Signature>': Option<Signature>;
     'Option<SignedAvailabilityBitfield>': Option<SignedAvailabilityBitfield>;
@@ -1010,6 +1021,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<UncleEntryItem>': Option<UncleEntryItem>;
     'Option<UnknownTransaction>': Option<UnknownTransaction>;
     'Option<UnlockChunk>': Option<UnlockChunk>;
+    'Option<UnstakeInfo>': Option<UnstakeInfo>;
     'Option<UpwardMessage>': Option<UpwardMessage>;
     'Option<usize>': Option<usize>;
     'Option<USize>': Option<USize>;
@@ -1120,6 +1132,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<AliveContractInfo>': Vec<AliveContractInfo>;
     'Vec<AllowedSlots>': Vec<AllowedSlots>;
     'Vec<Amount>': Vec<Amount>;
+    'Vec<AmountOf>': Vec<AmountOf>;
     'Vec<AnySignature>': Vec<AnySignature>;
     'Vec<ApiId>': Vec<ApiId>;
     'Vec<ApplyExtrinsicResult>': Vec<ApplyExtrinsicResult>;
@@ -1280,6 +1293,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<CoreOccupied>': Vec<CoreOccupied>;
     'Vec<CreatedBlock>': Vec<CreatedBlock>;
     'Vec<CurrencyId>': Vec<CurrencyId>;
+    'Vec<CurrencyIdOf>': Vec<CurrencyIdOf>;
     'Vec<CurveModel>': Vec<CurveModel>;
     'Vec<Data>': Vec<Data>;
     'Vec<DataProviderId>': Vec<DataProviderId>;
@@ -1537,6 +1551,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<LeasePeriodOf>': Vec<LeasePeriodOf>;
     'Vec<Limits>': Vec<Limits>;
     'Vec<LimitsTo264>': Vec<LimitsTo264>;
+    'Vec<Liquidity>': Vec<Liquidity>;
     'Vec<LocalValidationData>': Vec<LocalValidationData>;
     'Vec<LockIdentifier>': Vec<LockIdentifier>;
     'Vec<LookupSource>': Vec<LookupSource>;
@@ -1626,6 +1641,8 @@ declare module '@polkadot/types/types/registry' {
     'Vec<OpenTipFinderTo225>': Vec<OpenTipFinderTo225>;
     'Vec<OpenTipTip>': Vec<OpenTipTip>;
     'Vec<OpenTipTo225>': Vec<OpenTipTo225>;
+    'Vec<OracleKey>': Vec<OracleKey>;
+    'Vec<OracleValue>': Vec<OracleValue>;
     'Vec<OrderedSet>': Vec<OrderedSet>;
     'Vec<Origin>': Vec<Origin>;
     'Vec<OriginCaller>': Vec<OriginCaller>;
@@ -1694,6 +1711,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<Prevotes>': Vec<Prevotes>;
     'Vec<Price>': Vec<Price>;
     'Vec<PriceDetail>': Vec<PriceDetail>;
+    'Vec<PriceWithDecimal>': Vec<PriceWithDecimal>;
     'Vec<Priority>': Vec<Priority>;
     'Vec<PriorLock>': Vec<PriorLock>;
     'Vec<PropIndex>': Vec<PropIndex>;
@@ -1801,6 +1819,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<SetId>': Vec<SetId>;
     'Vec<SetIndex>': Vec<SetIndex>;
     'Vec<Share>': Vec<Share>;
+    'Vec<Shortfalls>': Vec<Shortfalls>;
     'Vec<SiField>': Vec<SiField>;
     'Vec<Signature>': Vec<Signature>;
     'Vec<SignedAvailabilityBitfield>': Vec<SignedAvailabilityBitfield>;
@@ -1928,6 +1947,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<UncleEntryItem>': Vec<UncleEntryItem>;
     'Vec<UnknownTransaction>': Vec<UnknownTransaction>;
     'Vec<UnlockChunk>': Vec<UnlockChunk>;
+    'Vec<UnstakeInfo>': Vec<UnstakeInfo>;
     'Vec<UpwardMessage>': Vec<UpwardMessage>;
     'Vec<usize>': Vec<usize>;
     'Vec<USize>': Vec<USize>;
@@ -2038,6 +2058,7 @@ declare module '@polkadot/types/types/registry' {
     AliveContractInfo: AliveContractInfo;
     AllowedSlots: AllowedSlots;
     Amount: Amount;
+    AmountOf: AmountOf;
     AnySignature: AnySignature;
     ApiId: ApiId;
     ApplyExtrinsicResult: ApplyExtrinsicResult;
@@ -2198,6 +2219,7 @@ declare module '@polkadot/types/types/registry' {
     CoreOccupied: CoreOccupied;
     CreatedBlock: CreatedBlock;
     CurrencyId: CurrencyId;
+    CurrencyIdOf: CurrencyIdOf;
     CurveModel: CurveModel;
     Data: Data;
     DataProviderId: DataProviderId;
@@ -2455,6 +2477,7 @@ declare module '@polkadot/types/types/registry' {
     LeasePeriodOf: LeasePeriodOf;
     Limits: Limits;
     LimitsTo264: LimitsTo264;
+    Liquidity: Liquidity;
     LocalValidationData: LocalValidationData;
     LockIdentifier: LockIdentifier;
     LookupSource: LookupSource;
@@ -2544,6 +2567,8 @@ declare module '@polkadot/types/types/registry' {
     OpenTipFinderTo225: OpenTipFinderTo225;
     OpenTipTip: OpenTipTip;
     OpenTipTo225: OpenTipTo225;
+    OracleKey: OracleKey;
+    OracleValue: OracleValue;
     OrderedSet: OrderedSet;
     Origin: Origin;
     OriginCaller: OriginCaller;
@@ -2612,6 +2637,7 @@ declare module '@polkadot/types/types/registry' {
     Prevotes: Prevotes;
     Price: Price;
     PriceDetail: PriceDetail;
+    PriceWithDecimal: PriceWithDecimal;
     Priority: Priority;
     PriorLock: PriorLock;
     PropIndex: PropIndex;
@@ -2719,6 +2745,7 @@ declare module '@polkadot/types/types/registry' {
     SetId: SetId;
     SetIndex: SetIndex;
     Share: Share;
+    Shortfalls: Shortfalls;
     SiField: SiField;
     Signature: Signature;
     SignedAvailabilityBitfield: SignedAvailabilityBitfield;
@@ -2846,6 +2873,7 @@ declare module '@polkadot/types/types/registry' {
     UncleEntryItem: UncleEntryItem;
     UnknownTransaction: UnknownTransaction;
     UnlockChunk: UnlockChunk;
+    UnstakeInfo: UnstakeInfo;
     UpwardMessage: UpwardMessage;
     usize: usize;
     USize: USize;
