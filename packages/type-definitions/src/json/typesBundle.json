@@ -1,0 +1,200 @@
+{
+    "spec": {
+        "parallel": {
+            "rpc": {
+                "oracle": {
+                    "getValue": {
+                        "description": "Retrieves the oracle value for a given key.",
+                        "params": [
+                            {
+                                "name": "providerId",
+                                "type": "RpcDataProviderId"
+                            },
+                            {
+                                "name": "key",
+                                "type": "OracleKey"
+                            },
+                            {
+                                "name": "at",
+                                "type": "BlockHash",
+                                "isHistoric": true,
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Option<TimestampedValue>",
+                        "isSubscription": false,
+                        "jsonrpc": "oracle_getValue",
+                        "method": "getValue",
+                        "section": "oracle"
+                    },
+                    "getAllValues": {
+                        "description": "Retrieves all oracle values.",
+                        "params": [
+                            {
+                                "name": "providerId",
+                                "type": "RpcDataProviderId"
+                            },
+                            {
+                                "name": "at",
+                                "type": "BlockHash",
+                                "isHistoric": true,
+                                "isOptional": true
+                            }
+                        ],
+                        "type": "Vec<(OracleKey, Option<TimestampedValue>)>",
+                        "isSubscription": false,
+                        "jsonrpc": "oracle_getAllValues",
+                        "method": "getAllValues",
+                        "section": "oracle"
+                    }
+                }
+            },
+            "instances": {
+                "council": [
+                    "generalCouncil"
+                ]
+            },
+            "types": [
+                {
+                    "minmax": [
+                        0,
+                        null
+                    ],
+                    "types": {
+                        "CallOf": "Call",
+                        "DispatchTime": {
+                            "_enum": {
+                                "At": "BlockNumber",
+                                "After": "BlockNumber"
+                            }
+                        },
+                        "ScheduleTaskIndex": "u32",
+                        "DelayedOrigin": {
+                            "delay": "BlockNumber",
+                            "origin": "PalletsOrigin"
+                        },
+                        "AuthorityOrigin": "DelayedOrigin",
+                        "StorageValue": "Vec<u8>",
+                        "GraduallyUpdate": {
+                            "key": "StorageKey",
+                            "targetValue": "StorageValue",
+                            "perBlock": "StorageValue"
+                        },
+                        "StorageKeyBytes": "Vec<u8>",
+                        "StorageValueBytes": "Vec<u8>",
+                        "RpcDataProviderId": "Text",
+                        "DataProviderId": "u8",
+                        "TimestampedValue": {
+                            "value": "OracleValue",
+                            "timestamp": "Moment"
+                        },
+                        "TimestampedValueOf": "TimestampedValue",
+                        "OrderedSet": "Vec<AccountId>",
+                        "OrmlAccountData": {
+                            "free": "Balance",
+                            "frozen": "Balance",
+                            "reserved": "Balance"
+                        },
+                        "OrmlBalanceLock": {
+                            "amount": "Balance",
+                            "id": "LockIdentifier"
+                        },
+                        "AuctionInfo": {
+                            "bid": "Option<(AccountId, Balance)>",
+                            "start": "BlockNumber",
+                            "end": "Option<BlockNumber>"
+                        },
+                        "DelayedDispatchTime": {
+                            "_enum": {
+                                "At": "BlockNumber",
+                                "After": "BlockNumber"
+                            }
+                        },
+                        "DispatchId": "u32",
+                        "Price": "FixedU128",
+                        "OrmlVestingSchedule": {
+                            "start": "BlockNumber",
+                            "period": "BlockNumber",
+                            "periodCount": "u32",
+                            "perPeriod": "Compact<Balance>"
+                        },
+                        "VestingScheduleOf": "OrmlVestingSchedule",
+                        "PoolInfo": {
+                            "totalShares": "Compact<Share>",
+                            "totalRewards": "Compact<Balance>",
+                            "totalWithdrawnRewards": "Compact<Balance>"
+                        },
+                        "Share": "u128",
+                        "OracleValue": "FixedU128",
+                        "Deposits": {
+                            "voucherBalance": "Balance",
+                            "isCollateral": "bool"
+                        },
+                        "BorrowSnapshot": {
+                            "principal": "Balance",
+                            "borrowIndex": "u128"
+                        },
+                        "EarnedSnapshot": {
+                            "totalEarnedPrior": "Balance",
+                            "exchangeRatePrior": "u128"
+                        },
+                        "JumpModel": {
+                            "baseRate": "Rate",
+                            "jumpRate": "Rate",
+                            "fullRate": "Rate",
+                            "jumpUtilization": "Ratio"
+                        },
+                        "CurveModel": {
+                            "baseRate": "Rate"
+                        },
+                        "InterestRateModel": {
+                            "_enum": {
+                                "JumpModel": "JumpModel",
+                                "CurveModel": "CurveModel"
+                            }
+                        },
+                        "Market": {
+                            "collateralFactor": "Ratio",
+                            "reserveFactor": "Ratio",
+                            "closeFactor": "Ratio",
+                            "liquidateIncentive": "Rate",
+                            "rateModel": "InterestRateModel",
+                            "state": "MarketState"
+                        },
+                        "MarketState": {
+                            "_enum": [
+                                "Active",
+                                "Pending",
+                                "Supervision"
+                            ]
+                        },
+                        "Amount": "i128",
+                        "Rate": "FixedU128",
+                        "Ratio": "Permill",
+                        "Timestamp": "u64",
+                        "PriceDetail": "(Price, Timestamp)",
+                        "CurrencyId": {
+                            "_enum": [
+                                "DOT",
+                                "KSM",
+                                "USDT",
+                                "xDOT",
+                                "xKSM",
+                                "HKO",
+                                "PARA"
+                            ]
+                        },
+                        "Address": "MultiAddress",
+                        "LookupSource": "MultiAddress"
+                    }
+                }
+            ],
+            "alias": {
+                "tokens": {
+                    "AccountData": "OrmlAccountData",
+                    "BalanceLock": "OrmlBalanceLock"
+                }
+            }
+        }
+    }
+}

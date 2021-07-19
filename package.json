@@ -18,8 +18,11 @@
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "polkadot-dev-run-test --coverage",
-    "check-deps": "./node_modules/@open-web3/util/scripts/check-deps.js yarn.lock @polkadot/ @open-web3/",
-    "update-metadata": "ts-node --project ./tsconfig.json packages/types/scripts/updateMetadata.ts"
+    "generate": "yarn generate:defs && yarn generate:meta",
+    "generate:defs": "ts-node --skip-project node_modules/.bin/polkadot-types-from-defs --package @parallel-js/types/interfaces --input packages/types/src/interfaces",
+    "generate:meta": "ts-node --skip-project node_modules/.bin/polkadot-types-from-chain --package @parallel-js/types/interfaces --endpoint types/metadata/parallel.json --output ./packages/types/src/interfaces --strict",
+    "update-metadata": "ts-node --project ./tsconfig.json types/scripts/updateMetadata.ts",
+    "generate-full-definitions": "ts-node --project ./tsconfig.json types/scripts/printFullJson"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

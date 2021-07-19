@@ -22,6 +22,12 @@
       "@parallel-js/types/*": [
         "packages/types/src/*"
       ],
+      "@parallel-js/type-definitions": [
+        "packages/type-definitions/src"
+      ],
+      "@parallel-js/type-definitions/*": [
+        "packages/type-definitions/src/*"
+      ]
     },
     "skipLibCheck": true,
     "typeRoots": [

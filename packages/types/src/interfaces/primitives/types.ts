@@ -16,7 +16,8 @@ export interface CurrencyId extends Enum {
   readonly isUsdt: boolean;
   readonly isXDot: boolean;
   readonly isXKsm: boolean;
-  readonly isNative: boolean;
+  readonly isHko: boolean;
+  readonly isPara: boolean;
 }
 
 /** @name PriceDetail */

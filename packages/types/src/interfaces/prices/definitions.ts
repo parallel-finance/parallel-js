@@ -1,8 +1,4 @@
 import { Definitions } from '@polkadot/types/types';
+import prices from '@parallel-js/type-definitions/prices';
 
-export default {
-    rpc: {},
-    types: {
-
-    }
-} as Definitions;
+export default prices as Definitions;

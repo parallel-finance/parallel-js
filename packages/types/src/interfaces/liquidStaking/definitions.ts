@@ -1,8 +1,4 @@
 import { Definitions } from '@polkadot/types/types';
+import liquidStaking from '@parallel-js/type-definitions/liquidStaking';
 
-export default {
-    rpc: {},
-    types: {
-
-    }
-} as Definitions;
+export default liquidStaking as Definitions;
