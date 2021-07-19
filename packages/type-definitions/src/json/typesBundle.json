@@ -125,7 +125,12 @@
                             "totalWithdrawnRewards": "Compact<Balance>"
                         },
                         "Share": "u128",
-                        "OracleValue": "FixedU128",
+                        "OracleValue": "Price",
+                        "UnstakeInfo": {
+                            "amount": "Balance",
+                            "blockNumber": "u32",
+                            "eraIndex": "Option<u32>"
+                        },
                         "Deposits": {
                             "voucherBalance": "Balance",
                             "isCollateral": "bool"
@@ -168,7 +173,10 @@
                                 "Supervision"
                             ]
                         },
+                        "Shortfalls": "FixedU128",
+                        "Liquidity": "FixedU128",
                         "Amount": "i128",
+                        "AmountOf": "Amount",
                         "Rate": "FixedU128",
                         "Ratio": "Permill",
                         "Timestamp": "u64",
@@ -184,6 +192,12 @@
                                 "PARA"
                             ]
                         },
+                        "CurrencyIdOf": "CurrencyId",
+                        "PriceWithDecimal": {
+                            "price": "Price",
+                            "decimal": "u8"
+                        },
+                        "OracleKey": "CurrencyId",
                         "Address": "MultiAddress",
                         "LookupSource": "MultiAddress"
                     }

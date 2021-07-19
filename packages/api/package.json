@@ -1,0 +1,24 @@
+{
+  "name": "@parallel-js/api",
+  "version": "1.0.2-6",
+  "description": "Parallel Finance JS API",
+  "main": "index.js",
+  "author": "Parallel Team",
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": "https://github.com/parallel-finance/parallel-js.git",
+  "bugs": {
+    "url": "https://github.com/parallel-finance/parallel-js/issues"
+  },
+  "homepage": "https://github.com/parallel-finance/parallel-js",
+  "dependencies": {
+    "@parallel-js/types": "1.0.0",
+    "@babel/runtime": "^7.10.2",
+    "@open-web3/orml-api-derive": "^0.9.4-7",
+    "@polkadot/api": "^4.14.1",
+    "@polkadot/rpc-core": "^4.14.1"
+  }
+}

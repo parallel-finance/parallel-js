@@ -3,4 +3,14 @@
 
 node_modules
 
+# dotenv environment variables file
+.env
+
+# next.js build output
+.next
+
+.npmrc
+
+build/
+
 yarn-error.log
