@@ -10,24 +10,12 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
-      "@parallel-js/api": [
-        "packages/api/src"
-      ],
-      "@parallel-js/api/*": [
-        "packages/api/src/*"
-      ],
-      "@parallel-js/types": [
-        "packages/types/src"
-      ],
-      "@parallel-js/types/*": [
-        "packages/types/src/*"
-      ],
-      "@parallel-js/type-definitions": [
-        "packages/type-definitions/src"
-      ],
-      "@parallel-js/type-definitions/*": [
-        "packages/type-definitions/src/*"
-      ]
+      "@parallel-js/api": ["packages/api/src"],
+      "@parallel-js/api/*": ["packages/api/src/*"],
+      "@parallel-js/types": ["packages/types/src"],
+      "@parallel-js/types/*": ["packages/types/src/*"],
+      "@parallel-js/type-definitions": ["packages/type-definitions/src"],
+      "@parallel-js/type-definitions/*": ["packages/type-definitions/src/*"]
     },
     "skipLibCheck": true,
     "typeRoots": [
