@@ -1,5 +1,24 @@
 export default {
-  rpc: {},
+  rpc: {
+    getAccountLiquidity: {
+      description: 'Retrieves the oracle value for a given key.',
+      params: [
+        {
+          name: 'account',
+          type: 'AccountId'
+        },
+        {
+          name: 'at',
+          type: 'Option<Block>'
+        }
+      ],
+      type: '(Liquidity, Shortfall)',
+      isSubscription: false,
+      jsonrpc: 'loans_getAccountLiquidity',
+      method: 'getAccountLiquidity',
+      section: 'loans'
+    }
+  },
   types: {
     Deposits: {
       voucherBalance: 'Balance',
@@ -39,7 +58,14 @@ export default {
     MarketState: {
       _enum: ['Active', 'Pending', 'Supervision']
     },
-    Shortfalls: 'FixedU128',
-    Liquidity: 'FixedU128'
+    Liquidity: 'FixedU128',
+    Shortfall: 'FixedU128',
+    ValidatorInfo: {
+      name: 'Option<Text>',
+      address: 'AccountId',
+      stakes: 'u128',
+      score: 'u128'
+    },
+    ValidatorSet: 'Vec<ValidatorInfo>'
   }
 };

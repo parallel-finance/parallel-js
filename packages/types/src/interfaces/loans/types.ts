@@ -1,9 +1,9 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Struct, bool, u128 } from '@polkadot/types';
+import type { Enum, Option, Struct, Text, Vec, bool, u128 } from '@polkadot/types';
 import type { Rate, Ratio } from '@parallel-js/types/interfaces/primitives';
-import type { Balance, FixedU128 } from '@parallel-js/types/interfaces/runtime';
+import type { AccountId, Balance, FixedU128 } from '@parallel-js/types/interfaces/runtime';
 
 /** @name BorrowSnapshot */
 export interface BorrowSnapshot extends Struct {
@@ -64,7 +64,18 @@ export interface MarketState extends Enum {
   readonly isSupervision: boolean;
 }
 
-/** @name Shortfalls */
-export interface Shortfalls extends FixedU128 {}
+/** @name Shortfall */
+export interface Shortfall extends FixedU128 {}
+
+/** @name ValidatorInfo */
+export interface ValidatorInfo extends Struct {
+  readonly name: Option<Text>;
+  readonly address: AccountId;
+  readonly stakes: u128;
+  readonly score: u128;
+}
+
+/** @name ValidatorSet */
+export interface ValidatorSet extends Vec<ValidatorInfo> {}
 
 export type PHANTOM_LOANS = 'loans';

@@ -111,8 +111,15 @@
             "Supervision"
         ]
     },
-    "Shortfalls": "FixedU128",
     "Liquidity": "FixedU128",
+    "Shortfall": "FixedU128",
+    "ValidatorInfo": {
+        "name": "Option<Text>",
+        "address": "AccountId",
+        "stakes": "u128",
+        "score": "u128"
+    },
+    "ValidatorSet": "Vec<ValidatorInfo>",
     "Amount": "i128",
     "AmountOf": "Amount",
     "Rate": "FixedU128",

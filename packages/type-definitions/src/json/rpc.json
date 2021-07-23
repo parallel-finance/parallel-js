@@ -44,5 +44,25 @@
             "method": "getAllValues",
             "section": "oracle"
         }
+    },
+    "loans": {
+        "getAccountLiquidity": {
+            "description": "Retrieves the oracle value for a given key.",
+            "params": [
+                {
+                    "name": "account",
+                    "type": "AccountId"
+                },
+                {
+                    "name": "at",
+                    "type": "Option<Block>"
+                }
+            ],
+            "type": "(Liquidity, Shortfall)",
+            "isSubscription": false,
+            "jsonrpc": "loans_getAccountLiquidity",
+            "method": "getAccountLiquidity",
+            "section": "loans"
+        }
     }
 }

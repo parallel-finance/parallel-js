@@ -47,6 +47,26 @@
                         "method": "getAllValues",
                         "section": "oracle"
                     }
+                },
+                "loans": {
+                    "getAccountLiquidity": {
+                        "description": "Retrieves the oracle value for a given key.",
+                        "params": [
+                            {
+                                "name": "account",
+                                "type": "AccountId"
+                            },
+                            {
+                                "name": "at",
+                                "type": "Option<Block>"
+                            }
+                        ],
+                        "type": "(Liquidity, Shortfall)",
+                        "isSubscription": false,
+                        "jsonrpc": "loans_getAccountLiquidity",
+                        "method": "getAccountLiquidity",
+                        "section": "loans"
+                    }
                 }
             },
             "instances": {
@@ -173,8 +193,15 @@
                                 "Supervision"
                             ]
                         },
-                        "Shortfalls": "FixedU128",
                         "Liquidity": "FixedU128",
+                        "Shortfall": "FixedU128",
+                        "ValidatorInfo": {
+                            "name": "Option<Text>",
+                            "address": "AccountId",
+                            "stakes": "u128",
+                            "score": "u128"
+                        },
+                        "ValidatorSet": "Vec<ValidatorInfo>",
                         "Amount": "i128",
                         "AmountOf": "Amount",
                         "Rate": "FixedU128",

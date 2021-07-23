@@ -10,7 +10,7 @@ import type { OrmlAccountData, OrmlBalanceLock } from '@open-web3/orml-types/int
 import type { AuctionInfo, DelayedDispatchTime, DispatchId, Price } from '@open-web3/orml-types/interfaces/traits';
 import type { OrmlVestingSchedule, VestingScheduleOf } from '@open-web3/orml-types/interfaces/vesting';
 import type { UnstakeInfo } from '@parallel-js/types/interfaces/liquidStaking';
-import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Liquidity, Market, MarketState, Shortfalls } from '@parallel-js/types/interfaces/loans';
+import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Liquidity, Market, MarketState, Shortfall, ValidatorInfo, ValidatorSet } from '@parallel-js/types/interfaces/loans';
 import type { Amount, AmountOf, CurrencyId, CurrencyIdOf, PriceDetail, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-js/types/interfaces/primitives';
 import type { AccountId, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, Call, CallHash, CallHashOf, ChangesTrieConfiguration, ChangesTrieSignal, CodecHash, Consensus, ConsensusEngineId, Digest, DigestItem, EncodedJustification, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H32, H512, H64, Hash, Header, HeaderPartial, I32F32, Index, IndicesLookupSource, Justification, Justifications, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, MultiSigner, OpaqueCall, OracleKey, OracleValue, Origin, OriginCaller, PalletId, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, SignedBlockWithJustification, SignedBlockWithJustifications, Slot, StorageData, StorageProof, TransactionInfo, TransactionPriority, TransactionStorageProof, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@parallel-js/types/interfaces/runtime';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
@@ -143,7 +143,7 @@ declare module '@polkadot/types/types/registry' {
     'Compact<SetId>': Compact<SetId>;
     'Compact<SetIndex>': Compact<SetIndex>;
     'Compact<Share>': Compact<Share>;
-    'Compact<Shortfalls>': Compact<Shortfalls>;
+    'Compact<Shortfall>': Compact<Shortfall>;
     'Compact<SiLookupTypeId>': Compact<SiLookupTypeId>;
     'Compact<Slot>': Compact<Slot>;
     'Compact<SlotNumber>': Compact<SlotNumber>;
@@ -893,7 +893,7 @@ declare module '@polkadot/types/types/registry' {
     'Option<SetId>': Option<SetId>;
     'Option<SetIndex>': Option<SetIndex>;
     'Option<Share>': Option<Share>;
-    'Option<Shortfalls>': Option<Shortfalls>;
+    'Option<Shortfall>': Option<Shortfall>;
     'Option<SiField>': Option<SiField>;
     'Option<Signature>': Option<Signature>;
     'Option<SignedAvailabilityBitfield>': Option<SignedAvailabilityBitfield>;
@@ -1035,11 +1035,13 @@ declare module '@polkadot/types/types/registry' {
     'Option<ValidatorIdOf>': Option<ValidatorIdOf>;
     'Option<ValidatorIndex>': Option<ValidatorIndex>;
     'Option<ValidatorIndexCompact>': Option<ValidatorIndexCompact>;
+    'Option<ValidatorInfo>': Option<ValidatorInfo>;
     'Option<ValidatorPrefs>': Option<ValidatorPrefs>;
     'Option<ValidatorPrefsTo145>': Option<ValidatorPrefsTo145>;
     'Option<ValidatorPrefsTo196>': Option<ValidatorPrefsTo196>;
     'Option<ValidatorPrefsWithBlocked>': Option<ValidatorPrefsWithBlocked>;
     'Option<ValidatorPrefsWithCommission>': Option<ValidatorPrefsWithCommission>;
+    'Option<ValidatorSet>': Option<ValidatorSet>;
     'Option<ValidatorSetId>': Option<ValidatorSetId>;
     'Option<ValidatorSignature>': Option<ValidatorSignature>;
     'Option<ValidDisputeStatementKind>': Option<ValidDisputeStatementKind>;
@@ -1819,7 +1821,7 @@ declare module '@polkadot/types/types/registry' {
     'Vec<SetId>': Vec<SetId>;
     'Vec<SetIndex>': Vec<SetIndex>;
     'Vec<Share>': Vec<Share>;
-    'Vec<Shortfalls>': Vec<Shortfalls>;
+    'Vec<Shortfall>': Vec<Shortfall>;
     'Vec<SiField>': Vec<SiField>;
     'Vec<Signature>': Vec<Signature>;
     'Vec<SignedAvailabilityBitfield>': Vec<SignedAvailabilityBitfield>;
@@ -1961,11 +1963,13 @@ declare module '@polkadot/types/types/registry' {
     'Vec<ValidatorIdOf>': Vec<ValidatorIdOf>;
     'Vec<ValidatorIndex>': Vec<ValidatorIndex>;
     'Vec<ValidatorIndexCompact>': Vec<ValidatorIndexCompact>;
+    'Vec<ValidatorInfo>': Vec<ValidatorInfo>;
     'Vec<ValidatorPrefs>': Vec<ValidatorPrefs>;
     'Vec<ValidatorPrefsTo145>': Vec<ValidatorPrefsTo145>;
     'Vec<ValidatorPrefsTo196>': Vec<ValidatorPrefsTo196>;
     'Vec<ValidatorPrefsWithBlocked>': Vec<ValidatorPrefsWithBlocked>;
     'Vec<ValidatorPrefsWithCommission>': Vec<ValidatorPrefsWithCommission>;
+    'Vec<ValidatorSet>': Vec<ValidatorSet>;
     'Vec<ValidatorSetId>': Vec<ValidatorSetId>;
     'Vec<ValidatorSignature>': Vec<ValidatorSignature>;
     'Vec<ValidDisputeStatementKind>': Vec<ValidDisputeStatementKind>;
@@ -2745,7 +2749,7 @@ declare module '@polkadot/types/types/registry' {
     SetId: SetId;
     SetIndex: SetIndex;
     Share: Share;
-    Shortfalls: Shortfalls;
+    Shortfall: Shortfall;
     SiField: SiField;
     Signature: Signature;
     SignedAvailabilityBitfield: SignedAvailabilityBitfield;
@@ -2887,11 +2891,13 @@ declare module '@polkadot/types/types/registry' {
     ValidatorIdOf: ValidatorIdOf;
     ValidatorIndex: ValidatorIndex;
     ValidatorIndexCompact: ValidatorIndexCompact;
+    ValidatorInfo: ValidatorInfo;
     ValidatorPrefs: ValidatorPrefs;
     ValidatorPrefsTo145: ValidatorPrefsTo145;
     ValidatorPrefsTo196: ValidatorPrefsTo196;
     ValidatorPrefsWithBlocked: ValidatorPrefsWithBlocked;
     ValidatorPrefsWithCommission: ValidatorPrefsWithCommission;
+    ValidatorSet: ValidatorSet;
     ValidatorSetId: ValidatorSetId;
     ValidatorSignature: ValidatorSignature;
     ValidDisputeStatementKind: ValidDisputeStatementKind;
