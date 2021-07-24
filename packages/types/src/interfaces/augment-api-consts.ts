@@ -188,6 +188,16 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
+    nomineeElection: {
+      /**
+       * The maximum size of selected validators
+       **/
+      maxValidators: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     prices: {
       /**
        * Currency used for liquid voucher

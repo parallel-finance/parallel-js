@@ -3,8 +3,8 @@
 
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u16, u32, u64 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
-import type { InterestRateModel } from '@parallel-js/types/interfaces/loans';
-import type { AmountOf, CurrencyId, CurrencyIdOf, PriceWithDecimal, Rate } from '@parallel-js/types/interfaces/primitives';
+import type { Market, ValidatorInfo } from '@parallel-js/types/interfaces/loans';
+import type { AmountOf, CurrencyId, CurrencyIdOf, PriceWithDecimal } from '@parallel-js/types/interfaces/primitives';
 import type { AccountId, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, Moment, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-js/types/interfaces/runtime';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
@@ -12,6 +12,7 @@ import type { Renouncing } from '@polkadot/types/interfaces/elections';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { GrandpaEquivocationProof, KeyOwnerProof } from '@polkadot/types/interfaces/grandpa';
 import type { Period, Priority } from '@polkadot/types/interfaces/scheduler';
+import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { Key } from '@polkadot/types/interfaces/system';
 import type { Timepoint } from '@polkadot/types/interfaces/utility';
 import type { ApiTypes, SubmittableExtrinsic } from '@polkadot/api/types';
@@ -802,7 +803,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `owner`: the account which performs `unstake` operation
        * - `amount`: the assets can be unbond for the owner's unstaking request.
        **/
-      processPendingUnstake: AugmentedSubmittable<(agent: AccountId | string | Uint8Array, owner: AccountId | string | Uint8Array, amount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, AccountId, Balance]>;
+      processPendingUnstake: AugmentedSubmittable<(agent: AccountId | string | Uint8Array, owner: AccountId | string | Uint8Array, eraIndex: EraIndex | AnyNumber | Uint8Array, amount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, AccountId, EraIndex, Balance]>;
       /**
        * Record the staking rewards, no real transfer.
        * TODO restrict the times an account can report in one day and max rewards.
@@ -854,6 +855,27 @@ declare module '@polkadot/api/types/submittable' {
       [key: string]: SubmittableExtrinsicFunction<ApiType>;
     };
     loans: {
+      /**
+       * Activates a market. Returns `Err` if the market currency does not exist.
+       * 
+       * If the market is already activated, does nothing.
+       * 
+       * - `currency_id`: Market related currency
+       **/
+      activeMarket: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId]>;
+      /**
+       * Stores a new market and its related currency. Returns `Err` if a currency
+       * is not attached to an existent market.
+       * 
+       * All provided market states must be `Pending`, otherwise an error will be returned.
+       * 
+       * If a currency is already attached to a market, then the market will be replaced
+       * by the new provided value.
+       * 
+       * - `currency_id`: Market related currency
+       * - `market`: The market that is going to be stored
+       **/
+      addMarket: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Market]>;
       /**
        * Add reserves by transferring from payer.
        * 
@@ -931,27 +953,18 @@ declare module '@polkadot/api/types/submittable' {
        **/
       repayBorrowAll: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId]>;
       /**
-       * Sets a new liquidation incentive percentage for `currency_id`.
-       * 
-       * Returns `Err` if the provided currency is not attached to an existent market.
-       * 
-       * - `currency_id`: the asset that is going to be modified.
-       **/
-      setLiquidationIncentive: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, liquidateIncentive: Rate | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Rate]>;
-      /**
-       * Update the interest rate model for a given asset.
-       * 
-       * Returns `Err` if the provided currency is not attached to an existent market. May
-       * only be called from `T::UpdateOrigin`.
-       * 
-       * - `currency_id`: the assets to be set.
-       * - `new_model`: the interest rate model to be set.
-       **/
-      setRateModel: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, newModel: InterestRateModel | { JumpModel: any } | { CurveModel: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, InterestRateModel]>;
-      /**
        * Using for development
        **/
       transferToken: AugmentedSubmittable<(to: AccountId | string | Uint8Array, currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, amount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, CurrencyId, Balance]>;
+      /**
+       * Updates a stored market. Returns `Err` if the market currency does not exist.
+       * 
+       * Market state won't be modified, regardless of the provided value.
+       * 
+       * - `currency_id`: Market related currency
+       * - `market`: The new market parameters
+       **/
+      updateMarket: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Market]>;
       /**
        * Generic tx
        **/
@@ -1094,6 +1107,18 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       cancelAsMulti: AugmentedSubmittable<(threshold: u16 | AnyNumber | Uint8Array, otherSignatories: Vec<AccountId> | (AccountId | string | Uint8Array)[], timepoint: Timepoint | { height?: any; index?: any } | string | Uint8Array, callHash: U8aFixed | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Vec<AccountId>, Timepoint, U8aFixed]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    nomineeElection: {
+      /**
+       * Set selected validators
+       * 
+       * If the validators passed are empty, return an error
+       **/
+      setValidators: AugmentedSubmittable<(validators: Vec<ValidatorInfo> | (ValidatorInfo | { name?: any; address?: any; stakes?: any; score?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<ValidatorInfo>]>;
       /**
        * Generic tx
        **/
@@ -1737,6 +1762,59 @@ declare module '@polkadot/api/types/submittable' {
        * # </weight>
        **/
       batchAll: AugmentedSubmittable<(calls: Vec<Call> | (Call | { callIndex?: any; args?: any } | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<Call>]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    validatorFeedersMembership: {
+      /**
+       * Add a member `who` to the set.
+       * 
+       * May only be called from `T::AddOrigin`.
+       **/
+      addMember: AugmentedSubmittable<(who: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId]>;
+      /**
+       * Swap out the sending member for some other key `new`.
+       * 
+       * May only be called from `Signed` origin of a current member.
+       * 
+       * Prime membership is passed from the origin account to `new`, if extant.
+       **/
+      changeKey: AugmentedSubmittable<(updated: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId]>;
+      /**
+       * Remove the prime member if it exists.
+       * 
+       * May only be called from `T::PrimeOrigin`.
+       **/
+      clearPrime: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
+      /**
+       * Remove a member `who` from the set.
+       * 
+       * May only be called from `T::RemoveOrigin`.
+       **/
+      removeMember: AugmentedSubmittable<(who: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId]>;
+      /**
+       * Change the membership to a new set, disregarding the existing membership. Be nice and
+       * pass `members` pre-sorted.
+       * 
+       * May only be called from `T::ResetOrigin`.
+       **/
+      resetMembers: AugmentedSubmittable<(members: Vec<AccountId> | (AccountId | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId>]>;
+      /**
+       * Set the prime member. Must be a current member.
+       * 
+       * May only be called from `T::PrimeOrigin`.
+       **/
+      setPrime: AugmentedSubmittable<(who: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId]>;
+      /**
+       * Swap out one member `remove` for another `add`.
+       * 
+       * May only be called from `T::SwapOrigin`.
+       * 
+       * Prime membership is *not* passed from `remove` to `add`, if extant.
+       **/
+      swapMember: AugmentedSubmittable<(remove: AccountId | string | Uint8Array, add: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, AccountId]>;
       /**
        * Generic tx
        **/

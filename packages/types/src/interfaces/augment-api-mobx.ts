@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, U8aFixed, Vec, bool, u32 } from '@polkadot/types';
+import type { Bytes, Option, U8aFixed, Vec, bool, u128, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
 import type { UnstakeInfo } from '@parallel-js/types/interfaces/liquidStaking';
-import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market } from '@parallel-js/types/interfaces/loans';
+import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-js/types/interfaces/loans';
 import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-js/types/interfaces/primitives';
 import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, Moment, OpaqueCall, OracleKey, Releases } from '@parallel-js/types/interfaces/runtime';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
@@ -231,6 +231,10 @@ export interface StorageType extends BaseStorageType {
      **/
     reserveFactor: Ratio | null;
     /**
+     * The total person-times of staking operations.
+     **/
+    stakingPersonTimes: u128 | null;
+    /**
      * The total amount of reserve.
      **/
     totalReserve: Balance | null;
@@ -308,6 +312,11 @@ export interface StorageType extends BaseStorageType {
      * The set of open multisig operations.
      **/
     multisigs: StorageDoubleMap<AccountId | string, U8aFixed | string, Option<Multisig>>;
+  };
+  nomineeElection: {    /**
+     * Validators selected by off-chain client
+     **/
+    validators: ValidatorSet | null;
   };
   oracle: {    /**
      * If an oracle operator has feed a value in this block
@@ -512,5 +521,14 @@ export interface StorageType extends BaseStorageType {
      * Proposals that have been made.
      **/
     proposals: StorageMap<ProposalIndex | AnyNumber, Option<TreasuryProposal>>;
+  };
+  validatorFeedersMembership: {    /**
+     * The current membership, stored as an ordered Vec.
+     **/
+    members: Vec<AccountId> | null;
+    /**
+     * The current prime member, if one exists.
+     **/
+    prime: Option<AccountId> | null;
   };
 }

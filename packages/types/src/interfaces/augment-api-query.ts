@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, U8aFixed, Vec, bool, u32 } from '@polkadot/types';
+import type { Bytes, Option, U8aFixed, Vec, bool, u128, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
 import type { UnstakeInfo } from '@parallel-js/types/interfaces/liquidStaking';
-import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market } from '@parallel-js/types/interfaces/loans';
+import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-js/types/interfaces/loans';
 import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-js/types/interfaces/primitives';
 import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, Moment, OpaqueCall, OracleKey, Releases } from '@parallel-js/types/interfaces/runtime';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
@@ -258,6 +258,10 @@ declare module '@polkadot/api/types/storage' {
        **/
       reserveFactor: AugmentedQuery<ApiType, () => Observable<Ratio>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * The total person-times of staking operations.
+       **/
+      stakingPersonTimes: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * The total amount of reserve.
        **/
       totalReserve: AugmentedQuery<ApiType, () => Observable<Balance>, []> & QueryableStorageEntry<ApiType, []>;
@@ -345,6 +349,16 @@ declare module '@polkadot/api/types/storage' {
        * The set of open multisig operations.
        **/
       multisigs: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: U8aFixed | string | Uint8Array) => Observable<Option<Multisig>>, [AccountId, U8aFixed]> & QueryableStorageEntry<ApiType, [AccountId, U8aFixed]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    nomineeElection: {
+      /**
+       * Validators selected by off-chain client
+       **/
+      validators: AugmentedQuery<ApiType, () => Observable<ValidatorSet>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -609,6 +623,20 @@ declare module '@polkadot/api/types/storage' {
        * Proposals that have been made.
        **/
       proposals: AugmentedQuery<ApiType, (arg: ProposalIndex | AnyNumber | Uint8Array) => Observable<Option<TreasuryProposal>>, [ProposalIndex]> & QueryableStorageEntry<ApiType, [ProposalIndex]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    validatorFeedersMembership: {
+      /**
+       * The current membership, stored as an ordered Vec.
+       **/
+      members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The current prime member, if one exists.
+       **/
+      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
