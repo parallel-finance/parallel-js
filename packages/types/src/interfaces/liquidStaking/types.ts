@@ -2,7 +2,7 @@
 /* eslint-disable */
 
 import type { Option, Struct, u32 } from '@polkadot/types';
-import type { Balance } from '@parallel-js/types/interfaces/runtime';
+import type { Balance } from '@parallel-finance/types/interfaces/runtime';
 
 /** @name UnstakeInfo */
 export interface UnstakeInfo extends Struct {

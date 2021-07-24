@@ -1,6 +1,6 @@
 import definitions from '@polkadot/types/interfaces/runtime/definitions';
 import { Definitions } from '@polkadot/types/types';
-import runtime from '@parallel-js/type-definitions/runtime';
+import runtime from '@parallel-finance/type-definitions/runtime';
 
 export default {
   rpc: {},

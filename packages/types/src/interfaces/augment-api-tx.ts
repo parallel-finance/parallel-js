@@ -3,9 +3,9 @@
 
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u16, u32, u64 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
-import type { Market, ValidatorInfo } from '@parallel-js/types/interfaces/loans';
-import type { AmountOf, CurrencyId, CurrencyIdOf, PriceWithDecimal } from '@parallel-js/types/interfaces/primitives';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, Moment, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-js/types/interfaces/runtime';
+import type { Market, ValidatorInfo } from '@parallel-finance/types/interfaces/loans';
+import type { AmountOf, CurrencyId, CurrencyIdOf, PriceWithDecimal } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, Moment, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
 import type { Renouncing } from '@polkadot/types/interfaces/elections';

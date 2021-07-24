@@ -3,8 +3,8 @@
 
 import type { Vec, u16, u32, u64 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { CurrencyId, CurrencyIdOf } from '@parallel-js/types/interfaces/primitives';
-import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Percent, Permill, RuntimeDbWeight } from '@parallel-js/types/interfaces/runtime';
+import type { CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
+import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Percent, Permill, RuntimeDbWeight } from '@parallel-finance/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';

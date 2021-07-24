@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { Enum, Option, Struct, Text, Vec, bool, u128 } from '@polkadot/types';
-import type { Rate, Ratio } from '@parallel-js/types/interfaces/primitives';
-import type { AccountId, Balance, FixedU128 } from '@parallel-js/types/interfaces/runtime';
+import type { Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, Balance, FixedU128 } from '@parallel-finance/types/interfaces/runtime';
 
 /** @name BorrowSnapshot */
 export interface BorrowSnapshot extends Struct {

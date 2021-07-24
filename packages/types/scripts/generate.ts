@@ -31,14 +31,14 @@ const { runtime: _runtime, ...ormlModulesDefinations } = ormlDefinations;
 const definations = {
     '@polkadot/types/interfaces': substrateDefinations,
     '@open-web3/orml-types/interfaces': ormlModulesDefinations,
-    '@parallel-js/types/interfaces': parallelDefinations
+    '@parallel-finance/types/interfaces': parallelDefinations
 } as any;
 
 const registry = new TypeRegistry();
 registerDefinitions(registry, definations);
 const metadata = new Metadata(registry, metaHex);
 
-generateTsDef(definations, 'packages/types/src/interfaces', '@parallel-js/types/interfaces');
+generateTsDef(definations, 'packages/types/src/interfaces', '@parallel-finance/types/interfaces');
 generateInterfaceTypes(definations, 'packages/types/src/interfaces/augment-types.ts');
 
 generateDefaultConsts('packages/types/src/interfaces/augment-api-consts.ts', metadata, definations);

@@ -4,7 +4,7 @@ import {
   typesAlias as parallelTypeAlias,
   rpc as parallelRpc,
   signedExtensions as parallelSignedExtensions
-} from '@parallel-js/type-definitions';
+} from '@parallel-finance/type-definitions';
 import {
   OverrideBundleType,
   OverrideModuleType,

@@ -2,7 +2,7 @@
   "version": "1.0.3",
   "private": true,
   "repository": "git@github.com:parallel-finance/parallel-js.git",
-  "author": "Parallel Team",
+  "author": "Parallel Finance Team",
   "license": "Apache-2.0",
   "workspaces": [
     "packages/*"

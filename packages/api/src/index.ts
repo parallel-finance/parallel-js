@@ -6,7 +6,7 @@ import {
   typesAlias as parallelTypesAlias,
   typesBundle as parallelTypesBundle,
   signedExtensions as parallelSignedExtensions
-} from '@parallel-js/types';
+} from '@parallel-finance/types';
 
 export const defaultOptions: ApiOptions = {
   types: parallelTypes,

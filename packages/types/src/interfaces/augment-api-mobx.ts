@@ -4,10 +4,10 @@
 import type { Bytes, Option, U8aFixed, Vec, bool, u128, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
-import type { UnstakeInfo } from '@parallel-js/types/interfaces/liquidStaking';
-import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-js/types/interfaces/loans';
-import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-js/types/interfaces/primitives';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, Moment, OpaqueCall, OracleKey, Releases } from '@parallel-js/types/interfaces/runtime';
+import type { UnstakeInfo } from '@parallel-finance/types/interfaces/liquidStaking';
+import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
+import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, Moment, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
 import type { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
 import type { PreimageStatus, PropIndex, Proposal, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';

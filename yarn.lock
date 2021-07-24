@@ -1940,29 +1940,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@parallel-js/api@workspace:packages/api":
+"@parallel-finance/api@workspace:packages/api":
   version: 0.0.0-use.local
-  resolution: "@parallel-js/api@workspace:packages/api"
+  resolution: "@parallel-finance/api@workspace:packages/api"
   dependencies:
     "@babel/runtime": ^7.10.2
     "@open-web3/orml-api-derive": ^0.9.4-7
-    "@parallel-js/types": 1.0.0
+    "@parallel-finance/types": 1.0.0
     "@polkadot/api": ^4.14.1
     "@polkadot/rpc-core": ^4.14.1
   languageName: unknown
   linkType: soft
 
-"@parallel-js/type-definitions@workspace:packages/type-definitions":
+"@parallel-finance/type-definitions@workspace:packages/type-definitions":
   version: 0.0.0-use.local
-  resolution: "@parallel-js/type-definitions@workspace:packages/type-definitions"
+  resolution: "@parallel-finance/type-definitions@workspace:packages/type-definitions"
   dependencies:
     "@open-web3/orml-type-definitions": ^0.9.4-7
   languageName: unknown
   linkType: soft
 
-"@parallel-js/types@1.0.0, @parallel-js/types@workspace:packages/types":
+"@parallel-finance/types@1.0.0, @parallel-finance/types@workspace:packages/types":
   version: 0.0.0-use.local
-  resolution: "@parallel-js/types@workspace:packages/types"
+  resolution: "@parallel-finance/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.10.2
     "@open-web3/api-mobx": ^0.9.4-7

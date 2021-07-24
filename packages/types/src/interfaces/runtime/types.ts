@@ -4,7 +4,7 @@
 import type { Bytes, Compact, DoNotConstruct, Enum, GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericLookupSource, GenericMultiAddress, Int, Null, Option, StorageKey, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Price } from '@open-web3/orml-types/interfaces/traits';
-import type { CurrencyId } from '@parallel-js/types/interfaces/primitives';
+import type { CurrencyId } from '@parallel-finance/types/interfaces/primitives';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { SystemOrigin } from '@polkadot/types/interfaces/system';

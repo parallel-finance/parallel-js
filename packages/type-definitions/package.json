@@ -1,5 +1,5 @@
 {
-  "name": "@parallel-js/type-definitions",
+  "name": "@parallel-finance/type-definitions",
   "version": "1.0.0",
   "description": "Polkadot.js type definitions for Parallel Finance",
   "main": "index.js",
