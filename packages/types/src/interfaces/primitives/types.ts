@@ -12,6 +12,9 @@ export interface Amount extends i128 {}
 /** @name AmountOf */
 export interface AmountOf extends Amount {}
 
+/** @name Currency */
+export interface Currency extends CurrencyId {}
+
 /** @name CurrencyId */
 export interface CurrencyId extends Enum {
   readonly isDot: boolean;

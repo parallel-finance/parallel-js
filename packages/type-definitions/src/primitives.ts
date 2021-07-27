@@ -11,6 +11,7 @@ export default {
       _enum: ['DOT', 'KSM', 'USDT', 'xDOT', 'xKSM', 'HKO', 'PARA']
     },
     CurrencyIdOf: 'CurrencyId',
+    Currency: 'CurrencyId',
     PriceWithDecimal: {
       price: 'Price',
       decimal: 'u8'

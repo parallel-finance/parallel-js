@@ -220,6 +220,7 @@
                             ]
                         },
                         "CurrencyIdOf": "CurrencyId",
+                        "Currency": "CurrencyId",
                         "PriceWithDecimal": {
                             "price": "Price",
                             "decimal": "u8"
