@@ -113,7 +113,6 @@ declare module '@polkadot/types/types/registry' {
     'Compact<MomentOf>': Compact<MomentOf>;
     'Compact<NominatorIndex>': Compact<NominatorIndex>;
     'Compact<OffchainAccuracy>': Compact<OffchainAccuracy>;
-    'Compact<OracleValue>': Compact<OracleValue>;
     'Compact<OverweightIndex>': Compact<OverweightIndex>;
     'Compact<PageCounter>': Compact<PageCounter>;
     'Compact<ParaId>': Compact<ParaId>;

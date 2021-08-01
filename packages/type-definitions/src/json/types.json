@@ -63,7 +63,7 @@
         "totalWithdrawnRewards": "Compact<Balance>"
     },
     "Share": "u128",
-    "OracleValue": "Price",
+    "OracleValue": "PriceWithDecimal",
     "UnstakeInfo": {
         "amount": "Balance",
         "blockNumber": "u32",
