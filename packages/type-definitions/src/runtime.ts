@@ -2,6 +2,11 @@ export default {
   rpc: {},
   types: {
     OracleKey: 'CurrencyId',
-    OracleValue: 'PriceWithDecimal'
+    OracleValue: 'PriceWithDecimal',
+    TimestampedValue: {
+      value: "OracleValue",
+      timestamp: "Moment"
+    },
+    TimestampedValueOf: 'TimestampedValue'
   }
 };

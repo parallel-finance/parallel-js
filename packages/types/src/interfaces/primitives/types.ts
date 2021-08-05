@@ -3,7 +3,6 @@
 
 import type { Enum, Struct, i128, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
-import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { FixedU128, Permill } from '@parallel-finance/types/interfaces/runtime';
 
 /** @name Amount */
@@ -28,6 +27,9 @@ export interface CurrencyId extends Enum {
 
 /** @name CurrencyIdOf */
 export interface CurrencyIdOf extends CurrencyId {}
+
+/** @name Price */
+export interface Price extends FixedU128 {}
 
 /** @name PriceDetail */
 export interface PriceDetail extends ITuple<[Price, Timestamp]> {}

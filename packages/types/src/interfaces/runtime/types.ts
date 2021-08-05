@@ -333,6 +333,15 @@ export interface StorageProof extends Struct {
   readonly trieNodes: Vec<Bytes>;
 }
 
+/** @name TimestampedValue */
+export interface TimestampedValue extends Struct {
+  readonly value: OracleValue;
+  readonly timestamp: Moment;
+}
+
+/** @name TimestampedValueOf */
+export interface TimestampedValueOf extends TimestampedValue {}
+
 /** @name TransactionInfo */
 export interface TransactionInfo extends Struct {
   readonly chunkRoot: H256;
