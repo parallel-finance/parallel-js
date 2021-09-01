@@ -9,6 +9,18 @@ This library provides necessary types and JSON-RPC information for user to acces
 - [types](./packages/types)
   - Polkadot.js type definitions for Parallel Fanance
 
+## Update metadata
+Start a local node service on ws://localhost:9944
+```
+yarn install
+yarn update-metadata
+```
+
+## Build
+```
+yarn install
+yarn build
+```
 
 ## Open Source Credits
 
