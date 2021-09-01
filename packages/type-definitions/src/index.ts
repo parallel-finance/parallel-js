@@ -5,6 +5,7 @@ import { jsonrpcFromDefs, typesAliasFromDefs, typesFromDefs } from '@open-web3/o
 
 import { signedExtensions as parallelSignedExtensions } from './signedExtensions';
 
+import amm from './amm';
 import liquidStaking from './liquidStaking';
 import loans from './loans';
 import prices from './prices';
@@ -14,8 +15,9 @@ import runtime from './runtime';
 import parallelVersioned from './spec/parallel';
 
 const parallelDefs = {
-  liquidStaking,
   loans,
+  liquidStaking,
+  amm,
   prices,
   primitives,
   runtime

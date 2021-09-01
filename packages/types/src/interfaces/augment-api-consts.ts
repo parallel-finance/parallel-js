@@ -1,22 +1,51 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Vec, u16, u32, u64 } from '@polkadot/types';
+import type { Vec, bool, u16, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
-import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Percent, Permill, RuntimeDbWeight } from '@parallel-finance/types/interfaces/runtime';
+import type { Balance, BalanceOf, BlockNumber, Moment, PalletId, Permill, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';
+import type { MultiLocation } from '@polkadot/types/interfaces/xcm';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
+    amm: {
+      palletId: PalletId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    authorship: {
+      /**
+       * The number of blocks back we should accept uncles.
+       * This means that we will deal with uncle-parents that are
+       * `UncleGenerations + 1` before `now`.
+       **/
+      uncleGenerations: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     balances: {
       /**
        * The minimum amount required to keep an account open.
        **/
       existentialDeposit: Balance & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of locks that should exist on an account.
+       * Not strictly enforced, but used for weight estimation.
+       **/
+      maxLocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of named reserves that can exist on an account.
+       **/
+      maxReserves: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -47,9 +76,19 @@ declare module '@polkadot/api/types/consts' {
        **/
       fastTrackVotingPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
+       * Indicator for whether an emergency origin is even allowed to happen. Some chains may want
+       * to set this permanently to `false`, others may want to condition it on things such as
+       * an upgrade having happened recently.
+       **/
+      instantAllowed: bool & AugmentedConst<ApiType>;
+      /**
        * How often (in blocks) new public referenda are launched.
        **/
       launchPeriod: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of public proposals that can exist at any time.
+       **/
+      maxProposals: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of votes for an account.
        * 
@@ -69,59 +108,6 @@ declare module '@polkadot/api/types/consts' {
        * How often (in blocks) to check for new votes.
        **/
       votingPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    elections: {
-      /**
-       * How much should be locked up in order to submit one's candidacy.
-       **/
-      candidacyBond: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Number of members to elect.
-       **/
-      desiredMembers: u32 & AugmentedConst<ApiType>;
-      /**
-       * Number of runners_up to keep.
-       **/
-      desiredRunnersUp: u32 & AugmentedConst<ApiType>;
-      /**
-       * Identifier for the elections-phragmen pallet's lock
-       **/
-      palletId: LockIdentifier & AugmentedConst<ApiType>;
-      /**
-       * How long each seat is kept. This defines the next block number at which an election
-       * round will happen. If set to zero, no elections are ever triggered and the module will
-       * be in passive mode.
-       **/
-      termDuration: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * Base deposit associated with voting.
-       * 
-       * This should be sensibly high to economically ensure the pallet cannot be attacked by
-       * creating a gigantic number of votes.
-       **/
-      votingBondBase: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * The amount of bond that need to be locked for each vote (32 bytes).
-       **/
-      votingBondFactor: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    liquidation: {
-      /**
-       * The maximum value when liquidate a loan, may different with the loans pallet.
-       **/
-      liquidateFactor: Percent & AugmentedConst<ApiType>;
-      /**
-       * The lockdown time when running offchain worker
-       **/
-      lockPeriod: u64 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -198,6 +184,16 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
+    ormlVesting: {
+      /**
+       * The minimum amount transferred to call `vested_transfer`.
+       **/
+      minVestedTransfer: BalanceOf & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     prices: {
       /**
        * Currency used for liquid voucher
@@ -207,6 +203,22 @@ declare module '@polkadot/api/types/consts' {
        * Currency used for staking
        **/
       stakingCurrency: CurrencyId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    scheduler: {
+      /**
+       * The maximum weight that may be scheduled per block for any dispatchables of less priority
+       * than `schedule::HARD_DEADLINE`.
+       **/
+      maximumWeight: Weight & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of scheduled calls in the queue for a single block.
+       * Not strictly enforced, but used for weight estimation.
+       **/
+      maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -259,6 +271,13 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
+    tokens: {
+      maxLocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     transactionPayment: {
       /**
        * The fee to be paid for making a transaction; the per-byte portion.
@@ -279,7 +298,11 @@ declare module '@polkadot/api/types/consts' {
        **/
       burn: Permill & AugmentedConst<ApiType>;
       /**
-       * The treasury's module id, used for deriving its sovereign account ID.
+       * The maximum number of approvals that can wait in the spending queue.
+       **/
+      maxApprovals: u32 & AugmentedConst<ApiType>;
+      /**
+       * The treasury's pallet id, used for deriving its sovereign account ID.
        **/
       palletId: PalletId & AugmentedConst<ApiType>;
       /**
@@ -295,6 +318,33 @@ declare module '@polkadot/api/types/consts' {
        * Period between successive spends.
        **/
       spendPeriod: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    utility: {
+      /**
+       * The limit on the number of batched calls.
+       **/
+      batchedCallsLimit: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    xTokens: {
+      /**
+       * Base XCM weight.
+       * 
+       * The actually weight for an XCM message is `T::BaseXcmWeight +
+       * T::Weigher::weight(&msg)`.
+       **/
+      baseXcmWeight: Weight & AugmentedConst<ApiType>;
+      /**
+       * Self chain location.
+       **/
+      selfLocation: MultiLocation & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

@@ -1,28 +1,79 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, U8aFixed, Vec, bool, u128, u32 } from '@polkadot/types';
+import type { BTreeMap, Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
+import type { VestingScheduleOf } from '@open-web3/orml-types/interfaces/vesting';
+import type { PoolLiquidityAmount } from '@parallel-finance/types/interfaces/amm';
 import type { UnstakeInfo } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
 import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, Moment, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, OracleKey, Releases, Slot, ValidatorId, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
 import type { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
+import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
+import type { ConfigData, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
 import type { PreimageStatus, PropIndex, Proposal, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
 import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
-import type { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
+import type { AbridgedHostConfiguration, CandidateInfo, MessageQueueChain, MessagingStateSnapshot, OutboundHrmpMessage, ParaId, PersistedValidationData, RelayBlockNumber, RelayChainBlockNumber, UpwardMessage } from '@polkadot/types/interfaces/parachains';
 import type { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
-import type { SessionIndex } from '@polkadot/types/interfaces/session';
-import type { SeatHolder, Voter } from '@polkadot/types/interfaces/staking';
+import type { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import type { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig } from '@polkadot/types/interfaces/utility';
+import type { InboundStatus, MultiLocation, OutboundStatus, QueueConfigData, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 import type { BaseStorageType, StorageDoubleMap, StorageMap } from '@open-web3/api-mobx';
 
 export interface StorageType extends BaseStorageType {
+  amm: {    /**
+     * The exchange rate from the underlying to the internal collateral
+     **/
+    exchangeRate: Rate | null;
+    /**
+     * Accounts that deposits and withdraw assets in one or more pools
+     **/
+    liquidityProviders: PoolLiquidityAmount | null;
+    /**
+     * A bag of liquidity composed by two different assets
+     **/
+    pools: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, PoolLiquidityAmount>;
+  };
+  aura: {    /**
+     * The current authority set.
+     **/
+    authorities: Vec<AuthorityId> | null;
+    /**
+     * The current slot of this block.
+     * 
+     * This will be set in `on_initialize`.
+     **/
+    currentSlot: Slot | null;
+  };
+  auraExt: {    /**
+     * Serves as cache for the authorities.
+     * 
+     * The authorities in AuRa are overwritten in `on_initialize` when we switch to a new session,
+     * but we require the old authorities to verify the seal when validating a PoV. This will always
+     * be updated to the latest AuRa authorities in `on_finalize`.
+     **/
+    authorities: Vec<AuthorityId> | null;
+  };
+  authorship: {    /**
+     * Author of current block.
+     **/
+    author: Option<AccountId> | null;
+    /**
+     * Whether uncles were already set in this block.
+     **/
+    didSetUncles: bool | null;
+    /**
+     * Uncles
+     **/
+    uncles: Vec<UncleEntryItem> | null;
+  };
   balances: {    /**
      * The balance of an account.
      * 
@@ -49,30 +100,28 @@ export interface StorageType extends BaseStorageType {
      **/
     totalIssuance: Balance | null;
   };
-  council: {    /**
-     * The current members of the collective. This is stored sorted (just by value).
+  collatorSelection: {    /**
+     * Fixed deposit bond for each candidate.
      **/
-    members: Vec<AccountId> | null;
+    candidacyBond: BalanceOf | null;
     /**
-     * The prime member that helps determine the default vote behavior in case of absentations.
+     * The (community, limited) collation candidates.
      **/
-    prime: Option<AccountId> | null;
+    candidates: Vec<CandidateInfo> | null;
     /**
-     * Proposals so far.
+     * Desired number of candidates.
+     * 
+     * This should ideally always be less than [`Config::MaxCandidates`] for weights to be correct.
      **/
-    proposalCount: u32 | null;
+    desiredCandidates: u32 | null;
     /**
-     * Actual proposal for a given hash, if it's current.
+     * The invulnerable, fixed collators.
      **/
-    proposalOf: StorageMap<Hash | string, Option<Proposal>>;
+    invulnerables: Vec<AccountId> | null;
     /**
-     * The hashes of the active proposals.
+     * Last block authored by collator.
      **/
-    proposals: Vec<Hash> | null;
-    /**
-     * Votes on a given proposal, if it is ongoing.
-     **/
-    voting: StorageMap<Hash | string, Option<Votes>>;
+    lastAuthoredBlock: StorageMap<AccountId | string, BlockNumber>;
   };
   democracy: {    /**
      * A record of who vetoed what. Maps proposal hash to a possible existent block number
@@ -150,67 +199,56 @@ export interface StorageType extends BaseStorageType {
      **/
     votingOf: StorageMap<AccountId | string, Voting>;
   };
-  elections: {    /**
-     * The present candidate list. A current member or runner-up can never enter this vector
-     * and is always implicitly assumed to be a candidate.
-     * 
-     * Second element is the deposit.
-     * 
-     * Invariant: Always sorted based on account id.
+  dmpQueue: {    /**
+     * The configuration.
      **/
-    candidates: Vec<ITuple<[AccountId, BalanceOf]>> | null;
+    configuration: ConfigData | null;
     /**
-     * The total number of vote rounds that have happened, excluding the upcoming one.
+     * The overweight messages.
      **/
-    electionRounds: u32 | null;
+    overweight: StorageMap<OverweightIndex | AnyNumber, Option<ITuple<[RelayBlockNumber, Bytes]>>>;
     /**
-     * The current elected members.
-     * 
-     * Invariant: Always sorted based on account id.
+     * The page index.
      **/
-    members: Vec<SeatHolder> | null;
+    pageIndex: PageIndexData | null;
     /**
-     * The current reserved runners-up.
-     * 
-     * Invariant: Always sorted based on rank (worse to best). Upon removal of a member, the
-     * last (i.e. _best_) runner-up will be replaced.
+     * The queue pages.
      **/
-    runnersUp: Vec<SeatHolder> | null;
-    /**
-     * Votes and locked stake of a particular voter.
-     * 
-     * TWOX-NOTE: SAFE as `AccountId` is a crypto hash.
-     **/
-    voting: StorageMap<AccountId | string, Voter>;
+    pages: StorageMap<PageCounter | AnyNumber, Vec<ITuple<[RelayBlockNumber, Bytes]>>>;
   };
-  grandpa: {    /**
-     * The number of changes (both in terms of keys and underlying economic responsibilities)
-     * in the "set" of Grandpa validators from genesis.
+  generalCouncil: {    /**
+     * The current members of the collective. This is stored sorted (just by value).
      **/
-    currentSetId: SetId | null;
+    members: Vec<AccountId> | null;
     /**
-     * next block number where we can force a change.
+     * The prime member that helps determine the default vote behavior in case of absentations.
      **/
-    nextForced: Option<BlockNumber> | null;
+    prime: Option<AccountId> | null;
     /**
-     * Pending change: (signaled at, scheduled change).
+     * Proposals so far.
      **/
-    pendingChange: Option<StoredPendingChange> | null;
+    proposalCount: u32 | null;
     /**
-     * A mapping from grandpa set ID to the index of the *most recent* session for which its
-     * members were responsible.
-     * 
-     * TWOX-NOTE: `SetId` is not under user control.
+     * Actual proposal for a given hash, if it's current.
      **/
-    setIdSession: StorageMap<SetId | AnyNumber, Option<SessionIndex>>;
+    proposalOf: StorageMap<Hash | string, Option<Proposal>>;
     /**
-     * `true` if we are currently stalled.
+     * The hashes of the active proposals.
      **/
-    stalled: Option<ITuple<[BlockNumber, BlockNumber]>> | null;
+    proposals: Vec<Hash> | null;
     /**
-     * State of the current authority set.
+     * Votes on a given proposal, if it is ongoing.
      **/
-    state: StoredState | null;
+    voting: StorageMap<Hash | string, Option<Votes>>;
+  };
+  generalCouncilMembership: {    /**
+     * The current membership, stored as an ordered Vec.
+     **/
+    members: Vec<AccountId> | null;
+    /**
+     * The current prime member, if one exists.
+     **/
+    prime: Option<AccountId> | null;
   };
   liquidStaking: {    /**
      * The queue stores all the pending unstaking requests.
@@ -246,6 +284,15 @@ export interface StorageType extends BaseStorageType {
      * The total amount of staking voucher.
      **/
     totalVoucher: Balance | null;
+  };
+  liquidStakingAgentMembership: {    /**
+     * The current membership, stored as an ordered Vec.
+     **/
+    members: Vec<AccountId> | null;
+    /**
+     * The current prime member, if one exists.
+     **/
+    prime: Option<AccountId> | null;
   };
   loans: {    /**
      * Mapping of account addresses to outstanding borrow balances
@@ -344,6 +391,128 @@ export interface StorageType extends BaseStorageType {
      **/
     prime: Option<AccountId> | null;
   };
+  ormlVesting: {    /**
+     * Vesting schedules of an account.
+     * 
+     * VestingSchedules: map AccountId => Vec<VestingSchedule>
+     **/
+    vestingSchedules: StorageMap<AccountId | string, Vec<VestingScheduleOf>>;
+  };
+  parachainInfo: {    parachainId: ParaId | null;
+  };
+  parachainSystem: {    /**
+     * The number of HRMP messages we observed in `on_initialize` and thus used that number for
+     * announcing the weight of `on_initialize` and `on_finalize`.
+     **/
+    announcedHrmpMessagesPerCandidate: u32 | null;
+    /**
+     * The next authorized upgrade, if there is one.
+     **/
+    authorizedUpgrade: Option<Hash> | null;
+    /**
+     * Were the validation data set to notify the relay chain?
+     **/
+    didSetValidationCode: bool | null;
+    /**
+     * The parachain host configuration that was obtained from the relay parent.
+     * 
+     * This field is meant to be updated each block with the validation data inherent. Therefore,
+     * before processing of the inherent, e.g. in `on_initialize` this data may be stale.
+     * 
+     * This data is also absent from the genesis.
+     **/
+    hostConfiguration: Option<AbridgedHostConfiguration> | null;
+    /**
+     * HRMP messages that were sent in a block.
+     * 
+     * This will be cleared in `on_initialize` of each new block.
+     **/
+    hrmpOutboundMessages: Vec<OutboundHrmpMessage> | null;
+    /**
+     * HRMP watermark that was set in a block.
+     * 
+     * This will be cleared in `on_initialize` of each new block.
+     **/
+    hrmpWatermark: BlockNumber | null;
+    /**
+     * The last downward message queue chain head we have observed.
+     * 
+     * This value is loaded before and saved after processing inbound downward messages carried
+     * by the system inherent.
+     **/
+    lastDmqMqcHead: MessageQueueChain | null;
+    /**
+     * The message queue chain heads we have observed per each channel incoming channel.
+     * 
+     * This value is loaded before and saved after processing inbound downward messages carried
+     * by the system inherent.
+     **/
+    lastHrmpMqcHeads: BTreeMap<ParaId, MessageQueueChain> | null;
+    /**
+     * The last relay parent block number at which we signalled the code upgrade.
+     **/
+    lastUpgrade: BlockNumber | null;
+    /**
+     * New validation code that was set in a block.
+     * 
+     * This will be cleared in `on_initialize` of each new block if no other pallet already set
+     * the value.
+     **/
+    newValidationCode: Option<Bytes> | null;
+    /**
+     * We need to store the new validation function for the span between
+     * setting it and applying it. If it has a
+     * value, then [`PendingValidationCode`] must have a real value, and
+     * together will coordinate the block number where the upgrade will happen.
+     **/
+    pendingRelayChainBlockNumber: Option<RelayChainBlockNumber> | null;
+    /**
+     * Upward messages that are still pending and not yet send to the relay chain.
+     **/
+    pendingUpwardMessages: Vec<UpwardMessage> | null;
+    /**
+     * The new validation function we will upgrade to when the relay chain
+     * reaches [`PendingRelayChainBlockNumber`]. A real validation function must
+     * exist here as long as [`PendingRelayChainBlockNumber`] is set.
+     **/
+    pendingValidationCode: Bytes | null;
+    /**
+     * Number of downward messages processed in a block.
+     * 
+     * This will be cleared in `on_initialize` of each new block.
+     **/
+    processedDownwardMessages: u32 | null;
+    /**
+     * The snapshot of some state related to messaging relevant to the current parachain as per
+     * the relay parent.
+     * 
+     * This field is meant to be updated each block with the validation data inherent. Therefore,
+     * before processing of the inherent, e.g. in `on_initialize` this data may be stale.
+     * 
+     * This data is also absent from the genesis.
+     **/
+    relevantMessagingState: Option<MessagingStateSnapshot> | null;
+    /**
+     * The weight we reserve at the beginning of the block for processing DMP messages. This
+     * overrides the amount set in the Config trait.
+     **/
+    reservedDmpWeightOverride: Option<Weight> | null;
+    /**
+     * The weight we reserve at the beginning of the block for processing XCMP messages. This
+     * overrides the amount set in the Config trait.
+     **/
+    reservedXcmpWeightOverride: Option<Weight> | null;
+    /**
+     * Upward messages that were sent in a block.
+     * 
+     * This will be cleared in `on_initialize` of each new block.
+     **/
+    upwardMessages: Vec<UpwardMessage> | null;
+    /**
+     * The [`PersistedValidationData`] set for this block.
+     **/
+    validationData: Option<PersistedValidationData> | null;
+  };
   prices: {    /**
      * Mapping from currency id to it's emergency price
      **/
@@ -363,6 +532,39 @@ export interface StorageType extends BaseStorageType {
      * New networks start with last version.
      **/
     storageVersion: Releases | null;
+  };
+  session: {    /**
+     * Current index of the session.
+     **/
+    currentIndex: SessionIndex | null;
+    /**
+     * Indices of disabled validators.
+     * 
+     * The set is cleared when `on_session_ending` returns a new set of identities.
+     **/
+    disabledValidators: Vec<u32> | null;
+    /**
+     * The owner of a key. The key is the `KeyTypeId` + the encoded key.
+     **/
+    keyOwner: StorageMap<ITuple<[KeyTypeId, Bytes]> | [KeyTypeId | AnyNumber, Bytes | string], Option<ValidatorId>>;
+    /**
+     * The next session keys for a validator.
+     **/
+    nextKeys: StorageMap<ValidatorId | string, Option<Keys>>;
+    /**
+     * True if the underlying economic identities or weighting behind the validators
+     * has changed in the queued validator set.
+     **/
+    queuedChanged: bool | null;
+    /**
+     * The queued keys for the next session. When the next session begins, these keys
+     * will be used to determine the validator's session keys.
+     **/
+    queuedKeys: Vec<ITuple<[ValidatorId, Keys]>> | null;
+    /**
+     * The current set of validators.
+     **/
+    validators: Vec<ValidatorId> | null;
   };
   sudo: {    /**
      * The `AccountId` of the sudo key.
@@ -469,7 +671,7 @@ export interface StorageType extends BaseStorageType {
      **/
     voting: StorageMap<Hash | string, Option<Votes>>;
   };
-  technicalMembership: {    /**
+  technicalCommitteeMembership: {    /**
      * The current membership, stored as an ordered Vec.
      **/
     members: Vec<AccountId> | null;
@@ -522,6 +724,21 @@ export interface StorageType extends BaseStorageType {
      **/
     proposals: StorageMap<ProposalIndex | AnyNumber, Option<TreasuryProposal>>;
   };
+  unknownTokens: {    /**
+     * Abstract fungible balances under a given location and a abstract
+     * fungible id.
+     * 
+     * double_map: who, asset_id => u128
+     **/
+    abstractFungibleBalances: StorageDoubleMap<MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string, Bytes | string, u128>;
+    /**
+     * Concrete fungible balances under a given location and a concrete
+     * fungible id.
+     * 
+     * double_map: who, asset_id => u128
+     **/
+    concreteFungibleBalances: StorageDoubleMap<MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string, MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string, u128>;
+  };
   validatorFeedersMembership: {    /**
      * The current membership, stored as an ordered Vec.
      **/
@@ -531,4 +748,35 @@ export interface StorageType extends BaseStorageType {
      **/
     prime: Option<AccountId> | null;
   };
+  xcmpQueue: {    /**
+     * Inbound aggregate XCMP messages. It can only be one per ParaId/block.
+     **/
+    inboundXcmpMessages: StorageDoubleMap<ParaId | AnyNumber, RelayBlockNumber | AnyNumber, Bytes>;
+    /**
+     * Status of the inbound XCMP channels.
+     **/
+    inboundXcmpStatus: Vec<ITuple<[ParaId, InboundStatus, Vec<ITuple<[RelayBlockNumber, XcmpMessageFormat]>>]>> | null;
+    /**
+     * The messages outbound in a given XCMP channel.
+     **/
+    outboundXcmpMessages: StorageDoubleMap<ParaId | AnyNumber, u16 | AnyNumber, Bytes>;
+    /**
+     * The non-empty XCMP channels in order of becoming non-empty, and the index of the first
+     * and last outbound message. If the two indices are equal, then it indicates an empty
+     * queue and there must be a non-`Ok` `OutboundStatus`. We assume queues grow no greater
+     * than 65535 items. Queue indices for normal messages begin at one; zero is reserved in
+     * case of the need to send a high-priority signal message this block.
+     * The bool is true if there is a signal message waiting to be sent.
+     **/
+    outboundXcmpStatus: Vec<ITuple<[ParaId, OutboundStatus, bool, u16, u16]>> | null;
+    /**
+     * The configuration which controls the dynamics of the outbound queue.
+     **/
+    queueConfig: QueueConfigData | null;
+    /**
+     * Any signal messages waiting to be sent.
+     **/
+    signalMessages: StorageMap<ParaId | AnyNumber, Bytes>;
+  };
+  xTokens: {  };
 }
