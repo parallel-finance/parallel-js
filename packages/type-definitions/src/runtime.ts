@@ -4,8 +4,8 @@ export default {
     OracleKey: 'CurrencyId',
     OracleValue: 'PriceWithDecimal',
     TimestampedValue: {
-      value: "OracleValue",
-      timestamp: "Moment"
+      value: 'OracleValue',
+      timestamp: 'Moment'
     },
     TimestampedValueOf: 'TimestampedValue'
   }

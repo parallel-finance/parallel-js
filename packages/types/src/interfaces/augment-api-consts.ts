@@ -1,22 +1,39 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Vec, u16, u32, u64 } from '@polkadot/types';
+import type { Vec, bool, u16, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
-import type { Balance, BalanceOf, BlockNumber, LockIdentifier, Moment, PalletId, Percent, Permill, RuntimeDbWeight } from '@parallel-finance/types/interfaces/runtime';
+import type { Balance, BalanceOf, BlockNumber, PalletId, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';
+import type { MultiLocation } from '@polkadot/types/interfaces/xcm';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
+    amm: {
+      palletId: PalletId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     balances: {
       /**
        * The minimum amount required to keep an account open.
        **/
       existentialDeposit: Balance & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of locks that should exist on an account.
+       * Not strictly enforced, but used for weight estimation.
+       **/
+      maxLocks: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of named reserves that can exist on an account.
+       **/
+      maxReserves: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -47,9 +64,19 @@ declare module '@polkadot/api/types/consts' {
        **/
       fastTrackVotingPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
+       * Indicator for whether an emergency origin is even allowed to happen. Some chains may want
+       * to set this permanently to `false`, others may want to condition it on things such as
+       * an upgrade having happened recently.
+       **/
+      instantAllowed: bool & AugmentedConst<ApiType>;
+      /**
        * How often (in blocks) new public referenda are launched.
        **/
       launchPeriod: BlockNumber & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of public proposals that can exist at any time.
+       **/
+      maxProposals: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum number of votes for an account.
        * 
@@ -74,78 +101,17 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    elections: {
-      /**
-       * How much should be locked up in order to submit one's candidacy.
-       **/
-      candidacyBond: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Number of members to elect.
-       **/
-      desiredMembers: u32 & AugmentedConst<ApiType>;
-      /**
-       * Number of runners_up to keep.
-       **/
-      desiredRunnersUp: u32 & AugmentedConst<ApiType>;
-      /**
-       * Identifier for the elections-phragmen pallet's lock
-       **/
-      palletId: LockIdentifier & AugmentedConst<ApiType>;
-      /**
-       * How long each seat is kept. This defines the next block number at which an election
-       * round will happen. If set to zero, no elections are ever triggered and the module will
-       * be in passive mode.
-       **/
-      termDuration: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * Base deposit associated with voting.
-       * 
-       * This should be sensibly high to economically ensure the pallet cannot be attacked by
-       * creating a gigantic number of votes.
-       **/
-      votingBondBase: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * The amount of bond that need to be locked for each vote (32 bytes).
-       **/
-      votingBondFactor: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    liquidation: {
-      /**
-       * The maximum value when liquidate a loan, may different with the loans pallet.
-       **/
-      liquidateFactor: Percent & AugmentedConst<ApiType>;
-      /**
-       * The lockdown time when running offchain worker
-       **/
-      lockPeriod: u64 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     liquidStaking: {
       /**
-       * Currency used for liquid voucher
+       * The liquid voucher currency id.
        **/
       liquidCurrency: CurrencyId & AugmentedConst<ApiType>;
-      /**
-       * The maximum size of AccountProcessingUnstake
-       **/
-      maxAccountProcessingUnstake: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum assets can be withdrawed to a multisig account.
-       **/
-      maxWithdrawAmount: Balance & AugmentedConst<ApiType>;
       /**
        * The pallet id of liquid staking, keeps all the staking assets.
        **/
       palletId: PalletId & AugmentedConst<ApiType>;
       /**
-       * Currency used for staking
+       * The staking currency id.
        **/
       stakingCurrency: CurrencyId & AugmentedConst<ApiType>;
       /**
@@ -246,14 +212,8 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    timestamp: {
-      /**
-       * The minimum period between blocks. Beware that this is different to the *expected* period
-       * that the block production apparatus provides. Your chosen consensus system will generally
-       * work with this to determine a sensible block time. e.g. For Aura, it will be double this
-       * period on default settings.
-       **/
-      minimumPeriod: Moment & AugmentedConst<ApiType>;
+    tokens: {
+      maxLocks: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -273,28 +233,28 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    treasury: {
+    utility: {
       /**
-       * Percentage of spare funds (if any) that are burnt per spend period.
+       * The limit on the number of batched calls.
        **/
-      burn: Permill & AugmentedConst<ApiType>;
+      batchedCallsLimit: u32 & AugmentedConst<ApiType>;
       /**
-       * The treasury's module id, used for deriving its sovereign account ID.
+       * Generic const
        **/
-      palletId: PalletId & AugmentedConst<ApiType>;
+      [key: string]: Codec;
+    };
+    xTokens: {
       /**
-       * Fraction of a proposal's value that should be bonded in order to place the proposal.
-       * An accepted proposal gets these back. A rejected proposal does not.
+       * Base XCM weight.
+       * 
+       * The actually weight for an XCM message is `T::BaseXcmWeight +
+       * T::Weigher::weight(&msg)`.
        **/
-      proposalBond: Permill & AugmentedConst<ApiType>;
+      baseXcmWeight: Weight & AugmentedConst<ApiType>;
       /**
-       * Minimum amount of funds that should be placed in a deposit for making a proposal.
+       * Self chain location.
        **/
-      proposalBondMinimum: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Period between successive spends.
-       **/
-      spendPeriod: BlockNumber & AugmentedConst<ApiType>;
+      selfLocation: MultiLocation & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

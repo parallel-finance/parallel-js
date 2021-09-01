@@ -1,29 +1,47 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, U8aFixed, Vec, bool, u128, u32 } from '@polkadot/types';
+import type { Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
-import type { UnstakeInfo } from '@parallel-finance/types/interfaces/liquidStaking';
+import type { PoolLiquidityAmount } from '@parallel-finance/types/interfaces/amm';
+import type { MatchingLedger, StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
 import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, Moment, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
-import type { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
+import type { Votes } from '@polkadot/types/interfaces/collective';
+import type { ConfigData, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
 import type { PreimageStatus, PropIndex, Proposal, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
 import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
-import type { SetId, StoredPendingChange, StoredState } from '@polkadot/types/interfaces/grandpa';
-import type { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
-import type { SessionIndex } from '@polkadot/types/interfaces/session';
-import type { SeatHolder, Voter } from '@polkadot/types/interfaces/staking';
+import type { ParaId, RelayBlockNumber } from '@polkadot/types/interfaces/parachains';
+import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
-import type { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig } from '@polkadot/types/interfaces/utility';
+import type { InboundStatus, MultiLocation, OutboundStatus, QueueConfigData, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/storage' {
   export interface AugmentedQueries<ApiType> {
+    amm: {
+      /**
+       * The exchange rate from the underlying to the internal collateral
+       **/
+      exchangeRate: AugmentedQuery<ApiType, () => Observable<Rate>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Accounts that deposits and withdraw assets in one or more pools
+       **/
+      liquidityProviders: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, arg3: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<PoolLiquidityAmount>, [AccountId, CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId, CurrencyId]>;
+      /**
+       * A bag of liquidity composed by two different assets
+       **/
+      pools: AugmentedQuery<ApiType, (arg1: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, arg2: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Option<PoolLiquidityAmount>>, [CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId, CurrencyId]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
     balances: {
       /**
        * The balance of an account.
@@ -50,36 +68,6 @@ declare module '@polkadot/api/types/storage' {
        * The total units issued in the system.
        **/
       totalIssuance: AugmentedQuery<ApiType, () => Observable<Balance>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
-    council: {
-      /**
-       * The current members of the collective. This is stored sorted (just by value).
-       **/
-      members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * The prime member that helps determine the default vote behavior in case of absentations.
-       **/
-      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Proposals so far.
-       **/
-      proposalCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Actual proposal for a given hash, if it's current.
-       **/
-      proposalOf: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<Proposal>>, [Hash]> & QueryableStorageEntry<ApiType, [Hash]>;
-      /**
-       * The hashes of the active proposals.
-       **/
-      proposals: AugmentedQuery<ApiType, () => Observable<Vec<Hash>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Votes on a given proposal, if it is ongoing.
-       **/
-      voting: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<Votes>>, [Hash]> & QueryableStorageEntry<ApiType, [Hash]>;
       /**
        * Generic query
        **/
@@ -166,73 +154,53 @@ declare module '@polkadot/api/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
-    elections: {
+    dmpQueue: {
       /**
-       * The present candidate list. A current member or runner-up can never enter this vector
-       * and is always implicitly assumed to be a candidate.
-       * 
-       * Second element is the deposit.
-       * 
-       * Invariant: Always sorted based on account id.
+       * The configuration.
        **/
-      candidates: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId, BalanceOf]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      configuration: AugmentedQuery<ApiType, () => Observable<ConfigData>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The total number of vote rounds that have happened, excluding the upcoming one.
+       * The overweight messages.
        **/
-      electionRounds: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
+      overweight: AugmentedQuery<ApiType, (arg: OverweightIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[RelayBlockNumber, Bytes]>>>, [OverweightIndex]> & QueryableStorageEntry<ApiType, [OverweightIndex]>;
       /**
-       * The current elected members.
-       * 
-       * Invariant: Always sorted based on account id.
+       * The page index.
        **/
-      members: AugmentedQuery<ApiType, () => Observable<Vec<SeatHolder>>, []> & QueryableStorageEntry<ApiType, []>;
+      pageIndex: AugmentedQuery<ApiType, () => Observable<PageIndexData>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The current reserved runners-up.
-       * 
-       * Invariant: Always sorted based on rank (worse to best). Upon removal of a member, the
-       * last (i.e. _best_) runner-up will be replaced.
+       * The queue pages.
        **/
-      runnersUp: AugmentedQuery<ApiType, () => Observable<Vec<SeatHolder>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Votes and locked stake of a particular voter.
-       * 
-       * TWOX-NOTE: SAFE as `AccountId` is a crypto hash.
-       **/
-      voting: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Voter>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
+      pages: AugmentedQuery<ApiType, (arg: PageCounter | AnyNumber | Uint8Array) => Observable<Vec<ITuple<[RelayBlockNumber, Bytes]>>>, [PageCounter]> & QueryableStorageEntry<ApiType, [PageCounter]>;
       /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
-    grandpa: {
+    generalCouncil: {
       /**
-       * The number of changes (both in terms of keys and underlying economic responsibilities)
-       * in the "set" of Grandpa validators from genesis.
+       * The current members of the collective. This is stored sorted (just by value).
        **/
-      currentSetId: AugmentedQuery<ApiType, () => Observable<SetId>, []> & QueryableStorageEntry<ApiType, []>;
+      members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * next block number where we can force a change.
+       * The prime member that helps determine the default vote behavior in case of absentations.
        **/
-      nextForced: AugmentedQuery<ApiType, () => Observable<Option<BlockNumber>>, []> & QueryableStorageEntry<ApiType, []>;
+      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Pending change: (signaled at, scheduled change).
+       * Proposals so far.
        **/
-      pendingChange: AugmentedQuery<ApiType, () => Observable<Option<StoredPendingChange>>, []> & QueryableStorageEntry<ApiType, []>;
+      proposalCount: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * A mapping from grandpa set ID to the index of the *most recent* session for which its
-       * members were responsible.
-       * 
-       * TWOX-NOTE: `SetId` is not under user control.
+       * Actual proposal for a given hash, if it's current.
        **/
-      setIdSession: AugmentedQuery<ApiType, (arg: SetId | AnyNumber | Uint8Array) => Observable<Option<SessionIndex>>, [SetId]> & QueryableStorageEntry<ApiType, [SetId]>;
+      proposalOf: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<Proposal>>, [Hash]> & QueryableStorageEntry<ApiType, [Hash]>;
       /**
-       * `true` if we are currently stalled.
+       * The hashes of the active proposals.
        **/
-      stalled: AugmentedQuery<ApiType, () => Observable<Option<ITuple<[BlockNumber, BlockNumber]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      proposals: AugmentedQuery<ApiType, () => Observable<Vec<Hash>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * State of the current authority set.
+       * Votes on a given proposal, if it is ongoing.
        **/
-      state: AugmentedQuery<ApiType, () => Observable<StoredState>, []> & QueryableStorageEntry<ApiType, []>;
+      voting: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<Votes>>, [Hash]> & QueryableStorageEntry<ApiType, [Hash]>;
       /**
        * Generic query
        **/
@@ -240,39 +208,28 @@ declare module '@polkadot/api/types/storage' {
     };
     liquidStaking: {
       /**
-       * The queue stores all the pending unstaking requests.
-       * Key is the owner of assets.
-       **/
-      accountPendingUnstake: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<UnstakeInfo>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
-      /**
-       * The queue stores all the unstaking requests in process.
-       * Key1 is the mutilsig agent in relaychain, key2 is the owner of assets.
-       **/
-      accountProcessingUnstake: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<Option<Vec<UnstakeInfo>>>, [AccountId, AccountId]> & QueryableStorageEntry<ApiType, [AccountId, AccountId]>;
-      /**
-       * The exchange rate converts staking native token to voucher.
+       * The exchange rate between relaychain native asset and the voucher.
        **/
       exchangeRate: AugmentedQuery<ApiType, () => Observable<Rate>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Fraction of reward currently set aside for reserves
+       * Store total stake amount and unstake amount in each era,
+       * And will update when stake/unstake occurred.
        **/
-      reserveFactor: AugmentedQuery<ApiType, () => Observable<Ratio>, []> & QueryableStorageEntry<ApiType, []>;
+      matchingPool: AugmentedQuery<ApiType, () => Observable<MatchingLedger>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The total person-times of staking operations.
+       * Total amount of staked assets in relaycahin.
        **/
-      stakingPersonTimes: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
+      stakingPool: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * The total amount of reserve.
+       * Records reward or slash during each era.
        **/
-      totalReserve: AugmentedQuery<ApiType, () => Observable<Balance>, []> & QueryableStorageEntry<ApiType, []>;
+      stakingSettlementRecords: AugmentedQuery<ApiType, (arg1: EraIndex | AnyNumber | Uint8Array, arg2: StakingSettlementKind | 'Reward' | 'Slash' | number | Uint8Array) => Observable<Option<BalanceOf>>, [EraIndex, StakingSettlementKind]> & QueryableStorageEntry<ApiType, [EraIndex, StakingSettlementKind]>;
       /**
-       * The total amount of a staking asset.
+       * Manage which we should pay off to.
+       * 
+       * Insert a new record while user can't be paid instantly in unstaking operation.
        **/
-      totalStakingAsset: AugmentedQuery<ApiType, () => Observable<Balance>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * The total amount of staking voucher.
-       **/
-      totalVoucher: AugmentedQuery<ApiType, () => Observable<Balance>, []> & QueryableStorageEntry<ApiType, []>;
+      unstakeQueue: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId, BalanceOf]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -386,15 +343,8 @@ declare module '@polkadot/api/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
-    oracleMembership: {
-      /**
-       * The current membership, stored as an ordered Vec.
-       **/
-      members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * The current prime member, if one exists.
-       **/
-      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
+    parachainInfo: {
+      parachainId: AugmentedQuery<ApiType, () => Observable<ParaId>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -405,26 +355,6 @@ declare module '@polkadot/api/types/storage' {
        * Mapping from currency id to it's emergency price
        **/
       emergencyPrice: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Option<PriceWithDecimal>>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
-    scheduler: {
-      /**
-       * Items to be executed, indexed by the block number that they should be executed on.
-       **/
-      agenda: AugmentedQuery<ApiType, (arg: BlockNumber | AnyNumber | Uint8Array) => Observable<Vec<Option<Scheduled>>>, [BlockNumber]> & QueryableStorageEntry<ApiType, [BlockNumber]>;
-      /**
-       * Lookup from identity to the block number and index of the task.
-       **/
-      lookup: AugmentedQuery<ApiType, (arg: Bytes | string | Uint8Array) => Observable<Option<TaskAddress>>, [Bytes]> & QueryableStorageEntry<ApiType, [Bytes]>;
-      /**
-       * Storage version of the pallet.
-       * 
-       * New networks start with last version.
-       **/
-      storageVersion: AugmentedQuery<ApiType, () => Observable<Releases>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Generic query
        **/
@@ -550,34 +480,6 @@ declare module '@polkadot/api/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
-    technicalMembership: {
-      /**
-       * The current membership, stored as an ordered Vec.
-       **/
-      members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * The current prime member, if one exists.
-       **/
-      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
-    timestamp: {
-      /**
-       * Did the timestamp get updated in this block?
-       **/
-      didUpdate: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Current time for the current block.
-       **/
-      now: AugmentedQuery<ApiType, () => Observable<Moment>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
     tokens: {
       /**
        * The balance of a token type under an account.
@@ -610,33 +512,62 @@ declare module '@polkadot/api/types/storage' {
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
-    treasury: {
+    unknownTokens: {
       /**
-       * Proposal indices that have been approved but not yet awarded.
+       * Abstract fungible balances under a given location and a abstract
+       * fungible id.
+       * 
+       * double_map: who, asset_id => u128
        **/
-      approvals: AugmentedQuery<ApiType, () => Observable<Vec<ProposalIndex>>, []> & QueryableStorageEntry<ApiType, []>;
+      abstractFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, arg2: Bytes | string | Uint8Array) => Observable<u128>, [MultiLocation, Bytes]> & QueryableStorageEntry<ApiType, [MultiLocation, Bytes]>;
       /**
-       * Number of proposals that have been made.
+       * Concrete fungible balances under a given location and a concrete
+       * fungible id.
+       * 
+       * double_map: who, asset_id => u128
        **/
-      proposalCount: AugmentedQuery<ApiType, () => Observable<ProposalIndex>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Proposals that have been made.
-       **/
-      proposals: AugmentedQuery<ApiType, (arg: ProposalIndex | AnyNumber | Uint8Array) => Observable<Option<TreasuryProposal>>, [ProposalIndex]> & QueryableStorageEntry<ApiType, [ProposalIndex]>;
+      concreteFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, arg2: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array) => Observable<u128>, [MultiLocation, MultiLocation]> & QueryableStorageEntry<ApiType, [MultiLocation, MultiLocation]>;
       /**
        * Generic query
        **/
       [key: string]: QueryableStorageEntry<ApiType>;
     };
-    validatorFeedersMembership: {
+    xcmpQueue: {
       /**
-       * The current membership, stored as an ordered Vec.
+       * Inbound aggregate XCMP messages. It can only be one per ParaId/block.
        **/
-      members: AugmentedQuery<ApiType, () => Observable<Vec<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
+      inboundXcmpMessages: AugmentedQuery<ApiType, (arg1: ParaId | AnyNumber | Uint8Array, arg2: RelayBlockNumber | AnyNumber | Uint8Array) => Observable<Bytes>, [ParaId, RelayBlockNumber]> & QueryableStorageEntry<ApiType, [ParaId, RelayBlockNumber]>;
       /**
-       * The current prime member, if one exists.
+       * Status of the inbound XCMP channels.
        **/
-      prime: AugmentedQuery<ApiType, () => Observable<Option<AccountId>>, []> & QueryableStorageEntry<ApiType, []>;
+      inboundXcmpStatus: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[ParaId, InboundStatus, Vec<ITuple<[RelayBlockNumber, XcmpMessageFormat]>>]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The messages outbound in a given XCMP channel.
+       **/
+      outboundXcmpMessages: AugmentedQuery<ApiType, (arg1: ParaId | AnyNumber | Uint8Array, arg2: u16 | AnyNumber | Uint8Array) => Observable<Bytes>, [ParaId, u16]> & QueryableStorageEntry<ApiType, [ParaId, u16]>;
+      /**
+       * The non-empty XCMP channels in order of becoming non-empty, and the index of the first
+       * and last outbound message. If the two indices are equal, then it indicates an empty
+       * queue and there must be a non-`Ok` `OutboundStatus`. We assume queues grow no greater
+       * than 65535 items. Queue indices for normal messages begin at one; zero is reserved in
+       * case of the need to send a high-priority signal message this block.
+       * The bool is true if there is a signal message waiting to be sent.
+       **/
+      outboundXcmpStatus: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[ParaId, OutboundStatus, bool, u16, u16]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The configuration which controls the dynamics of the outbound queue.
+       **/
+      queueConfig: AugmentedQuery<ApiType, () => Observable<QueueConfigData>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Any signal messages waiting to be sent.
+       **/
+      signalMessages: AugmentedQuery<ApiType, (arg: ParaId | AnyNumber | Uint8Array) => Observable<Bytes>, [ParaId]> & QueryableStorageEntry<ApiType, [ParaId]>;
+      /**
+       * Generic query
+       **/
+      [key: string]: QueryableStorageEntry<ApiType>;
+    };
+    xTokens: {
       /**
        * Generic query
        **/

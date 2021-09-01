@@ -146,11 +146,6 @@
                         },
                         "Share": "u128",
                         "OracleValue": "PriceWithDecimal",
-                        "UnstakeInfo": {
-                            "amount": "Balance",
-                            "blockNumber": "u32",
-                            "eraIndex": "Option<u32>"
-                        },
                         "Deposits": {
                             "voucherBalance": "Balance",
                             "isCollateral": "bool"
@@ -202,6 +197,36 @@
                             "score": "u128"
                         },
                         "ValidatorSet": "Vec<ValidatorInfo>",
+                        "UnstakeInfo": {
+                            "amount": "Balance",
+                            "blockNumber": "u32",
+                            "eraIndex": "Option<u32>"
+                        },
+                        "StakingSettlementKind": {
+                            "_enum": [
+                                "Reward",
+                                "Slash"
+                            ]
+                        },
+                        "MatchingLedger": {
+                            "totalStakeAmount": "Balance",
+                            "totalUnstakeAmount": "Balance"
+                        },
+                        "SwapType": {
+                            "_enum": [
+                                "Buy",
+                                "Sell"
+                            ]
+                        },
+                        "AmountEvaluation": {
+                            "accountAmount": "Balance",
+                            "poolAmount": "Balance"
+                        },
+                        "PoolLiquidityAmount": {
+                            "baseAmount": "Balance",
+                            "quoteAmount": "Balance",
+                            "ownership": "Balance"
+                        },
                         "Amount": "i128",
                         "AmountOf": "Amount",
                         "Rate": "FixedU128",
