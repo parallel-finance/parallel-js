@@ -4,7 +4,7 @@
 import type { Vec, bool, u16, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
 import type { CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
-import type { Balance, BalanceOf, BlockNumber, Moment, PalletId, Permill, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { Balance, BalanceOf, BlockNumber, PalletId, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';
@@ -15,18 +15,6 @@ declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
     amm: {
       palletId: PalletId & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    authorship: {
-      /**
-       * The number of blocks back we should accept uncles.
-       * This means that we will deal with uncle-parents that are
-       * `UncleGenerations + 1` before `now`.
-       **/
-      uncleGenerations: BlockNumber & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -115,23 +103,15 @@ declare module '@polkadot/api/types/consts' {
     };
     liquidStaking: {
       /**
-       * Currency used for liquid voucher
+       * The liquid voucher currency id.
        **/
       liquidCurrency: CurrencyId & AugmentedConst<ApiType>;
-      /**
-       * The maximum size of AccountProcessingUnstake
-       **/
-      maxAccountProcessingUnstake: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum assets can be withdrawed to a multisig account.
-       **/
-      maxWithdrawAmount: Balance & AugmentedConst<ApiType>;
       /**
        * The pallet id of liquid staking, keeps all the staking assets.
        **/
       palletId: PalletId & AugmentedConst<ApiType>;
       /**
-       * Currency used for staking
+       * The staking currency id.
        **/
       stakingCurrency: CurrencyId & AugmentedConst<ApiType>;
       /**
@@ -184,16 +164,6 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    ormlVesting: {
-      /**
-       * The minimum amount transferred to call `vested_transfer`.
-       **/
-      minVestedTransfer: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     prices: {
       /**
        * Currency used for liquid voucher
@@ -203,22 +173,6 @@ declare module '@polkadot/api/types/consts' {
        * Currency used for staking
        **/
       stakingCurrency: CurrencyId & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    scheduler: {
-      /**
-       * The maximum weight that may be scheduled per block for any dispatchables of less priority
-       * than `schedule::HARD_DEADLINE`.
-       **/
-      maximumWeight: Weight & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of scheduled calls in the queue for a single block.
-       * Not strictly enforced, but used for weight estimation.
-       **/
-      maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -258,19 +212,6 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    timestamp: {
-      /**
-       * The minimum period between blocks. Beware that this is different to the *expected* period
-       * that the block production apparatus provides. Your chosen consensus system will generally
-       * work with this to determine a sensible block time. e.g. For Aura, it will be double this
-       * period on default settings.
-       **/
-      minimumPeriod: Moment & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     tokens: {
       maxLocks: u32 & AugmentedConst<ApiType>;
       /**
@@ -287,37 +228,6 @@ declare module '@polkadot/api/types/consts' {
        * The polynomial that is applied in order to derive fee from weight.
        **/
       weightToFee: Vec<WeightToFeeCoefficient> & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    treasury: {
-      /**
-       * Percentage of spare funds (if any) that are burnt per spend period.
-       **/
-      burn: Permill & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of approvals that can wait in the spending queue.
-       **/
-      maxApprovals: u32 & AugmentedConst<ApiType>;
-      /**
-       * The treasury's pallet id, used for deriving its sovereign account ID.
-       **/
-      palletId: PalletId & AugmentedConst<ApiType>;
-      /**
-       * Fraction of a proposal's value that should be bonded in order to place the proposal.
-       * An accepted proposal gets these back. A rejected proposal does not.
-       **/
-      proposalBond: Permill & AugmentedConst<ApiType>;
-      /**
-       * Minimum amount of funds that should be placed in a deposit for making a proposal.
-       **/
-      proposalBondMinimum: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * Period between successive spends.
-       **/
-      spendPeriod: BlockNumber & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

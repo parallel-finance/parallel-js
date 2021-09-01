@@ -6,7 +6,7 @@ import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
 import type { VestingScheduleOf } from '@open-web3/orml-types/interfaces/vesting';
 import type { PoolLiquidityAmount } from '@parallel-finance/types/interfaces/amm';
-import type { UnstakeInfo } from '@parallel-finance/types/interfaces/liquidStaking';
+import type { MatchingLedger, StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
 import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
 import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, OracleKey, Releases, Slot, ValidatorId, Weight } from '@parallel-finance/types/interfaces/runtime';
@@ -20,6 +20,7 @@ import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
 import type { AbridgedHostConfiguration, CandidateInfo, MessageQueueChain, MessagingStateSnapshot, OutboundHrmpMessage, ParaId, PersistedValidationData, RelayBlockNumber, RelayChainBlockNumber, UpwardMessage } from '@polkadot/types/interfaces/parachains';
 import type { Scheduled, TaskAddress } from '@polkadot/types/interfaces/scheduler';
 import type { Keys, SessionIndex } from '@polkadot/types/interfaces/session';
+import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import type { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
@@ -39,7 +40,7 @@ export interface StorageType extends BaseStorageType {
     /**
      * A bag of liquidity composed by two different assets
      **/
-    pools: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, PoolLiquidityAmount>;
+    pools: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Option<PoolLiquidityAmount>>;
   };
   aura: {    /**
      * The current authority set.
@@ -251,48 +252,28 @@ export interface StorageType extends BaseStorageType {
     prime: Option<AccountId> | null;
   };
   liquidStaking: {    /**
-     * The queue stores all the pending unstaking requests.
-     * Key is the owner of assets.
-     **/
-    accountPendingUnstake: StorageMap<AccountId | string, Option<UnstakeInfo>>;
-    /**
-     * The queue stores all the unstaking requests in process.
-     * Key1 is the mutilsig agent in relaychain, key2 is the owner of assets.
-     **/
-    accountProcessingUnstake: StorageDoubleMap<AccountId | string, AccountId | string, Option<Vec<UnstakeInfo>>>;
-    /**
-     * The exchange rate converts staking native token to voucher.
+     * The exchange rate between relaychain native asset and the voucher.
      **/
     exchangeRate: Rate | null;
     /**
-     * Fraction of reward currently set aside for reserves
+     * Store total stake amount and unstake amount in each era,
+     * And will update when stake/unstake occurred.
      **/
-    reserveFactor: Ratio | null;
+    matchingPool: MatchingLedger | null;
     /**
-     * The total person-times of staking operations.
+     * Total amount of staked assets in relaycahin.
      **/
-    stakingPersonTimes: u128 | null;
+    stakingPool: BalanceOf | null;
     /**
-     * The total amount of reserve.
+     * Records reward or slash during each era.
      **/
-    totalReserve: Balance | null;
+    stakingSettlementRecords: StorageDoubleMap<EraIndex | AnyNumber, StakingSettlementKind | 'Reward'|'Slash' | number, Option<BalanceOf>>;
     /**
-     * The total amount of a staking asset.
+     * Manage which we should pay off to.
+     * 
+     * Insert a new record while user can't be paid instantly in unstaking operation.
      **/
-    totalStakingAsset: Balance | null;
-    /**
-     * The total amount of staking voucher.
-     **/
-    totalVoucher: Balance | null;
-  };
-  liquidStakingAgentMembership: {    /**
-     * The current membership, stored as an ordered Vec.
-     **/
-    members: Vec<AccountId> | null;
-    /**
-     * The current prime member, if one exists.
-     **/
-    prime: Option<AccountId> | null;
+    unstakeQueue: Vec<ITuple<[AccountId, BalanceOf]>> | null;
   };
   loans: {    /**
      * Mapping of account addresses to outstanding borrow balances
@@ -390,13 +371,6 @@ export interface StorageType extends BaseStorageType {
      * The current prime member, if one exists.
      **/
     prime: Option<AccountId> | null;
-  };
-  ormlVesting: {    /**
-     * Vesting schedules of an account.
-     * 
-     * VestingSchedules: map AccountId => Vec<VestingSchedule>
-     **/
-    vestingSchedules: StorageMap<AccountId | string, Vec<VestingScheduleOf>>;
   };
   parachainInfo: {    parachainId: ParaId | null;
   };
@@ -747,6 +721,13 @@ export interface StorageType extends BaseStorageType {
      * The current prime member, if one exists.
      **/
     prime: Option<AccountId> | null;
+  };
+  vesting: {    /**
+     * Vesting schedules of an account.
+     * 
+     * VestingSchedules: map AccountId => Vec<VestingSchedule>
+     **/
+    vestingSchedules: StorageMap<AccountId | string, Vec<VestingScheduleOf>>;
   };
   xcmpQueue: {    /**
      * Inbound aggregate XCMP messages. It can only be one per ParaId/block.
