@@ -63,7 +63,7 @@
         "totalWithdrawnRewards": "Compact<Balance>"
     },
     "Share": "u128",
-    "OracleValue": "PriceWithDecimal",
+    "OracleValue": "Price",
     "Deposits": {
         "voucherBalance": "Balance",
         "isCollateral": "bool"
@@ -164,9 +164,6 @@
     },
     "CurrencyIdOf": "CurrencyId",
     "Currency": "CurrencyId",
-    "PriceWithDecimal": {
-        "price": "Price",
-        "decimal": "u8"
-    },
-    "OracleKey": "CurrencyId"
+    "AssetIdOf": "AssetId",
+    "OracleKey": "AssetId"
 }

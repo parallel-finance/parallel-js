@@ -12,10 +12,6 @@ export default {
     },
     CurrencyIdOf: 'CurrencyId',
     Currency: 'CurrencyId',
-    Price: 'FixedU128',
-    PriceWithDecimal: {
-      price: 'Price',
-      decimal: 'u8'
-    }
+    AssetIdOf: 'AssetId'
   }
 };

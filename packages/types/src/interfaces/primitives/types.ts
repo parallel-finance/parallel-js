@@ -1,15 +1,19 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Struct, i128, u64, u8 } from '@polkadot/types';
+import type { Enum, i128, u64 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
-import type { FixedU128, Permill } from '@parallel-finance/types/interfaces/runtime';
+import type { Price } from '@open-web3/orml-types/interfaces/traits';
+import type { AssetId, FixedU128, Permill } from '@parallel-finance/types/interfaces/runtime';
 
 /** @name Amount */
 export interface Amount extends i128 {}
 
 /** @name AmountOf */
 export interface AmountOf extends Amount {}
+
+/** @name AssetIdOf */
+export interface AssetIdOf extends AssetId {}
 
 /** @name Currency */
 export interface Currency extends CurrencyId {}
@@ -28,17 +32,8 @@ export interface CurrencyId extends Enum {
 /** @name CurrencyIdOf */
 export interface CurrencyIdOf extends CurrencyId {}
 
-/** @name Price */
-export interface Price extends FixedU128 {}
-
 /** @name PriceDetail */
 export interface PriceDetail extends ITuple<[Price, Timestamp]> {}
-
-/** @name PriceWithDecimal */
-export interface PriceWithDecimal extends Struct {
-  readonly price: Price;
-  readonly decimal: u8;
-}
 
 /** @name Rate */
 export interface Rate extends FixedU128 {}

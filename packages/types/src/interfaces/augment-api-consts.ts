@@ -3,8 +3,8 @@
 
 import type { Vec, bool, u16, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
-import type { Balance, BalanceOf, BlockNumber, PalletId, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
+import type { Balance, BalanceOf, BlockNumber, BlockNumberFor, PalletId, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';
@@ -14,6 +14,10 @@ import type { ApiTypes } from '@polkadot/api/types';
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
     amm: {
+      /**
+       * A configuration flag to enable or disable the creation of new pools by "normal" users.
+       **/
+      allowPermissionlessPoolCreation: bool & AugmentedConst<ApiType>;
       palletId: PalletId & AugmentedConst<ApiType>;
       /**
        * Generic const
@@ -103,17 +107,21 @@ declare module '@polkadot/api/types/consts' {
     };
     liquidStaking: {
       /**
-       * The liquid voucher currency id.
+       * Base xcm transaction weight
        **/
-      liquidCurrency: CurrencyId & AugmentedConst<ApiType>;
+      baseXcmWeight: Weight & AugmentedConst<ApiType>;
       /**
        * The pallet id of liquid staking, keeps all the staking assets.
        **/
       palletId: PalletId & AugmentedConst<ApiType>;
       /**
-       * The staking currency id.
+       * Basis of period.
        **/
-      stakingCurrency: CurrencyId & AugmentedConst<ApiType>;
+      periodBasis: BlockNumberFor & AugmentedConst<ApiType>;
+      /**
+       * Account manages the staking assets.
+       **/
+      relayAgent: MultiLocation & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -159,20 +167,6 @@ declare module '@polkadot/api/types/consts' {
        * The maximum size of selected validators
        **/
       maxValidators: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    prices: {
-      /**
-       * Currency used for liquid voucher
-       **/
-      liquidCurrency: CurrencyId & AugmentedConst<ApiType>;
-      /**
-       * Currency used for staking
-       **/
-      stakingCurrency: CurrencyId & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

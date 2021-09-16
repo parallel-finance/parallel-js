@@ -4,11 +4,12 @@
 import type { Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
+import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { PoolLiquidityAmount } from '@parallel-finance/types/interfaces/amm';
 import type { MatchingLedger, StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
-import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
+import type { AssetIdOf, CurrencyId, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, AssetId, Balance, BalanceOf, BlockNumber, Hash, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
 import type { Votes } from '@polkadot/types/interfaces/collective';
 import type { ConfigData, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
@@ -212,16 +213,28 @@ declare module '@polkadot/api/types/storage' {
        **/
       exchangeRate: AugmentedQuery<ApiType, () => Observable<Rate>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * Liquid currency asset id
+       **/
+      liquidCurrency: AugmentedQuery<ApiType, () => Observable<Option<AssetIdOf>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * Store total stake amount and unstake amount in each era,
        * And will update when stake/unstake occurred.
        **/
       matchingPool: AugmentedQuery<ApiType, () => Observable<MatchingLedger>, []> & QueryableStorageEntry<ApiType, []>;
       /**
+       * Fraction of reward currently set aside for reserves
+       **/
+      reserveFactor: AugmentedQuery<ApiType, () => Observable<Ratio>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * Staking currency asset id
+       **/
+      stakingCurrency: AugmentedQuery<ApiType, () => Observable<Option<AssetIdOf>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * Total amount of staked assets in relaycahin.
        **/
       stakingPool: AugmentedQuery<ApiType, () => Observable<BalanceOf>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Records reward or slash during each era.
+       * Records reward or slash of era.
        **/
       stakingSettlementRecords: AugmentedQuery<ApiType, (arg1: EraIndex | AnyNumber | Uint8Array, arg2: StakingSettlementKind | 'Reward' | 'Slash' | number | Uint8Array) => Observable<Option<BalanceOf>>, [EraIndex, StakingSettlementKind]> & QueryableStorageEntry<ApiType, [EraIndex, StakingSettlementKind]>;
       /**
@@ -238,63 +251,63 @@ declare module '@polkadot/api/types/storage' {
     loans: {
       /**
        * Mapping of account addresses to outstanding borrow balances
-       * CurrencyType -> Owner -> BorrowSnapshot
+       * AssetId -> Owner -> BorrowSnapshot
        **/
-      accountBorrows: AugmentedQuery<ApiType, (arg1: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<BorrowSnapshot>, [CurrencyId, AccountId]> & QueryableStorageEntry<ApiType, [CurrencyId, AccountId]>;
+      accountBorrows: AugmentedQuery<ApiType, (arg1: AssetIdOf | AnyNumber | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<BorrowSnapshot>, [AssetIdOf, AccountId]> & QueryableStorageEntry<ApiType, [AssetIdOf, AccountId]>;
       /**
        * Mapping of account addresses to deposit details
        * CollateralType -> Owner -> Deposits
        **/
-      accountDeposits: AugmentedQuery<ApiType, (arg1: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<Deposits>, [CurrencyId, AccountId]> & QueryableStorageEntry<ApiType, [CurrencyId, AccountId]>;
+      accountDeposits: AugmentedQuery<ApiType, (arg1: AssetIdOf | AnyNumber | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<Deposits>, [AssetIdOf, AccountId]> & QueryableStorageEntry<ApiType, [AssetIdOf, AccountId]>;
       /**
        * Mapping of account addresses to total deposit interest accrual
-       * CurrencyType -> Owner -> EarnedSnapshot
+       * AssetId -> Owner -> EarnedSnapshot
        **/
-      accountEarned: AugmentedQuery<ApiType, (arg1: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<EarnedSnapshot>, [CurrencyId, AccountId]> & QueryableStorageEntry<ApiType, [CurrencyId, AccountId]>;
+      accountEarned: AugmentedQuery<ApiType, (arg1: AssetIdOf | AnyNumber | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<EarnedSnapshot>, [AssetIdOf, AccountId]> & QueryableStorageEntry<ApiType, [AssetIdOf, AccountId]>;
       /**
        * Accumulator of the total earned interest rate since the opening of the market
-       * CurrencyType -> u128
+       * AssetId -> u128
        **/
-      borrowIndex: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Rate>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      borrowIndex: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Rate>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Mapping of borrow rate to currency type
        **/
-      borrowRate: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Rate>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      borrowRate: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Rate>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * The exchange rate from the underlying to the internal collateral
        **/
-      exchangeRate: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Rate>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      exchangeRate: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Rate>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * The timestamp of the previous block or defaults to timestamp at genesis.
        **/
       lastBlockTimestamp: AugmentedQuery<ApiType, () => Observable<Timestamp>, []> & QueryableStorageEntry<ApiType, []>;
       /**
-       * Mapping of currency id to its market
+       * Mapping of asset id to its market
        **/
-      markets: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Option<Market>>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      markets: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Option<Market>>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Mapping of supply rate to currency type
        **/
-      supplyRate: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Rate>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      supplyRate: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Rate>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Total amount of outstanding borrows of the underlying in this market
-       * CurrencyType -> Balance
+       * AssetId -> Balance
        **/
-      totalBorrows: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Balance>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      totalBorrows: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<BalanceOf>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Total amount of reserves of the underlying held in this market
-       * CurrencyType -> Balance
+       * AssetId -> Balance
        **/
-      totalReserves: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Balance>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      totalReserves: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<BalanceOf>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Total number of collateral tokens in circulation
        * CollateralType -> Balance
        **/
-      totalSupply: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Balance>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      totalSupply: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<BalanceOf>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Borrow utilization ratio
        **/
-      utilizationRatio: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Ratio>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      utilizationRatio: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Ratio>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Generic query
        **/
@@ -329,15 +342,15 @@ declare module '@polkadot/api/types/storage' {
       /**
        * True if Self::values(key) is up to date, otherwise the value is stale
        **/
-      isUpdated: AugmentedQuery<ApiType, (arg: OracleKey | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<bool>, [OracleKey]> & QueryableStorageEntry<ApiType, [OracleKey]>;
+      isUpdated: AugmentedQuery<ApiType, (arg: OracleKey | AnyNumber | Uint8Array) => Observable<bool>, [OracleKey]> & QueryableStorageEntry<ApiType, [OracleKey]>;
       /**
        * Raw values for each oracle operators
        **/
-      rawValues: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: OracleKey | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Option<TimestampedValueOf>>, [AccountId, OracleKey]> & QueryableStorageEntry<ApiType, [AccountId, OracleKey]>;
+      rawValues: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: OracleKey | AnyNumber | Uint8Array) => Observable<Option<TimestampedValueOf>>, [AccountId, OracleKey]> & QueryableStorageEntry<ApiType, [AccountId, OracleKey]>;
       /**
        * Combined value, may not be up to date
        **/
-      values: AugmentedQuery<ApiType, (arg: OracleKey | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Option<TimestampedValueOf>>, [OracleKey]> & QueryableStorageEntry<ApiType, [OracleKey]>;
+      values: AugmentedQuery<ApiType, (arg: OracleKey | AnyNumber | Uint8Array) => Observable<Option<TimestampedValueOf>>, [OracleKey]> & QueryableStorageEntry<ApiType, [OracleKey]>;
       /**
        * Generic query
        **/
@@ -354,7 +367,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Mapping from currency id to it's emergency price
        **/
-      emergencyPrice: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Option<PriceWithDecimal>>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      emergencyPrice: AugmentedQuery<ApiType, (arg: AssetId | AnyNumber | Uint8Array) => Observable<Option<Price>>, [AssetId]> & QueryableStorageEntry<ApiType, [AssetId]>;
       /**
        * Generic query
        **/

@@ -12,7 +12,7 @@ import type { OrmlVestingSchedule, VestingScheduleOf } from '@open-web3/orml-typ
 import type { AmountEvaluation, PoolLiquidityAmount, SwapType } from '@parallel-finance/types/interfaces/amm';
 import type { MatchingLedger, StakingSettlementKind, UnstakeInfo } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Liquidity, Market, MarketState, Shortfall, ValidatorInfo, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
-import type { Amount, AmountOf, Currency, CurrencyId, CurrencyIdOf, PriceDetail, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
+import type { Amount, AmountOf, AssetIdOf, Currency, CurrencyId, CurrencyIdOf, PriceDetail, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
 import type { AccountId, AccountId20, AccountId32, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, BlockNumberFor, BlockNumberOf, Call, CallHash, CallHashOf, ChangesTrieConfiguration, ChangesTrieSignal, CodecHash, Consensus, ConsensusEngineId, Digest, DigestItem, EncodedJustification, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H32, H512, H64, Hash, Header, HeaderPartial, I32F32, Index, IndicesLookupSource, Justification, Justifications, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, MultiSigner, OpaqueCall, OracleKey, OracleValue, Origin, OriginCaller, PalletId, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, SignedBlockWithJustification, SignedBlockWithJustifications, Slot, StorageData, StorageProof, TransactionInfo, TransactionPriority, TransactionStorageProof, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@parallel-finance/types/interfaces/runtime';
 import type { AssetApproval, AssetApprovalKey, AssetBalance, AssetDestroyWitness, AssetDetails, AssetMetadata, TAssetBalance, TAssetDepositBalance } from '@polkadot/types/interfaces/assets';
 import type { BlockAttestations, IncludedBlocks, MoreAttestations } from '@polkadot/types/interfaces/attestations';
@@ -115,6 +115,7 @@ declare module '@polkadot/types/types/registry' {
     AssetDestroyWitness: AssetDestroyWitness;
     AssetDetails: AssetDetails;
     AssetId: AssetId;
+    AssetIdOf: AssetIdOf;
     AssetInstance: AssetInstance;
     AssetInstanceV0: AssetInstanceV0;
     AssetInstanceV1: AssetInstanceV1;
@@ -713,7 +714,6 @@ declare module '@polkadot/types/types/registry' {
     Prevotes: Prevotes;
     Price: Price;
     PriceDetail: PriceDetail;
-    PriceWithDecimal: PriceWithDecimal;
     Priority: Priority;
     PriorLock: PriorLock;
     PropIndex: PropIndex;

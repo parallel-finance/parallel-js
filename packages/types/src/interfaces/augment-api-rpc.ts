@@ -376,7 +376,7 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
       /**
        * Retrieves the oracle value for a given key.
        **/
-      getValue: AugmentedRpc<(providerId: RpcDataProviderId | string, key: OracleKey | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<TimestampedValue>>>;
+      getValue: AugmentedRpc<(providerId: RpcDataProviderId | string, key: OracleKey | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<TimestampedValue>>>;
     };
     payment: {
       /**
