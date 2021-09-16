@@ -3,7 +3,7 @@
 
 import type { Bytes, Compact, DoNotConstruct, Enum, GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericEthereumAccountId, GenericLookupSource, GenericMultiAddress, Int, Null, Option, StorageKey, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
-import type { CurrencyId, PriceWithDecimal } from '@parallel-finance/types/interfaces/primitives';
+import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { Signature } from '@polkadot/types/interfaces/extrinsics';
 import type { SystemOrigin } from '@polkadot/types/interfaces/system';
@@ -224,10 +224,10 @@ export interface MultiSigner extends Enum {
 export interface OpaqueCall extends Bytes {}
 
 /** @name OracleKey */
-export interface OracleKey extends CurrencyId {}
+export interface OracleKey extends AssetId {}
 
 /** @name OracleValue */
-export interface OracleValue extends PriceWithDecimal {}
+export interface OracleValue extends Price {}
 
 /** @name Origin */
 export interface Origin extends DoNotConstruct {}
@@ -332,15 +332,6 @@ export interface StorageData extends Bytes {}
 export interface StorageProof extends Struct {
   readonly trieNodes: Vec<Bytes>;
 }
-
-/** @name TimestampedValue */
-export interface TimestampedValue extends Struct {
-  readonly value: OracleValue;
-  readonly timestamp: Moment;
-}
-
-/** @name TimestampedValueOf */
-export interface TimestampedValueOf extends TimestampedValue {}
 
 /** @name TransactionInfo */
 export interface TransactionInfo extends Struct {

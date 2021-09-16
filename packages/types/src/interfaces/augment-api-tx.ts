@@ -3,10 +3,11 @@
 
 import type { Bytes, Compact, Option, U8aFixed, Vec, bool, u16, u32, u64 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
+import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { Market, ValidatorInfo } from '@parallel-finance/types/interfaces/loans';
-import type { AmountOf, CurrencyId, CurrencyIdOf, PriceWithDecimal } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { AmountOf, AssetIdOf, CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, AssetId, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { OverweightIndex } from '@polkadot/types/interfaces/cumulus';
 import type { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
@@ -25,13 +26,22 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * - `pool`: Currency pool, in which liquidity will be added
        * - `liquidity_amounts`: Liquidity amounts to be added in pool
+       * - `minimum_amounts`: specifying its "worst case" ratio when pool already exists
        **/
       addLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], minimumAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array]) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, ITuple<[Balance, Balance]>]>;
+      /**
+       * "force" the creation of a new pool by root
+       * 
+       * - `pool`: Currency pool, in which liquidity will be added
+       * - `liquidity_amounts`: Liquidity amounts to be added in pool
+       * - `lptoken_receiver`: Allocate any liquidity tokens to lptoken_receiver
+       **/
+      forceCreatePool: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], lptokenReceiver: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, AccountId]>;
       /**
        * Allow users to remove liquidity from a given pool
        * 
        * - `pool`: Currency pool, in which liquidity will be removed
-       * - `liquidity_amounts`: Liquidity amounts to be removed from pool
+       * - `ownership_to_remove`: Ownership to be removed from user's ownership
        **/
       removeLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array], ownershipToRemove: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, Balance]>;
       /**
@@ -671,6 +681,14 @@ declare module '@polkadot/api/types/submittable' {
        **/
       recordStakingSettlement: AugmentedSubmittable<(eraIndex: EraIndex | AnyNumber | Uint8Array, amount: Compact<BalanceOf> | AnyNumber | Uint8Array, kind: StakingSettlementKind | 'Reward' | 'Slash' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [EraIndex, Compact<BalanceOf>, StakingSettlementKind]>;
       /**
+       * set liquid currency via governance
+       **/
+      setLiquidCurrency: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf]>;
+      /**
+       * set staking currency via governance
+       **/
+      setStakingCurrency: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf]>;
+      /**
        * Do settlement for matching pool.
        * 
        * Calculate the imbalance of current state and send corresponding operations to
@@ -678,7 +696,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * NOTE: currently it finished by stake-client.
        **/
-      settlement: AugmentedSubmittable<(unbondingAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [BalanceOf]>;
+      settlement: AugmentedSubmittable<(unbondingAmount: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>]>;
       /**
        * Put assets under staking, the native assets will be transferred to the account
        * owned by the pallet, user receive derivative in return, such derivative can be
@@ -686,7 +704,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * - `amount`: the amount of staking assets
        **/
-      stake: AugmentedSubmittable<(amount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [BalanceOf]>;
+      stake: AugmentedSubmittable<(amount: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>]>;
       /**
        * Unstake by exchange derivative for assets, the assets will not be avaliable immediately.
        * Instead, the request is recorded and pending for the nomination accounts in relay
@@ -694,7 +712,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * - `amount`: the amount of derivative
        **/
-      unstake: AugmentedSubmittable<(liquidAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [BalanceOf]>;
+      unstake: AugmentedSubmittable<(liquidAmount: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<BalanceOf>]>;
       /**
        * Generic tx
        **/
@@ -706,9 +724,9 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * If the market is already activated, does nothing.
        * 
-       * - `currency_id`: Market related currency
+       * - `asset_id`: Market related currency
        **/
-      activeMarket: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId]>;
+      activeMarket: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf]>;
       /**
        * Stores a new market and its related currency. Returns `Err` if a currency
        * is not attached to an existent market.
@@ -718,34 +736,34 @@ declare module '@polkadot/api/types/submittable' {
        * If a currency is already attached to a market, then the market will be replaced
        * by the new provided value.
        * 
-       * - `currency_id`: Market related currency
+       * - `asset_id`: Market related currency
        * - `market`: The market that is going to be stored
        **/
-      addMarket: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Market]>;
+      addMarket: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, Market]>;
       /**
        * Add reserves by transferring from payer.
        * 
        * May only be called from `T::ReserveOrigin`.
        * 
        * - `payer`: the payer account.
-       * - `currency_id`: the assets to be added.
+       * - `asset_id`: the assets to be added.
        * - `add_amount`: the amount to be added.
        **/
-      addReserves: AugmentedSubmittable<(payer: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, addAmount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyId, Balance]>;
+      addReserves: AugmentedSubmittable<(payer: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, assetId: AssetIdOf | AnyNumber | Uint8Array, addAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, AssetIdOf, BalanceOf]>;
       /**
        * Sender borrows assets from the protocol to their own address.
        * 
-       * - `currency_id`: the asset to be borrowed.
+       * - `asset_id`: the asset to be borrowed.
        * - `borrow_amount`: the amount to be borrowed.
        **/
-      borrow: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, borrowAmount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Balance]>;
+      borrow: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, borrowAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, BalanceOf]>;
       /**
        * Set the collateral asset.
        * 
-       * - `currency_id`: the asset to be set.
+       * - `asset_id`: the asset to be set.
        * - `enable`: turn on/off the collateral option.
        **/
-      collateralAsset: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, enable: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, bool]>;
+      collateralAsset: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, enable: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, bool]>;
       /**
        * The sender liquidates the borrower's collateral.
        * 
@@ -754,63 +772,59 @@ declare module '@polkadot/api/types/submittable' {
        * - `repay_amount`: the amount to be repaid borrow.
        * - `collateral_token`: The collateral to seize from the borrower.
        **/
-      liquidateBorrow: AugmentedSubmittable<(borrower: AccountId | string | Uint8Array, liquidateToken: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, repayAmount: Balance | AnyNumber | Uint8Array, collateralToken: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, CurrencyId, Balance, CurrencyId]>;
+      liquidateBorrow: AugmentedSubmittable<(borrower: AccountId | string | Uint8Array, liquidateToken: AssetIdOf | AnyNumber | Uint8Array, repayAmount: BalanceOf | AnyNumber | Uint8Array, collateralToken: AssetIdOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, AssetIdOf, BalanceOf, AssetIdOf]>;
       /**
        * Sender supplies assets into the market and receives internal supplies in exchange.
        * 
-       * - `currency_id`: the asset to be deposited.
+       * - `asset_id`: the asset to be deposited.
        * - `mint_amount`: the amount to be deposited.
        **/
-      mint: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, mintAmount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Balance]>;
+      mint: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, mintAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, BalanceOf]>;
       /**
        * Sender redeems some of internal supplies in exchange for the underlying asset.
        * 
-       * - `currency_id`: the asset to be redeemed.
+       * - `asset_id`: the asset to be redeemed.
        * - `redeem_amount`: the amount to be redeemed.
        **/
-      redeem: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, redeemAmount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Balance]>;
+      redeem: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, redeemAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, BalanceOf]>;
       /**
        * Sender redeems all of internal supplies in exchange for the underlying asset.
        * 
-       * - `currency_id`: the asset to be redeemed.
+       * - `asset_id`: the asset to be redeemed.
        **/
-      redeemAll: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId]>;
+      redeemAll: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf]>;
       /**
        * Reduces reserves by transferring to receiver.
        * 
        * May only be called from `T::ReserveOrigin`.
        * 
        * - `receiver`: the receiver account.
-       * - `currency_id`: the assets to be reduced.
+       * - `asset_id`: the assets to be reduced.
        * - `reduce_amount`: the amount to be reduced.
        **/
-      reduceReserves: AugmentedSubmittable<(receiver: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, reduceAmount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyId, Balance]>;
+      reduceReserves: AugmentedSubmittable<(receiver: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, assetId: AssetIdOf | AnyNumber | Uint8Array, reduceAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, AssetIdOf, BalanceOf]>;
       /**
        * Sender repays some of their debts.
        * 
-       * - `currency_id`: the asset to be repaid.
+       * - `asset_id`: the asset to be repaid.
        * - `repay_amount`: the amount to be repaid.
        **/
-      repayBorrow: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, repayAmount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Balance]>;
+      repayBorrow: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, repayAmount: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, BalanceOf]>;
       /**
        * Sender repays all of their debts.
        * 
-       * - `currency_id`: the asset to be repaid.
+       * - `asset_id`: the asset to be repaid.
        **/
-      repayBorrowAll: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId]>;
-      /**
-       * Using for development
-       **/
-      transferToken: AugmentedSubmittable<(to: AccountId | string | Uint8Array, currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, amount: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, CurrencyId, Balance]>;
+      repayBorrowAll: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf]>;
       /**
        * Updates a stored market. Returns `Err` if the market currency does not exist.
        * 
        * Market state won't be modified, regardless of the provided value.
        * 
-       * - `currency_id`: Market related currency
+       * - `asset_id`: Market related currency
        * - `market`: The new market parameters
        **/
-      updateMarket: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Market]>;
+      updateMarket: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, Market]>;
       /**
        * Generic tx
        **/
@@ -976,7 +990,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * Require authorized operator.
        **/
-      feedValues: AugmentedSubmittable<(values: Vec<ITuple<[OracleKey, OracleValue]>> | ([OracleKey | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, OracleValue | { price?: any; decimal?: any } | string | Uint8Array])[]) => SubmittableExtrinsic<ApiType>, [Vec<ITuple<[OracleKey, OracleValue]>>]>;
+      feedValues: AugmentedSubmittable<(values: Vec<ITuple<[OracleKey, OracleValue]>> | ([OracleKey | AnyNumber | Uint8Array, OracleValue | AnyNumber | Uint8Array])[]) => SubmittableExtrinsic<ApiType>, [Vec<ITuple<[OracleKey, OracleValue]>>]>;
       /**
        * Generic tx
        **/
@@ -1050,11 +1064,11 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Reset emergency price
        **/
-      resetPrice: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId]>;
+      resetPrice: AugmentedSubmittable<(assetId: AssetId | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetId]>;
       /**
        * Set emergency price
        **/
-      setPrice: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, price: PriceWithDecimal | { price?: any; decimal?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, PriceWithDecimal]>;
+      setPrice: AugmentedSubmittable<(assetId: AssetId | AnyNumber | Uint8Array, price: Price | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetId, Price]>;
       /**
        * Generic tx
        **/

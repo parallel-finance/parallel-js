@@ -4,12 +4,14 @@
 import type { BTreeMap, Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
+import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { VestingScheduleOf } from '@open-web3/orml-types/interfaces/vesting';
 import type { PoolLiquidityAmount } from '@parallel-finance/types/interfaces/amm';
 import type { MatchingLedger, StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
-import type { CurrencyId, PriceWithDecimal, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, OracleKey, Releases, Slot, ValidatorId, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { AssetIdOf, CurrencyId, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, AssetId, Balance, BalanceOf, BlockNumber, Hash, KeyTypeId, Moment, OpaqueCall, OracleKey, Releases, Slot, ValidatorId, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { AssetApproval, AssetBalance, AssetDetails, AssetMetadata } from '@polkadot/types/interfaces/assets';
 import type { UncleEntryItem } from '@polkadot/types/interfaces/authorship';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
 import type { ProposalIndex, Votes } from '@polkadot/types/interfaces/collective';
@@ -41,6 +43,25 @@ export interface StorageType extends BaseStorageType {
      * A bag of liquidity composed by two different assets
      **/
     pools: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Option<PoolLiquidityAmount>>;
+  };
+  assets: {    /**
+     * The number of units of assets held by any given account.
+     **/
+    account: StorageDoubleMap<AssetId | AnyNumber, AccountId | string, AssetBalance>;
+    /**
+     * Approved balance transfers. First balance is the amount approved for transfer. Second
+     * is the amount of `T::Currency` reserved for storing this.
+     * First key is the asset ID, second key is the owner and third key is the delegate.
+     **/
+    approvals: Option<AssetApproval> | null;
+    /**
+     * Details of an asset.
+     **/
+    asset: StorageMap<AssetId | AnyNumber, Option<AssetDetails>>;
+    /**
+     * Metadata of an asset.
+     **/
+    metadata: StorageMap<AssetId | AnyNumber, AssetMetadata>;
   };
   aura: {    /**
      * The current authority set.
@@ -256,16 +277,28 @@ export interface StorageType extends BaseStorageType {
      **/
     exchangeRate: Rate | null;
     /**
+     * Liquid currency asset id
+     **/
+    liquidCurrency: Option<AssetIdOf> | null;
+    /**
      * Store total stake amount and unstake amount in each era,
      * And will update when stake/unstake occurred.
      **/
     matchingPool: MatchingLedger | null;
     /**
+     * Fraction of reward currently set aside for reserves
+     **/
+    reserveFactor: Ratio | null;
+    /**
+     * Staking currency asset id
+     **/
+    stakingCurrency: Option<AssetIdOf> | null;
+    /**
      * Total amount of staked assets in relaycahin.
      **/
     stakingPool: BalanceOf | null;
     /**
-     * Records reward or slash during each era.
+     * Records reward or slash of era.
      **/
     stakingSettlementRecords: StorageDoubleMap<EraIndex | AnyNumber, StakingSettlementKind | 'Reward'|'Slash' | number, Option<BalanceOf>>;
     /**
@@ -277,63 +310,63 @@ export interface StorageType extends BaseStorageType {
   };
   loans: {    /**
      * Mapping of account addresses to outstanding borrow balances
-     * CurrencyType -> Owner -> BorrowSnapshot
+     * AssetId -> Owner -> BorrowSnapshot
      **/
-    accountBorrows: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, AccountId | string, BorrowSnapshot>;
+    accountBorrows: StorageDoubleMap<AssetIdOf | AnyNumber, AccountId | string, BorrowSnapshot>;
     /**
      * Mapping of account addresses to deposit details
      * CollateralType -> Owner -> Deposits
      **/
-    accountDeposits: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, AccountId | string, Deposits>;
+    accountDeposits: StorageDoubleMap<AssetIdOf | AnyNumber, AccountId | string, Deposits>;
     /**
      * Mapping of account addresses to total deposit interest accrual
-     * CurrencyType -> Owner -> EarnedSnapshot
+     * AssetId -> Owner -> EarnedSnapshot
      **/
-    accountEarned: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, AccountId | string, EarnedSnapshot>;
+    accountEarned: StorageDoubleMap<AssetIdOf | AnyNumber, AccountId | string, EarnedSnapshot>;
     /**
      * Accumulator of the total earned interest rate since the opening of the market
-     * CurrencyType -> u128
+     * AssetId -> u128
      **/
-    borrowIndex: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Rate>;
+    borrowIndex: StorageMap<AssetIdOf | AnyNumber, Rate>;
     /**
      * Mapping of borrow rate to currency type
      **/
-    borrowRate: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Rate>;
+    borrowRate: StorageMap<AssetIdOf | AnyNumber, Rate>;
     /**
      * The exchange rate from the underlying to the internal collateral
      **/
-    exchangeRate: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Rate>;
+    exchangeRate: StorageMap<AssetIdOf | AnyNumber, Rate>;
     /**
      * The timestamp of the previous block or defaults to timestamp at genesis.
      **/
     lastBlockTimestamp: Timestamp | null;
     /**
-     * Mapping of currency id to its market
+     * Mapping of asset id to its market
      **/
-    markets: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Option<Market>>;
+    markets: StorageMap<AssetIdOf | AnyNumber, Option<Market>>;
     /**
      * Mapping of supply rate to currency type
      **/
-    supplyRate: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Rate>;
+    supplyRate: StorageMap<AssetIdOf | AnyNumber, Rate>;
     /**
      * Total amount of outstanding borrows of the underlying in this market
-     * CurrencyType -> Balance
+     * AssetId -> Balance
      **/
-    totalBorrows: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Balance>;
+    totalBorrows: StorageMap<AssetIdOf | AnyNumber, BalanceOf>;
     /**
      * Total amount of reserves of the underlying held in this market
-     * CurrencyType -> Balance
+     * AssetId -> Balance
      **/
-    totalReserves: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Balance>;
+    totalReserves: StorageMap<AssetIdOf | AnyNumber, BalanceOf>;
     /**
      * Total number of collateral tokens in circulation
      * CollateralType -> Balance
      **/
-    totalSupply: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Balance>;
+    totalSupply: StorageMap<AssetIdOf | AnyNumber, BalanceOf>;
     /**
      * Borrow utilization ratio
      **/
-    utilizationRatio: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Ratio>;
+    utilizationRatio: StorageMap<AssetIdOf | AnyNumber, Ratio>;
   };
   multisig: {    calls: StorageMap<U8aFixed | string, Option<ITuple<[OpaqueCall, AccountId, BalanceOf]>>>;
     /**
@@ -353,15 +386,15 @@ export interface StorageType extends BaseStorageType {
     /**
      * True if Self::values(key) is up to date, otherwise the value is stale
      **/
-    isUpdated: StorageMap<OracleKey | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, bool>;
+    isUpdated: StorageMap<OracleKey | AnyNumber, bool>;
     /**
      * Raw values for each oracle operators
      **/
-    rawValues: StorageDoubleMap<AccountId | string, OracleKey | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Option<TimestampedValueOf>>;
+    rawValues: StorageDoubleMap<AccountId | string, OracleKey | AnyNumber, Option<TimestampedValueOf>>;
     /**
      * Combined value, may not be up to date
      **/
-    values: StorageMap<OracleKey | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Option<TimestampedValueOf>>;
+    values: StorageMap<OracleKey | AnyNumber, Option<TimestampedValueOf>>;
   };
   oracleMembership: {    /**
      * The current membership, stored as an ordered Vec.
@@ -490,7 +523,7 @@ export interface StorageType extends BaseStorageType {
   prices: {    /**
      * Mapping from currency id to it's emergency price
      **/
-    emergencyPrice: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Option<PriceWithDecimal>>;
+    emergencyPrice: StorageMap<AssetId | AnyNumber, Option<Price>>;
   };
   scheduler: {    /**
      * Items to be executed, indexed by the block number that they should be executed on.
