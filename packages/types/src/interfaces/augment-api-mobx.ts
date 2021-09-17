@@ -42,7 +42,7 @@ export interface StorageType extends BaseStorageType {
     /**
      * A bag of liquidity composed by two different assets
      **/
-    pools: StorageDoubleMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Option<PoolLiquidityAmount>>;
+    pools: StorageDoubleMap<CurrencyId | AnyNumber, CurrencyId | AnyNumber, Option<PoolLiquidityAmount>>;
   };
   assets: {    /**
      * The number of units of assets held by any given account.
@@ -704,16 +704,16 @@ export interface StorageType extends BaseStorageType {
      * NOTE: This is only used in the case that this module is used to store
      * balances.
      **/
-    accounts: StorageDoubleMap<AccountId | string, CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, AccountData>;
+    accounts: StorageDoubleMap<AccountId | string, CurrencyId | AnyNumber, AccountData>;
     /**
      * Any liquidity locks of a token type under an account.
      * NOTE: Should only be accessed when setting, changing and freeing a lock.
      **/
-    locks: StorageDoubleMap<AccountId | string, CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Vec<BalanceLock>>;
+    locks: StorageDoubleMap<AccountId | string, CurrencyId | AnyNumber, Vec<BalanceLock>>;
     /**
      * The total issuance of a token type.
      **/
-    totalIssuance: StorageMap<CurrencyId | 'DOT'|'KSM'|'USDT'|'xDOT'|'xKSM'|'HKO'|'PARA' | number, Balance>;
+    totalIssuance: StorageMap<CurrencyId | AnyNumber, Balance>;
   };
   transactionPayment: {    nextFeeMultiplier: Multiplier | null;
     storageVersion: Releases | null;
@@ -737,14 +737,14 @@ export interface StorageType extends BaseStorageType {
      * 
      * double_map: who, asset_id => u128
      **/
-    abstractFungibleBalances: StorageDoubleMap<MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string, Bytes | string, u128>;
+    abstractFungibleBalances: StorageDoubleMap<MultiLocation | { parents?: any; interior?: any } | string, Bytes | string, u128>;
     /**
      * Concrete fungible balances under a given location and a concrete
      * fungible id.
      * 
      * double_map: who, asset_id => u128
      **/
-    concreteFungibleBalances: StorageDoubleMap<MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string, MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string, u128>;
+    concreteFungibleBalances: StorageDoubleMap<MultiLocation | { parents?: any; interior?: any } | string, MultiLocation | { parents?: any; interior?: any } | string, u128>;
   };
   validatorFeedersMembership: {    /**
      * The current membership, stored as an ordered Vec.

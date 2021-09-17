@@ -58,7 +58,7 @@ const metadata = filterModules(
     'Balances',
     'TransactionPayment',
     'Sudo',
-    'Democracy',
+    // 'Democracy',
     'GeneralCouncil',
     'TechnicalCommittee',
     'ParachainInfo',

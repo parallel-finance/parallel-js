@@ -13,8 +13,7 @@ import type { AccountId, AssetId, Balance, BalanceOf, BlockNumber, Hash, OpaqueC
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
 import type { Votes } from '@polkadot/types/interfaces/collective';
 import type { ConfigData, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
-import type { PreimageStatus, PropIndex, Proposal, ReferendumIndex, ReferendumInfo, Voting } from '@polkadot/types/interfaces/democracy';
-import type { VoteThreshold } from '@polkadot/types/interfaces/elections';
+import type { Proposal } from '@polkadot/types/interfaces/democracy';
 import type { ParaId, RelayBlockNumber } from '@polkadot/types/interfaces/parachains';
 import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
@@ -33,11 +32,11 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Accounts that deposits and withdraw assets in one or more pools
        **/
-      liquidityProviders: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, arg3: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<PoolLiquidityAmount>, [AccountId, CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId, CurrencyId]>;
+      liquidityProviders: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | AnyNumber | Uint8Array, arg3: CurrencyId | AnyNumber | Uint8Array) => Observable<PoolLiquidityAmount>, [AccountId, CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId, CurrencyId]>;
       /**
        * A bag of liquidity composed by two different assets
        **/
-      pools: AugmentedQuery<ApiType, (arg1: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, arg2: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Option<PoolLiquidityAmount>>, [CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId, CurrencyId]>;
+      pools: AugmentedQuery<ApiType, (arg1: CurrencyId | AnyNumber | Uint8Array, arg2: CurrencyId | AnyNumber | Uint8Array) => Observable<Option<PoolLiquidityAmount>>, [CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId, CurrencyId]>;
       /**
        * Generic query
        **/
@@ -69,87 +68,6 @@ declare module '@polkadot/api/types/storage' {
        * The total units issued in the system.
        **/
       totalIssuance: AugmentedQuery<ApiType, () => Observable<Balance>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
-    democracy: {
-      /**
-       * A record of who vetoed what. Maps proposal hash to a possible existent block number
-       * (until when it may not be resubmitted) and who vetoed it.
-       **/
-      blacklist: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<ITuple<[BlockNumber, Vec<AccountId>]>>>, [Hash]> & QueryableStorageEntry<ApiType, [Hash]>;
-      /**
-       * Record of all proposals that have been subject to emergency cancellation.
-       **/
-      cancellations: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<bool>, [Hash]> & QueryableStorageEntry<ApiType, [Hash]>;
-      /**
-       * Those who have locked a deposit.
-       * 
-       * TWOX-NOTE: Safe, as increasing integer keys are safe.
-       **/
-      depositOf: AugmentedQuery<ApiType, (arg: PropIndex | AnyNumber | Uint8Array) => Observable<Option<ITuple<[Vec<AccountId>, BalanceOf]>>>, [PropIndex]> & QueryableStorageEntry<ApiType, [PropIndex]>;
-      /**
-       * True if the last referendum tabled was submitted externally. False if it was a public
-       * proposal.
-       **/
-      lastTabledWasExternal: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Accounts for which there are locks in action which may be removed at some point in the
-       * future. The value is the block number at which the lock expires and may be removed.
-       * 
-       * TWOX-NOTE: OK ― `AccountId` is a secure hash.
-       **/
-      locks: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Option<BlockNumber>>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
-      /**
-       * The lowest referendum index representing an unbaked referendum. Equal to
-       * `ReferendumCount` if there isn't a unbaked referendum.
-       **/
-      lowestUnbaked: AugmentedQuery<ApiType, () => Observable<ReferendumIndex>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * The referendum to be tabled whenever it would be valid to table an external proposal.
-       * This happens when a referendum needs to be tabled and one of two conditions are met:
-       * - `LastTabledWasExternal` is `false`; or
-       * - `PublicProps` is empty.
-       **/
-      nextExternal: AugmentedQuery<ApiType, () => Observable<Option<ITuple<[Hash, VoteThreshold]>>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Map of hashes to the proposal preimage, along with who registered it and their deposit.
-       * The block number is the block at which it was deposited.
-       **/
-      preimages: AugmentedQuery<ApiType, (arg: Hash | string | Uint8Array) => Observable<Option<PreimageStatus>>, [Hash]> & QueryableStorageEntry<ApiType, [Hash]>;
-      /**
-       * The number of (public) proposals that have been made so far.
-       **/
-      publicPropCount: AugmentedQuery<ApiType, () => Observable<PropIndex>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * The public proposals. Unsorted. The second item is the proposal's hash.
-       **/
-      publicProps: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[PropIndex, Hash, AccountId]>>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * The next free referendum index, aka the number of referenda started so far.
-       **/
-      referendumCount: AugmentedQuery<ApiType, () => Observable<ReferendumIndex>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Information concerning any given referendum.
-       * 
-       * TWOX-NOTE: SAFE as indexes are not under an attacker’s control.
-       **/
-      referendumInfoOf: AugmentedQuery<ApiType, (arg: ReferendumIndex | AnyNumber | Uint8Array) => Observable<Option<ReferendumInfo>>, [ReferendumIndex]> & QueryableStorageEntry<ApiType, [ReferendumIndex]>;
-      /**
-       * Storage version of the pallet.
-       * 
-       * New networks start with last version.
-       **/
-      storageVersion: AugmentedQuery<ApiType, () => Observable<Option<Releases>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * All votes for a particular voter. We store the balance for the number of votes that we
-       * have recorded. The second item is the total amount of delegations, that will be added.
-       * 
-       * TWOX-NOTE: SAFE as `AccountId`s are crypto hashes anyway.
-       **/
-      votingOf: AugmentedQuery<ApiType, (arg: AccountId | string | Uint8Array) => Observable<Voting>, [AccountId]> & QueryableStorageEntry<ApiType, [AccountId]>;
       /**
        * Generic query
        **/
@@ -502,16 +420,16 @@ declare module '@polkadot/api/types/storage' {
        * NOTE: This is only used in the case that this module is used to store
        * balances.
        **/
-      accounts: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<AccountData>, [AccountId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId]>;
+      accounts: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | AnyNumber | Uint8Array) => Observable<AccountData>, [AccountId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId]>;
       /**
        * Any liquidity locks of a token type under an account.
        * NOTE: Should only be accessed when setting, changing and freeing a lock.
        **/
-      locks: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Vec<BalanceLock>>, [AccountId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId]>;
+      locks: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | AnyNumber | Uint8Array) => Observable<Vec<BalanceLock>>, [AccountId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId]>;
       /**
        * The total issuance of a token type.
        **/
-      totalIssuance: AugmentedQuery<ApiType, (arg: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array) => Observable<Balance>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
+      totalIssuance: AugmentedQuery<ApiType, (arg: CurrencyId | AnyNumber | Uint8Array) => Observable<Balance>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
       /**
        * Generic query
        **/
@@ -532,14 +450,14 @@ declare module '@polkadot/api/types/storage' {
        * 
        * double_map: who, asset_id => u128
        **/
-      abstractFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, arg2: Bytes | string | Uint8Array) => Observable<u128>, [MultiLocation, Bytes]> & QueryableStorageEntry<ApiType, [MultiLocation, Bytes]>;
+      abstractFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, arg2: Bytes | string | Uint8Array) => Observable<u128>, [MultiLocation, Bytes]> & QueryableStorageEntry<ApiType, [MultiLocation, Bytes]>;
       /**
        * Concrete fungible balances under a given location and a concrete
        * fungible id.
        * 
        * double_map: who, asset_id => u128
        **/
-      concreteFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, arg2: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array) => Observable<u128>, [MultiLocation, MultiLocation]> & QueryableStorageEntry<ApiType, [MultiLocation, MultiLocation]>;
+      concreteFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, arg2: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array) => Observable<u128>, [MultiLocation, MultiLocation]> & QueryableStorageEntry<ApiType, [MultiLocation, MultiLocation]>;
       /**
        * Generic query
        **/

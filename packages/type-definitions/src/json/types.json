@@ -57,10 +57,16 @@
         "perPeriod": "Compact<Balance>"
     },
     "VestingScheduleOf": "OrmlVestingSchedule",
+    "OrmlCurrencyId": "u8",
     "PoolInfo": {
+        "totalShares": "Share",
+        "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+    },
+    "CompactBalance": "Compact<Balance>",
+    "PoolInfoV0": {
         "totalShares": "Compact<Share>",
-        "totalRewards": "Compact<Balance>",
-        "totalWithdrawnRewards": "Compact<Balance>"
+        "totalRewards": "CompactBalance",
+        "totalWithdrawnRewards": "CompactBalance"
     },
     "Share": "u128",
     "OracleValue": "Price",
@@ -151,17 +157,7 @@
     "Ratio": "Permill",
     "Timestamp": "u64",
     "PriceDetail": "(Price, Timestamp)",
-    "CurrencyId": {
-        "_enum": [
-            "DOT",
-            "KSM",
-            "USDT",
-            "xDOT",
-            "xKSM",
-            "HKO",
-            "PARA"
-        ]
-    },
+    "CurrencyId": "AssetId",
     "CurrencyIdOf": "CurrencyId",
     "Currency": "CurrencyId",
     "AssetIdOf": "AssetId",

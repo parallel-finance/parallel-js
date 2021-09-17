@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, i128, u64 } from '@polkadot/types';
+import type { i128, u64 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { AssetId, Balance, FixedU128, Permill } from '@parallel-finance/types/interfaces/runtime';
@@ -19,15 +19,7 @@ export interface AssetIdOf extends AssetId {}
 export interface Currency extends CurrencyId {}
 
 /** @name CurrencyId */
-export interface CurrencyId extends Enum {
-  readonly isDot: boolean;
-  readonly isKsm: boolean;
-  readonly isUsdt: boolean;
-  readonly isXDot: boolean;
-  readonly isXKsm: boolean;
-  readonly isHko: boolean;
-  readonly isPara: boolean;
-}
+export interface CurrencyId extends AssetId {}
 
 /** @name CurrencyIdOf */
 export interface CurrencyIdOf extends CurrencyId {}

@@ -50,61 +50,6 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    democracy: {
-      /**
-       * Period in blocks where an external proposal may not be re-submitted after being vetoed.
-       **/
-      cooloffPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The minimum period of locking and the period between a proposal being approved and enacted.
-       * 
-       * It should generally be a little more than the unstake period to ensure that
-       * voting stakers have an opportunity to remove themselves from the system in the case where
-       * they are on the losing side of a vote.
-       **/
-      enactmentPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * Minimum voting period allowed for a fast-track referendum.
-       **/
-      fastTrackVotingPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * Indicator for whether an emergency origin is even allowed to happen. Some chains may want
-       * to set this permanently to `false`, others may want to condition it on things such as
-       * an upgrade having happened recently.
-       **/
-      instantAllowed: bool & AugmentedConst<ApiType>;
-      /**
-       * How often (in blocks) new public referenda are launched.
-       **/
-      launchPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of public proposals that can exist at any time.
-       **/
-      maxProposals: u32 & AugmentedConst<ApiType>;
-      /**
-       * The maximum number of votes for an account.
-       * 
-       * Also used to compute weight, an overly big value can
-       * lead to extrinsic with very big weight: see `delegate` for instance.
-       **/
-      maxVotes: u32 & AugmentedConst<ApiType>;
-      /**
-       * The minimum amount to be used as a deposit for a public referendum proposal.
-       **/
-      minimumDeposit: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * The amount of balance that must be deposited per byte of preimage stored.
-       **/
-      preimageByteDeposit: BalanceOf & AugmentedConst<ApiType>;
-      /**
-       * How often (in blocks) to check for new votes.
-       **/
-      votingPeriod: BlockNumber & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     liquidStaking: {
       /**
        * Base xcm transaction weight

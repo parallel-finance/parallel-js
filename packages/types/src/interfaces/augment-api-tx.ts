@@ -7,10 +7,10 @@ import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { Market, ValidatorInfo } from '@parallel-finance/types/interfaces/loans';
 import type { AmountOf, AssetIdOf, CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, AssetId, Balance, BalanceOf, BlockNumber, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { AccountId, AssetId, Balance, BalanceOf, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { OverweightIndex } from '@polkadot/types/interfaces/cumulus';
-import type { AccountVote, Conviction, PropIndex, Proposal, ReferendumIndex } from '@polkadot/types/interfaces/democracy';
+import type { Proposal } from '@polkadot/types/interfaces/democracy';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { Key } from '@polkadot/types/interfaces/system';
@@ -28,7 +28,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `liquidity_amounts`: Liquidity amounts to be added in pool
        * - `minimum_amounts`: specifying its "worst case" ratio when pool already exists
        **/
-      addLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], minimumAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array]) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, ITuple<[Balance, Balance]>]>;
+      addLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | AnyNumber | Uint8Array, CurrencyId | AnyNumber | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], minimumAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array]) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, ITuple<[Balance, Balance]>]>;
       /**
        * "force" the creation of a new pool by root
        * 
@@ -36,14 +36,14 @@ declare module '@polkadot/api/types/submittable' {
        * - `liquidity_amounts`: Liquidity amounts to be added in pool
        * - `lptoken_receiver`: Allocate any liquidity tokens to lptoken_receiver
        **/
-      forceCreatePool: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], lptokenReceiver: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, AccountId]>;
+      forceCreatePool: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | AnyNumber | Uint8Array, CurrencyId | AnyNumber | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], lptokenReceiver: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, AccountId]>;
       /**
        * Allow users to remove liquidity from a given pool
        * 
        * - `pool`: Currency pool, in which liquidity will be removed
        * - `ownership_to_remove`: Ownership to be removed from user's ownership
        **/
-      removeLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array], ownershipToRemove: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, Balance]>;
+      removeLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | AnyNumber | Uint8Array, CurrencyId | AnyNumber | Uint8Array], ownershipToRemove: Balance | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, Balance]>;
       /**
        * Generic tx
        **/
@@ -157,7 +157,7 @@ declare module '@polkadot/api/types/submittable' {
        * The dispatch origin for this call must be `Signed` by the
        * transactor.
        **/
-      transfer: AugmentedSubmittable<(dest: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyIdOf | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, amount: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyIdOf, Compact<BalanceOf>]>;
+      transfer: AugmentedSubmittable<(dest: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyIdOf | AnyNumber | Uint8Array, amount: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyIdOf, Compact<BalanceOf>]>;
       /**
        * Transfer some native currency to another account.
        * 
@@ -170,343 +170,7 @@ declare module '@polkadot/api/types/submittable' {
        * 
        * The dispatch origin of this call must be _Root_.
        **/
-      updateBalance: AugmentedSubmittable<(who: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyIdOf | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, amount: AmountOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyIdOf, AmountOf]>;
-      /**
-       * Generic tx
-       **/
-      [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    };
-    democracy: {
-      /**
-       * Permanently place a proposal into the blacklist. This prevents it from ever being
-       * proposed again.
-       * 
-       * If called on a queued public or external proposal, then this will result in it being
-       * removed. If the `ref_index` supplied is an active referendum with the proposal hash,
-       * then it will be cancelled.
-       * 
-       * The dispatch origin of this call must be `BlacklistOrigin`.
-       * 
-       * - `proposal_hash`: The proposal hash to blacklist permanently.
-       * - `ref_index`: An ongoing referendum whose hash is `proposal_hash`, which will be
-       * cancelled.
-       * 
-       * Weight: `O(p)` (though as this is an high-privilege dispatch, we assume it has a
-       * reasonable value).
-       **/
-      blacklist: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, maybeRefIndex: Option<ReferendumIndex> | null | object | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, Option<ReferendumIndex>]>;
-      /**
-       * Remove a proposal.
-       * 
-       * The dispatch origin of this call must be `CancelProposalOrigin`.
-       * 
-       * - `prop_index`: The index of the proposal to cancel.
-       * 
-       * Weight: `O(p)` where `p = PublicProps::<T>::decode_len()`
-       **/
-      cancelProposal: AugmentedSubmittable<(propIndex: Compact<PropIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<PropIndex>]>;
-      /**
-       * Cancel a proposal queued for enactment.
-       * 
-       * The dispatch origin of this call must be _Root_.
-       * 
-       * - `which`: The index of the referendum to cancel.
-       * 
-       * Weight: `O(D)` where `D` is the items in the dispatch queue. Weighted as `D = 10`.
-       **/
-      cancelQueued: AugmentedSubmittable<(which: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ReferendumIndex]>;
-      /**
-       * Remove a referendum.
-       * 
-       * The dispatch origin of this call must be _Root_.
-       * 
-       * - `ref_index`: The index of the referendum to cancel.
-       * 
-       * # Weight: `O(1)`.
-       **/
-      cancelReferendum: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ReferendumIndex>]>;
-      /**
-       * Clears all public proposals.
-       * 
-       * The dispatch origin of this call must be _Root_.
-       * 
-       * Weight: `O(1)`.
-       **/
-      clearPublicProposals: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
-      /**
-       * Delegate the voting power (with some given conviction) of the sending account.
-       * 
-       * The balance delegated is locked for as long as it's delegated, and thereafter for the
-       * time appropriate for the conviction's lock period.
-       * 
-       * The dispatch origin of this call must be _Signed_, and the signing account must either:
-       * - be delegating already; or
-       * - have no voting activity (if there is, then it will need to be removed/consolidated
-       * through `reap_vote` or `unvote`).
-       * 
-       * - `to`: The account whose voting the `target` account's voting power will follow.
-       * - `conviction`: The conviction that will be attached to the delegated votes. When the
-       * account is undelegated, the funds will be locked for the corresponding period.
-       * - `balance`: The amount of the account's balance to be used in delegating. This must
-       * not be more than the account's current balance.
-       * 
-       * Emits `Delegated`.
-       * 
-       * Weight: `O(R)` where R is the number of referendums the voter delegating to has
-       * voted on. Weight is charged as if maximum votes.
-       **/
-      delegate: AugmentedSubmittable<(to: AccountId | string | Uint8Array, conviction: Conviction | 'None' | 'Locked1x' | 'Locked2x' | 'Locked3x' | 'Locked4x' | 'Locked5x' | 'Locked6x' | number | Uint8Array, balance: BalanceOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, Conviction, BalanceOf]>;
-      /**
-       * Schedule an emergency cancellation of a referendum. Cannot happen twice to the same
-       * referendum.
-       * 
-       * The dispatch origin of this call must be `CancellationOrigin`.
-       * 
-       * -`ref_index`: The index of the referendum to cancel.
-       * 
-       * Weight: `O(1)`.
-       **/
-      emergencyCancel: AugmentedSubmittable<(refIndex: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ReferendumIndex]>;
-      /**
-       * Enact a proposal from a referendum. For now we just make the weight be the maximum.
-       **/
-      enactProposal: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, ReferendumIndex]>;
-      /**
-       * Schedule a referendum to be tabled once it is legal to schedule an external
-       * referendum.
-       * 
-       * The dispatch origin of this call must be `ExternalOrigin`.
-       * 
-       * - `proposal_hash`: The preimage hash of the proposal.
-       * 
-       * Weight: `O(V)` with V number of vetoers in the blacklist of proposal.
-       * Decoding vec of length V. Charged as maximum
-       **/
-      externalPropose: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash]>;
-      /**
-       * Schedule a negative-turnout-bias referendum to be tabled next once it is legal to
-       * schedule an external referendum.
-       * 
-       * The dispatch of this call must be `ExternalDefaultOrigin`.
-       * 
-       * - `proposal_hash`: The preimage hash of the proposal.
-       * 
-       * Unlike `external_propose`, blacklisting has no effect on this and it may replace a
-       * pre-scheduled `external_propose` call.
-       * 
-       * Weight: `O(1)`
-       **/
-      externalProposeDefault: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash]>;
-      /**
-       * Schedule a majority-carries referendum to be tabled next once it is legal to schedule
-       * an external referendum.
-       * 
-       * The dispatch of this call must be `ExternalMajorityOrigin`.
-       * 
-       * - `proposal_hash`: The preimage hash of the proposal.
-       * 
-       * Unlike `external_propose`, blacklisting has no effect on this and it may replace a
-       * pre-scheduled `external_propose` call.
-       * 
-       * Weight: `O(1)`
-       **/
-      externalProposeMajority: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash]>;
-      /**
-       * Schedule the currently externally-proposed majority-carries referendum to be tabled
-       * immediately. If there is no externally-proposed referendum currently, or if there is one
-       * but it is not a majority-carries referendum then it fails.
-       * 
-       * The dispatch of this call must be `FastTrackOrigin`.
-       * 
-       * - `proposal_hash`: The hash of the current external proposal.
-       * - `voting_period`: The period that is allowed for voting on this proposal. Increased to
-       * `FastTrackVotingPeriod` if too low.
-       * - `delay`: The number of block after voting has ended in approval and this should be
-       * enacted. This doesn't have a minimum amount.
-       * 
-       * Emits `Started`.
-       * 
-       * Weight: `O(1)`
-       **/
-      fastTrack: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, votingPeriod: BlockNumber | AnyNumber | Uint8Array, delay: BlockNumber | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, BlockNumber, BlockNumber]>;
-      /**
-       * Register the preimage for an upcoming proposal. This requires the proposal to be
-       * in the dispatch queue. No deposit is needed. When this call is successful, i.e.
-       * the preimage has not been uploaded before and matches some imminent proposal,
-       * no fee is paid.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `encoded_proposal`: The preimage of a proposal.
-       * 
-       * Emits `PreimageNoted`.
-       * 
-       * Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-       **/
-      noteImminentPreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
-       * Same as `note_imminent_preimage` but origin is `OperationalPreimageOrigin`.
-       **/
-      noteImminentPreimageOperational: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
-       * Register the preimage for an upcoming proposal. This doesn't require the proposal to be
-       * in the dispatch queue but does require a deposit, returned once enacted.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `encoded_proposal`: The preimage of a proposal.
-       * 
-       * Emits `PreimageNoted`.
-       * 
-       * Weight: `O(E)` with E size of `encoded_proposal` (protected by a required deposit).
-       **/
-      notePreimage: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
-       * Same as `note_preimage` but origin is `OperationalPreimageOrigin`.
-       **/
-      notePreimageOperational: AugmentedSubmittable<(encodedProposal: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Bytes]>;
-      /**
-       * Propose a sensitive action to be taken.
-       * 
-       * The dispatch origin of this call must be _Signed_ and the sender must
-       * have funds to cover the deposit.
-       * 
-       * - `proposal_hash`: The hash of the proposal preimage.
-       * - `value`: The amount of deposit (must be at least `MinimumDeposit`).
-       * 
-       * Emits `Proposed`.
-       * 
-       * Weight: `O(p)`
-       **/
-      propose: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, value: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, Compact<BalanceOf>]>;
-      /**
-       * Remove an expired proposal preimage and collect the deposit.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `proposal_hash`: The preimage hash of a proposal.
-       * - `proposal_length_upper_bound`: an upper bound on length of the proposal.
-       * Extrinsic is weighted according to this value with no refund.
-       * 
-       * This will only work after `VotingPeriod` blocks from the time that the preimage was
-       * noted, if it's the same account doing it. If it's a different account, then it'll only
-       * work an additional `EnactmentPeriod` later.
-       * 
-       * Emits `PreimageReaped`.
-       * 
-       * Weight: `O(D)` where D is length of proposal.
-       **/
-      reapPreimage: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array, proposalLenUpperBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash, Compact<u32>]>;
-      /**
-       * Remove a vote for a referendum.
-       * 
-       * If the `target` is equal to the signer, then this function is exactly equivalent to
-       * `remove_vote`. If not equal to the signer, then the vote must have expired,
-       * either because the referendum was cancelled, because the voter lost the referendum or
-       * because the conviction period is over.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `target`: The account of the vote to be removed; this account must have voted for
-       * referendum `index`.
-       * - `index`: The index of referendum of the vote to be removed.
-       * 
-       * Weight: `O(R + log R)` where R is the number of referenda that `target` has voted on.
-       * Weight is calculated for the maximum number of vote.
-       **/
-      removeOtherVote: AugmentedSubmittable<(target: AccountId | string | Uint8Array, index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId, ReferendumIndex]>;
-      /**
-       * Remove a vote for a referendum.
-       * 
-       * If:
-       * - the referendum was cancelled, or
-       * - the referendum is ongoing, or
-       * - the referendum has ended such that
-       * - the vote of the account was in opposition to the result; or
-       * - there was no conviction to the account's vote; or
-       * - the account made a split vote
-       * ...then the vote is removed cleanly and a following call to `unlock` may result in more
-       * funds being available.
-       * 
-       * If, however, the referendum has ended and:
-       * - it finished corresponding to the vote of the account, and
-       * - the account made a standard vote with conviction, and
-       * - the lock period of the conviction is not over
-       * ...then the lock will be aggregated into the overall account's lock, which may involve
-       * *overlocking* (where the two locks are combined into a single lock that is the maximum
-       * of both the amount locked and the time is it locked for).
-       * 
-       * The dispatch origin of this call must be _Signed_, and the signer must have a vote
-       * registered for referendum `index`.
-       * 
-       * - `index`: The index of referendum of the vote to be removed.
-       * 
-       * Weight: `O(R + log R)` where R is the number of referenda that `target` has voted on.
-       * Weight is calculated for the maximum number of vote.
-       **/
-      removeVote: AugmentedSubmittable<(index: ReferendumIndex | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ReferendumIndex]>;
-      /**
-       * Signals agreement with a particular proposal.
-       * 
-       * The dispatch origin of this call must be _Signed_ and the sender
-       * must have funds to cover the deposit, equal to the original deposit.
-       * 
-       * - `proposal`: The index of the proposal to second.
-       * - `seconds_upper_bound`: an upper bound on the current number of seconds on this
-       * proposal. Extrinsic is weighted according to this value with no refund.
-       * 
-       * Weight: `O(S)` where S is the number of seconds a proposal already has.
-       **/
-      second: AugmentedSubmittable<(proposal: Compact<PropIndex> | AnyNumber | Uint8Array, secondsUpperBound: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<PropIndex>, Compact<u32>]>;
-      /**
-       * Undelegate the voting power of the sending account.
-       * 
-       * Tokens may be unlocked following once an amount of time consistent with the lock period
-       * of the conviction with which the delegation was issued.
-       * 
-       * The dispatch origin of this call must be _Signed_ and the signing account must be
-       * currently delegating.
-       * 
-       * Emits `Undelegated`.
-       * 
-       * Weight: `O(R)` where R is the number of referendums the voter delegating to has
-       * voted on. Weight is charged as if maximum votes.
-       **/
-      undelegate: AugmentedSubmittable<() => SubmittableExtrinsic<ApiType>, []>;
-      /**
-       * Unlock tokens that have an expired lock.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `target`: The account to remove the lock on.
-       * 
-       * Weight: `O(R)` with R number of vote of target.
-       **/
-      unlock: AugmentedSubmittable<(target: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId]>;
-      /**
-       * Veto and blacklist the external proposal hash.
-       * 
-       * The dispatch origin of this call must be `VetoOrigin`.
-       * 
-       * - `proposal_hash`: The preimage hash of the proposal to veto and blacklist.
-       * 
-       * Emits `Vetoed`.
-       * 
-       * Weight: `O(V + log(V))` where V is number of `existing vetoers`
-       **/
-      vetoExternal: AugmentedSubmittable<(proposalHash: Hash | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Hash]>;
-      /**
-       * Vote in a referendum. If `vote.is_aye()`, the vote is to enact the proposal;
-       * otherwise it is a vote to keep the status quo.
-       * 
-       * The dispatch origin of this call must be _Signed_.
-       * 
-       * - `ref_index`: The index of the referendum to vote for.
-       * - `vote`: The vote configuration.
-       * 
-       * Weight: `O(R)` where R is the number of referendums the voter has voted on.
-       **/
-      vote: AugmentedSubmittable<(refIndex: Compact<ReferendumIndex> | AnyNumber | Uint8Array, vote: AccountVote | { Standard: any } | { Split: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<ReferendumIndex>, AccountVote]>;
+      updateBalance: AugmentedSubmittable<(who: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyIdOf | AnyNumber | Uint8Array, amount: AmountOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyIdOf, AmountOf]>;
       /**
        * Generic tx
        **/
@@ -1000,7 +664,7 @@ declare module '@polkadot/api/types/submittable' {
       /**
        * Send an XCM message as parachain sovereign.
        **/
-      sendAsSovereign: AugmentedSubmittable<(dest: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, message: Xcm | { WithdrawAsset: any } | { ReserveAssetDeposit: any } | { ReceiveTeleportedAsset: any } | { QueryResponse: any } | { TransferAsset: any } | { TransferReserveAsset: any } | { Transact: any } | { HrmpNewChannelOpenRequest: any } | { HrmpChannelAccepted: any } | { HrmpChannelClosing: any } | { RelayedFrom: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, Xcm]>;
+      sendAsSovereign: AugmentedSubmittable<(dest: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, message: Xcm | { WithdrawAsset: any } | { ReserveAssetDeposit: any } | { ReceiveTeleportedAsset: any } | { QueryResponse: any } | { TransferAsset: any } | { TransferReserveAsset: any } | { Transact: any } | { HrmpNewChannelOpenRequest: any } | { HrmpChannelAccepted: any } | { HrmpChannelClosing: any } | { RelayedFrom: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, Xcm]>;
       /**
        * Generic tx
        **/
@@ -1037,8 +701,8 @@ declare module '@polkadot/api/types/submittable' {
        * - `dest_weight`: Equal to the total weight on `dest` of the XCM message
        * `ReserveAssetDeposit { assets, effects: [ BuyExecution{..}, DepositAsset{..} ] }`.
        **/
-      reserveTransferAssets: AugmentedSubmittable<(dest: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, beneficiary: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, assets: Vec<MultiAsset> | (MultiAsset | { id?: any; fungibility?: any } | string | Uint8Array)[], destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, MultiLocation, Vec<MultiAsset>, Weight]>;
-      send: AugmentedSubmittable<(dest: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, message: Xcm | { WithdrawAsset: any } | { ReserveAssetDeposit: any } | { ReceiveTeleportedAsset: any } | { QueryResponse: any } | { TransferAsset: any } | { TransferReserveAsset: any } | { Transact: any } | { HrmpNewChannelOpenRequest: any } | { HrmpChannelAccepted: any } | { HrmpChannelClosing: any } | { RelayedFrom: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, Xcm]>;
+      reserveTransferAssets: AugmentedSubmittable<(dest: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, beneficiary: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, assets: Vec<MultiAsset> | (MultiAsset | { id?: any; fungibility?: any } | string | Uint8Array)[], destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, MultiLocation, Vec<MultiAsset>, Weight]>;
+      send: AugmentedSubmittable<(dest: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, message: Xcm | { WithdrawAsset: any } | { ReserveAssetDeposit: any } | { ReceiveTeleportedAsset: any } | { QueryResponse: any } | { TransferAsset: any } | { TransferReserveAsset: any } | { Transact: any } | { HrmpNewChannelOpenRequest: any } | { HrmpChannelAccepted: any } | { HrmpChannelClosing: any } | { RelayedFrom: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, Xcm]>;
       /**
        * Teleport some assets from the local chain to some destination chain.
        * 
@@ -1054,7 +718,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `dest_weight`: Equal to the total weight on `dest` of the XCM message
        * `Teleport { assets, effects: [ BuyExecution{..}, DepositAsset{..} ] }`.
        **/
-      teleportAssets: AugmentedSubmittable<(dest: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, beneficiary: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, assets: Vec<MultiAsset> | (MultiAsset | { id?: any; fungibility?: any } | string | Uint8Array)[], destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, MultiLocation, Vec<MultiAsset>, Weight]>;
+      teleportAssets: AugmentedSubmittable<(dest: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, beneficiary: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, assets: Vec<MultiAsset> | (MultiAsset | { id?: any; fungibility?: any } | string | Uint8Array)[], destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiLocation, MultiLocation, Vec<MultiAsset>, Weight]>;
       /**
        * Generic tx
        **/
@@ -1461,7 +1125,7 @@ declare module '@polkadot/api/types/submittable' {
        * by the network, and if the receiving chain would handle
        * messages correctly.
        **/
-      transfer: AugmentedSubmittable<(currencyId: CurrencyId | 'DOT' | 'KSM' | 'USDT' | 'xDOT' | 'xKSM' | 'HKO' | 'PARA' | number | Uint8Array, amount: Balance | AnyNumber | Uint8Array, dest: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Balance, MultiLocation, Weight]>;
+      transfer: AugmentedSubmittable<(currencyId: CurrencyId | AnyNumber | Uint8Array, amount: Balance | AnyNumber | Uint8Array, dest: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [CurrencyId, Balance, MultiLocation, Weight]>;
       /**
        * Transfer `MultiAsset`.
        * 
@@ -1476,7 +1140,7 @@ declare module '@polkadot/api/types/submittable' {
        * by the network, and if the receiving chain would handle
        * messages correctly.
        **/
-      transferMultiasset: AugmentedSubmittable<(asset: MultiAsset | { id?: any; fungibility?: any } | string | Uint8Array, dest: MultiLocation | { Here: any } | { X1: any } | { X2: any } | { X3: any } | { X4: any } | { X5: any } | { X6: any } | { X7: any } | { X8: any } | string | Uint8Array, destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAsset, MultiLocation, Weight]>;
+      transferMultiasset: AugmentedSubmittable<(asset: MultiAsset | { id?: any; fungibility?: any } | string | Uint8Array, dest: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, destWeight: Weight | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAsset, MultiLocation, Weight]>;
       /**
        * Generic tx
        **/
