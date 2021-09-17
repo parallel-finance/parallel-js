@@ -7,11 +7,10 @@ export default {
     Ratio: 'Permill',
     Timestamp: 'u64',
     PriceDetail: '(Price, Timestamp)',
-    CurrencyId: {
-      _enum: ['DOT', 'KSM', 'USDT', 'xDOT', 'xKSM', 'HKO', 'PARA']
-    },
+    CurrencyId: 'AssetId',
     CurrencyIdOf: 'CurrencyId',
     Currency: 'CurrencyId',
-    AssetIdOf: 'AssetId'
+    AssetIdOf: 'AssetId',
+    TAssetBalance: 'Balance'
   }
 };

@@ -19,7 +19,8 @@
     "clean": "polkadot-dev-clean-build",
     "postinstall": "polkadot-dev-yarn-only",
     "test": "polkadot-dev-run-test --coverage",
-    "update-metadata": "ts-node --project ./tsconfig.json packages/types/scripts/updateMetadata.ts"
+    "update-metadata": "ts-node --project ./tsconfig.json packages/types/scripts/updateMetadata.ts",
+    "conn-test": "ts-node packages/api/test/index.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",

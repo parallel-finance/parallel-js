@@ -165,5 +165,6 @@
     "CurrencyIdOf": "CurrencyId",
     "Currency": "CurrencyId",
     "AssetIdOf": "AssetId",
+    "TAssetBalance": "Balance",
     "OracleKey": "AssetId"
 }
