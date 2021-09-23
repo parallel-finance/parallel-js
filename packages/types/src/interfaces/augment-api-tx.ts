@@ -6,7 +6,7 @@ import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { Market, ValidatorInfo } from '@parallel-finance/types/interfaces/loans';
-import type { AmountOf, AssetIdOf, CurrencyId, CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
+import type { AssetIdOf, CurrencyId } from '@parallel-finance/types/interfaces/primitives';
 import type { AccountId, AssetId, Balance, BalanceOf, Call, ChangesTrieConfiguration, Hash, KeyValue, LookupSource, OpaqueCall, OracleKey, OracleValue, Perbill, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { MemberCount, ProposalIndex } from '@polkadot/types/interfaces/collective';
 import type { OverweightIndex } from '@polkadot/types/interfaces/cumulus';
@@ -28,7 +28,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `liquidity_amounts`: Liquidity amounts to be added in pool
        * - `minimum_amounts`: specifying its "worst case" ratio when pool already exists
        **/
-      addLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | AnyNumber | Uint8Array, CurrencyId | AnyNumber | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], minimumAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array]) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, ITuple<[Balance, Balance]>]>;
+      addLiquidity: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | AnyNumber | Uint8Array, CurrencyId | AnyNumber | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], minimumAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], assetId: AssetId | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, ITuple<[Balance, Balance]>, AssetId]>;
       /**
        * "force" the creation of a new pool by root
        * 
@@ -36,7 +36,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `liquidity_amounts`: Liquidity amounts to be added in pool
        * - `lptoken_receiver`: Allocate any liquidity tokens to lptoken_receiver
        **/
-      forceCreatePool: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | AnyNumber | Uint8Array, CurrencyId | AnyNumber | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], lptokenReceiver: AccountId | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, AccountId]>;
+      forceCreatePool: AugmentedSubmittable<(pool: ITuple<[CurrencyId, CurrencyId]> | [CurrencyId | AnyNumber | Uint8Array, CurrencyId | AnyNumber | Uint8Array], liquidityAmounts: ITuple<[Balance, Balance]> | [Balance | AnyNumber | Uint8Array, Balance | AnyNumber | Uint8Array], lptokenReceiver: AccountId | string | Uint8Array, assetId: AssetId | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[CurrencyId, CurrencyId]>, ITuple<[Balance, Balance]>, AccountId, AssetId]>;
       /**
        * Allow users to remove liquidity from a given pool
        * 
@@ -145,32 +145,6 @@ declare module '@polkadot/api/types/submittable' {
        * #</weight>
        **/
       transferKeepAlive: AugmentedSubmittable<(dest: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, value: Compact<Balance> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, Compact<Balance>]>;
-      /**
-       * Generic tx
-       **/
-      [key: string]: SubmittableExtrinsicFunction<ApiType>;
-    };
-    currencies: {
-      /**
-       * Transfer some balance to another account under `currency_id`.
-       * 
-       * The dispatch origin for this call must be `Signed` by the
-       * transactor.
-       **/
-      transfer: AugmentedSubmittable<(dest: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyIdOf | AnyNumber | Uint8Array, amount: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyIdOf, Compact<BalanceOf>]>;
-      /**
-       * Transfer some native currency to another account.
-       * 
-       * The dispatch origin for this call must be `Signed` by the
-       * transactor.
-       **/
-      transferNativeCurrency: AugmentedSubmittable<(dest: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: Compact<BalanceOf> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, Compact<BalanceOf>]>;
-      /**
-       * update amount of account `who` under `currency_id`.
-       * 
-       * The dispatch origin of this call must be _Root_.
-       **/
-      updateBalance: AugmentedSubmittable<(who: LookupSource | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, currencyId: CurrencyIdOf | AnyNumber | Uint8Array, amount: AmountOf | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [LookupSource, CurrencyIdOf, AmountOf]>;
       /**
        * Generic tx
        **/

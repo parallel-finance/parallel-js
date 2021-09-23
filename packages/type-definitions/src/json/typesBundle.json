@@ -243,10 +243,10 @@
                         "CurrencyIdOf": "CurrencyId",
                         "Currency": "CurrencyId",
                         "AssetIdOf": "AssetId",
-                        "TAssetBalance": "Balance",
                         "OracleKey": "AssetId",
                         "Address": "MultiAddress",
-                        "LookupSource": "MultiAddress"
+                        "LookupSource": "MultiAddress",
+                        "TAssetBalance": "u128"
                     }
                 }
             ],

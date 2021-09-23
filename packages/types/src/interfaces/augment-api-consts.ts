@@ -3,7 +3,6 @@
 
 import type { Vec, bool, u16, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { CurrencyIdOf } from '@parallel-finance/types/interfaces/primitives';
 import type { Balance, BalanceOf, BlockNumber, BlockNumberFor, PalletId, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
@@ -38,13 +37,6 @@ declare module '@polkadot/api/types/consts' {
        * The maximum number of named reserves that can exist on an account.
        **/
       maxReserves: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    currencies: {
-      getNativeCurrencyId: CurrencyIdOf & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -146,13 +138,6 @@ declare module '@polkadot/api/types/consts' {
        * Get the chain's current version.
        **/
       version: RuntimeVersion & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    tokens: {
-      maxLocks: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

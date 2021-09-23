@@ -4,7 +4,7 @@
 import type { i128, u64 } from '@polkadot/types';
 import type { ITuple } from '@polkadot/types/types';
 import type { Price } from '@open-web3/orml-types/interfaces/traits';
-import type { AssetId, Balance, FixedU128, Permill } from '@parallel-finance/types/interfaces/runtime';
+import type { AssetId, FixedU128, Permill } from '@parallel-finance/types/interfaces/runtime';
 
 /** @name Amount */
 export interface Amount extends i128 {}
@@ -32,9 +32,6 @@ export interface Rate extends FixedU128 {}
 
 /** @name Ratio */
 export interface Ratio extends Permill {}
-
-/** @name TAssetBalance */
-export interface TAssetBalance extends Balance {}
 
 /** @name Timestamp */
 export interface Timestamp extends u64 {}

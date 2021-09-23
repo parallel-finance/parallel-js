@@ -696,25 +696,6 @@ export interface StorageType extends BaseStorageType {
      **/
     now: Moment | null;
   };
-  tokens: {    /**
-     * The balance of a token type under an account.
-     * 
-     * NOTE: If the total is ever zero, decrease account ref account.
-     * 
-     * NOTE: This is only used in the case that this module is used to store
-     * balances.
-     **/
-    accounts: StorageDoubleMap<AccountId | string, CurrencyId | AnyNumber, AccountData>;
-    /**
-     * Any liquidity locks of a token type under an account.
-     * NOTE: Should only be accessed when setting, changing and freeing a lock.
-     **/
-    locks: StorageDoubleMap<AccountId | string, CurrencyId | AnyNumber, Vec<BalanceLock>>;
-    /**
-     * The total issuance of a token type.
-     **/
-    totalIssuance: StorageMap<CurrencyId | AnyNumber, Balance>;
-  };
   transactionPayment: {    nextFeeMultiplier: Multiplier | null;
     storageVersion: Releases | null;
   };

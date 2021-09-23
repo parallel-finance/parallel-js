@@ -10,7 +10,6 @@ export default {
     CurrencyId: 'AssetId',
     CurrencyIdOf: 'CurrencyId',
     Currency: 'CurrencyId',
-    AssetIdOf: 'AssetId',
-    TAssetBalance: 'Balance'
+    AssetIdOf: 'AssetId'
   }
 };
