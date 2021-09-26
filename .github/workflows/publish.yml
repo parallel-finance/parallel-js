@@ -1,14 +1,22 @@
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - "v*"
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: ['packages/api/package.json', 'packages/types/package.json', 'packages/type-definitions/package.json']
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 15
       - uses: JS-DevTools/npm-publish@v1
+        name: ${{ matrix.package }}
         with:
+          package: ${{ matrix.package }}
           token: ${{secrets.NPM_TOKEN}}
