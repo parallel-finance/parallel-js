@@ -28,6 +28,7 @@
     "@babel/runtime": "^7.14.0",
     "@open-web3/dev-config": "^0.1.13",
     "@open-web3/util": "^0.9.4-38",
+    "@polkadot/dev": "^0.62.68",
     "@types/jest": "^25.2.3",
     "ts-node": "^8.6.1",
     "tsconfig-paths": "^3.9.0",
