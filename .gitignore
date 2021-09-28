@@ -13,6 +13,8 @@ node_modules
 
 build/
 
+coverage/
+
 yarn-error.log
 /.yarn/cache
 /.yarn/versions
