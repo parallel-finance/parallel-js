@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32 } from '@polkadot/types';
+import type { Bytes, Option, U8aFixed, Vec, bool, u16, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple, Observable } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
 import type { Price } from '@open-web3/orml-types/interfaces/traits';
@@ -9,7 +9,7 @@ import type { PoolLiquidityAmount } from '@parallel-finance/types/interfaces/amm
 import type { MatchingLedger, StakingSettlementKind } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, Deposits, EarnedSnapshot, Market, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
 import type { AssetIdOf, CurrencyId, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, AssetId, Balance, BalanceOf, BlockNumber, Hash, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, Hash, OpaqueCall, OracleKey, Releases } from '@parallel-finance/types/interfaces/runtime';
 import type { AccountData, BalanceLock, ReserveData } from '@polkadot/types/interfaces/balances';
 import type { Votes } from '@polkadot/types/interfaces/collective';
 import type { ConfigData, OverweightIndex, PageCounter, PageIndexData } from '@polkadot/types/interfaces/cumulus';
@@ -19,7 +19,7 @@ import type { EraIndex } from '@polkadot/types/interfaces/staking';
 import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, LastRuntimeUpgradeInfo, Phase } from '@polkadot/types/interfaces/system';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig } from '@polkadot/types/interfaces/utility';
-import type { InboundStatus, MultiLocation, OutboundStatus, QueueConfigData, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
+import type { InboundStatus, OutboundStatus, QueueConfigData, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 import type { ApiTypes } from '@polkadot/api/types';
 
 declare module '@polkadot/api/types/storage' {
@@ -32,11 +32,11 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Accounts that deposits and withdraw assets in one or more pools
        **/
-      liquidityProviders: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: CurrencyId | AnyNumber | Uint8Array, arg3: CurrencyId | AnyNumber | Uint8Array) => Observable<PoolLiquidityAmount>, [AccountId, CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [AccountId, CurrencyId, CurrencyId]>;
+      liquidityProviders: AugmentedQuery<ApiType, (arg1: AccountId | string | Uint8Array, arg2: AssetIdOf | AnyNumber | Uint8Array, arg3: AssetIdOf | AnyNumber | Uint8Array) => Observable<Option<PoolLiquidityAmount>>, [AccountId, AssetIdOf, AssetIdOf]> & QueryableStorageEntry<ApiType, [AccountId, AssetIdOf, AssetIdOf]>;
       /**
        * A bag of liquidity composed by two different assets
        **/
-      pools: AugmentedQuery<ApiType, (arg1: CurrencyId | AnyNumber | Uint8Array, arg2: CurrencyId | AnyNumber | Uint8Array) => Observable<Option<PoolLiquidityAmount>>, [CurrencyId, CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId, CurrencyId]>;
+      pools: AugmentedQuery<ApiType, (arg1: AssetIdOf | AnyNumber | Uint8Array, arg2: AssetIdOf | AnyNumber | Uint8Array) => Observable<Option<PoolLiquidityAmount>>, [AssetIdOf, AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf, AssetIdOf]>;
       /**
        * Generic query
        **/
@@ -169,7 +169,7 @@ declare module '@polkadot/api/types/storage' {
     loans: {
       /**
        * Mapping of account addresses to outstanding borrow balances
-       * AssetId -> Owner -> BorrowSnapshot
+       * CurrencyId -> Owner -> BorrowSnapshot
        **/
       accountBorrows: AugmentedQuery<ApiType, (arg1: AssetIdOf | AnyNumber | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<BorrowSnapshot>, [AssetIdOf, AccountId]> & QueryableStorageEntry<ApiType, [AssetIdOf, AccountId]>;
       /**
@@ -179,12 +179,12 @@ declare module '@polkadot/api/types/storage' {
       accountDeposits: AugmentedQuery<ApiType, (arg1: AssetIdOf | AnyNumber | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<Deposits>, [AssetIdOf, AccountId]> & QueryableStorageEntry<ApiType, [AssetIdOf, AccountId]>;
       /**
        * Mapping of account addresses to total deposit interest accrual
-       * AssetId -> Owner -> EarnedSnapshot
+       * CurrencyId -> Owner -> EarnedSnapshot
        **/
       accountEarned: AugmentedQuery<ApiType, (arg1: AssetIdOf | AnyNumber | Uint8Array, arg2: AccountId | string | Uint8Array) => Observable<EarnedSnapshot>, [AssetIdOf, AccountId]> & QueryableStorageEntry<ApiType, [AssetIdOf, AccountId]>;
       /**
        * Accumulator of the total earned interest rate since the opening of the market
-       * AssetId -> u128
+       * CurrencyId -> u128
        **/
       borrowIndex: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Rate>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
@@ -196,7 +196,7 @@ declare module '@polkadot/api/types/storage' {
        **/
       exchangeRate: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Rate>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
-       * The timestamp of the previous block or defaults to timestamp at genesis.
+       * The timestamp of the last calculation of accrued interest
        **/
       lastBlockTimestamp: AugmentedQuery<ApiType, () => Observable<Timestamp>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -209,12 +209,12 @@ declare module '@polkadot/api/types/storage' {
       supplyRate: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<Rate>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Total amount of outstanding borrows of the underlying in this market
-       * AssetId -> Balance
+       * CurrencyId -> Balance
        **/
       totalBorrows: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<BalanceOf>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
        * Total amount of reserves of the underlying held in this market
-       * AssetId -> Balance
+       * CurrencyId -> Balance
        **/
       totalReserves: AugmentedQuery<ApiType, (arg: AssetIdOf | AnyNumber | Uint8Array) => Observable<BalanceOf>, [AssetIdOf]> & QueryableStorageEntry<ApiType, [AssetIdOf]>;
       /**
@@ -285,7 +285,7 @@ declare module '@polkadot/api/types/storage' {
       /**
        * Mapping from currency id to it's emergency price
        **/
-      emergencyPrice: AugmentedQuery<ApiType, (arg: AssetId | AnyNumber | Uint8Array) => Observable<Option<Price>>, [AssetId]> & QueryableStorageEntry<ApiType, [AssetId]>;
+      emergencyPrice: AugmentedQuery<ApiType, (arg: CurrencyId | AnyNumber | Uint8Array) => Observable<Option<Price>>, [CurrencyId]> & QueryableStorageEntry<ApiType, [CurrencyId]>;
       /**
        * Generic query
        **/
@@ -414,26 +414,6 @@ declare module '@polkadot/api/types/storage' {
     transactionPayment: {
       nextFeeMultiplier: AugmentedQuery<ApiType, () => Observable<Multiplier>, []> & QueryableStorageEntry<ApiType, []>;
       storageVersion: AugmentedQuery<ApiType, () => Observable<Releases>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
-    unknownTokens: {
-      /**
-       * Abstract fungible balances under a given location and a abstract
-       * fungible id.
-       * 
-       * double_map: who, asset_id => u128
-       **/
-      abstractFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, arg2: Bytes | string | Uint8Array) => Observable<u128>, [MultiLocation, Bytes]> & QueryableStorageEntry<ApiType, [MultiLocation, Bytes]>;
-      /**
-       * Concrete fungible balances under a given location and a concrete
-       * fungible id.
-       * 
-       * double_map: who, asset_id => u128
-       **/
-      concreteFungibleBalances: AugmentedQuery<ApiType, (arg1: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array, arg2: MultiLocation | { parents?: any; interior?: any } | string | Uint8Array) => Observable<u128>, [MultiLocation, MultiLocation]> & QueryableStorageEntry<ApiType, [MultiLocation, MultiLocation]>;
       /**
        * Generic query
        **/

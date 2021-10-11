@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { BTreeMap, Bytes, Option, U8aFixed, Vec, bool, u128, u16, u32 } from '@polkadot/types';
+import type { BTreeMap, Bytes, Option, U8aFixed, Vec, bool, u16, u32 } from '@polkadot/types';
 import type { AnyNumber, ITuple } from '@polkadot/types/types';
 import type { OrderedSet, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
 import type { Price } from '@open-web3/orml-types/interfaces/traits';
@@ -27,7 +27,7 @@ import type { AccountInfo, ConsumedWeight, DigestOf, EventIndex, EventRecord, La
 import type { TreasuryProposal } from '@polkadot/types/interfaces/treasury';
 import type { Multiplier } from '@polkadot/types/interfaces/txpayment';
 import type { Multisig } from '@polkadot/types/interfaces/utility';
-import type { InboundStatus, MultiLocation, OutboundStatus, QueueConfigData, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
+import type { InboundStatus, OutboundStatus, QueueConfigData, XcmpMessageFormat } from '@polkadot/types/interfaces/xcm';
 import type { BaseStorageType, StorageDoubleMap, StorageMap } from '@open-web3/api-mobx';
 
 export interface StorageType extends BaseStorageType {
@@ -38,11 +38,11 @@ export interface StorageType extends BaseStorageType {
     /**
      * Accounts that deposits and withdraw assets in one or more pools
      **/
-    liquidityProviders: PoolLiquidityAmount | null;
+    liquidityProviders: Option<PoolLiquidityAmount> | null;
     /**
      * A bag of liquidity composed by two different assets
      **/
-    pools: StorageDoubleMap<CurrencyId | AnyNumber, CurrencyId | AnyNumber, Option<PoolLiquidityAmount>>;
+    pools: StorageDoubleMap<AssetIdOf | AnyNumber, AssetIdOf | AnyNumber, Option<PoolLiquidityAmount>>;
   };
   assets: {    /**
      * The number of units of assets held by any given account.
@@ -310,7 +310,7 @@ export interface StorageType extends BaseStorageType {
   };
   loans: {    /**
      * Mapping of account addresses to outstanding borrow balances
-     * AssetId -> Owner -> BorrowSnapshot
+     * CurrencyId -> Owner -> BorrowSnapshot
      **/
     accountBorrows: StorageDoubleMap<AssetIdOf | AnyNumber, AccountId | string, BorrowSnapshot>;
     /**
@@ -320,12 +320,12 @@ export interface StorageType extends BaseStorageType {
     accountDeposits: StorageDoubleMap<AssetIdOf | AnyNumber, AccountId | string, Deposits>;
     /**
      * Mapping of account addresses to total deposit interest accrual
-     * AssetId -> Owner -> EarnedSnapshot
+     * CurrencyId -> Owner -> EarnedSnapshot
      **/
     accountEarned: StorageDoubleMap<AssetIdOf | AnyNumber, AccountId | string, EarnedSnapshot>;
     /**
      * Accumulator of the total earned interest rate since the opening of the market
-     * AssetId -> u128
+     * CurrencyId -> u128
      **/
     borrowIndex: StorageMap<AssetIdOf | AnyNumber, Rate>;
     /**
@@ -337,7 +337,7 @@ export interface StorageType extends BaseStorageType {
      **/
     exchangeRate: StorageMap<AssetIdOf | AnyNumber, Rate>;
     /**
-     * The timestamp of the previous block or defaults to timestamp at genesis.
+     * The timestamp of the last calculation of accrued interest
      **/
     lastBlockTimestamp: Timestamp | null;
     /**
@@ -350,12 +350,12 @@ export interface StorageType extends BaseStorageType {
     supplyRate: StorageMap<AssetIdOf | AnyNumber, Rate>;
     /**
      * Total amount of outstanding borrows of the underlying in this market
-     * AssetId -> Balance
+     * CurrencyId -> Balance
      **/
     totalBorrows: StorageMap<AssetIdOf | AnyNumber, BalanceOf>;
     /**
      * Total amount of reserves of the underlying held in this market
-     * AssetId -> Balance
+     * CurrencyId -> Balance
      **/
     totalReserves: StorageMap<AssetIdOf | AnyNumber, BalanceOf>;
     /**
@@ -523,7 +523,7 @@ export interface StorageType extends BaseStorageType {
   prices: {    /**
      * Mapping from currency id to it's emergency price
      **/
-    emergencyPrice: StorageMap<AssetId | AnyNumber, Option<Price>>;
+    emergencyPrice: StorageMap<CurrencyId | AnyNumber, Option<Price>>;
   };
   scheduler: {    /**
      * Items to be executed, indexed by the block number that they should be executed on.
@@ -711,21 +711,6 @@ export interface StorageType extends BaseStorageType {
      * Proposals that have been made.
      **/
     proposals: StorageMap<ProposalIndex | AnyNumber, Option<TreasuryProposal>>;
-  };
-  unknownTokens: {    /**
-     * Abstract fungible balances under a given location and a abstract
-     * fungible id.
-     * 
-     * double_map: who, asset_id => u128
-     **/
-    abstractFungibleBalances: StorageDoubleMap<MultiLocation | { parents?: any; interior?: any } | string, Bytes | string, u128>;
-    /**
-     * Concrete fungible balances under a given location and a concrete
-     * fungible id.
-     * 
-     * double_map: who, asset_id => u128
-     **/
-    concreteFungibleBalances: StorageDoubleMap<MultiLocation | { parents?: any; interior?: any } | string, MultiLocation | { parents?: any; interior?: any } | string, u128>;
   };
   validatorFeedersMembership: {    /**
      * The current membership, stored as an ordered Vec.

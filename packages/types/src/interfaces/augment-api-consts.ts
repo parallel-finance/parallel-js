@@ -3,7 +3,7 @@
 
 import type { Vec, bool, u16, u32 } from '@polkadot/types';
 import type { Codec } from '@polkadot/types/types';
-import type { Balance, BalanceOf, BlockNumber, BlockNumberFor, PalletId, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
+import type { AccountId, Balance, BalanceOf, BlockNumber, BlockNumberFor, PalletId, Perbill, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
 import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
 import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
 import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';
@@ -17,7 +17,20 @@ declare module '@polkadot/api/types/consts' {
        * A configuration flag to enable or disable the creation of new pools by "normal" users.
        **/
       allowPermissionlessPoolCreation: bool & AugmentedConst<ApiType>;
+      /**
+       * Defines the fees taken out of each trade and sent back to the AMM pool,
+       * typically 0.3%.
+       **/
+      lpFee: Perbill & AugmentedConst<ApiType>;
       palletId: PalletId & AugmentedConst<ApiType>;
+      /**
+       * How much the protocol is taking out of each trade.
+       **/
+      protocolFee: Perbill & AugmentedConst<ApiType>;
+      /**
+       * Who/where to send the protocol fees
+       **/
+      protocolFeeReceiver: AccountId & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
