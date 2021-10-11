@@ -53,7 +53,8 @@ export default {
       closeFactor: 'Ratio',
       liquidateIncentive: 'Rate',
       rateModel: 'InterestRateModel',
-      state: 'MarketState'
+      state: 'MarketState',
+      cap: 'Balance'
     },
     MarketState: {
       _enum: ['Active', 'Pending', 'Supervision']

@@ -377,7 +377,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `asset_id`: Market related currency
        * - `market`: The market that is going to be stored
        **/
-      addMarket: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, Market]>;
+      addMarket: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any; cap?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, Market]>;
       /**
        * Add reserves by transferring from payer.
        * 
@@ -462,7 +462,7 @@ declare module '@polkadot/api/types/submittable' {
        * - `asset_id`: Market related currency
        * - `market`: The new market parameters
        **/
-      updateMarket: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, Market]>;
+      updateMarket: AugmentedSubmittable<(assetId: AssetIdOf | AnyNumber | Uint8Array, market: Market | { collateralFactor?: any; reserveFactor?: any; closeFactor?: any; liquidateIncentive?: any; rateModel?: any; state?: any; cap?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AssetIdOf, Market]>;
       /**
        * Generic tx
        **/

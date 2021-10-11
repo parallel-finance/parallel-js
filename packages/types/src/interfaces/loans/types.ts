@@ -55,6 +55,7 @@ export interface Market extends Struct {
   readonly liquidateIncentive: Rate;
   readonly rateModel: InterestRateModel;
   readonly state: MarketState;
+  readonly cap: Balance;
 }
 
 /** @name MarketState */
