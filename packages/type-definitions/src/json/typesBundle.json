@@ -245,6 +245,7 @@
                         "Currency": "CurrencyId",
                         "AssetIdOf": "AssetId",
                         "OracleKey": "AssetId",
+                        "Route": "Vec<(AssetId, AssetId)>",
                         "Address": "MultiAddress",
                         "LookupSource": "MultiAddress",
                         "TAssetBalance": "u128"
