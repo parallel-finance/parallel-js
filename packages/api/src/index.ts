@@ -22,6 +22,7 @@ export const options = ({
   ...otherOptions
 }: ApiOptions = {}): ApiOptions => ({
   types: {
+    TAssetBalance: 'u128',
     ...parallelTypes,
     ...types
   },
