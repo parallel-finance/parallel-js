@@ -162,5 +162,6 @@
     "CurrencyIdOf": "CurrencyId",
     "Currency": "CurrencyId",
     "AssetIdOf": "AssetId",
-    "OracleKey": "AssetId"
+    "OracleKey": "AssetId",
+    "Route": "Vec<(AssetId, AssetId)>"
 }

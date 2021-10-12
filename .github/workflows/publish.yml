@@ -9,12 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: ['packages/api/package.json', 'packages/types/package.json', 'packages/type-definitions/package.json']
+        package: ['packages/api/build/package.json', 'packages/types/build/package.json', 'packages/type-definitions/build/package.json']
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
           node-version: 15
+      - name: build
+        run: |
+          yarn && yarn build
       - uses: JS-DevTools/npm-publish@v1
         name: ${{ matrix.package }}
         with:
