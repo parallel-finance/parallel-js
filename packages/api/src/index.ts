@@ -1,4 +1,4 @@
-import { ApiOptions } from '@polkadot/api/types';
+import type { ApiOptions } from '@polkadot/api/types';
 import { derive as ormlDerives } from '@open-web3/orml-api-derive';
 import {
   rpc as parallelRpc,
@@ -53,3 +53,5 @@ export const options = ({
   },
   ...otherOptions
 });
+
+export * from '@polkadot/api';

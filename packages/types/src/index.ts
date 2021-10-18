@@ -5,7 +5,7 @@ import {
   rpc as parallelRpc,
   signedExtensions as parallelSignedExtensions
 } from '@parallel-finance/type-definitions';
-import {
+import type {
   OverrideBundleType,
   OverrideModuleType,
   RegistryTypes,
@@ -31,3 +31,5 @@ export const typesAlias: Record<string, OverrideModuleType> = parallelTypeAlias;
 export const typesBundle = parallelTypesBundle as unknown as OverrideBundleType;
 
 export const signedExtensions = parallelSignedExtensions;
+
+export * from '@polkadot/types';
