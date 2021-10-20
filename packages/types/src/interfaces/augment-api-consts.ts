@@ -1,46 +1,18 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Vec, bool, u16, u32 } from '@polkadot/types';
-import type { Codec } from '@polkadot/types/types';
-import type { AccountId, Balance, BalanceOf, BlockNumber, BlockNumberFor, PalletId, Perbill, RuntimeDbWeight, Weight } from '@parallel-finance/types/interfaces/runtime';
-import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
-import type { WeightToFeeCoefficient } from '@polkadot/types/interfaces/support';
-import type { BlockLength, BlockWeights } from '@polkadot/types/interfaces/system';
-import type { MultiLocation } from '@polkadot/types/interfaces/xcm';
 import type { ApiTypes } from '@polkadot/api/types';
+import type { Vec, u128, u16, u32, u8 } from '@polkadot/types';
+import type { FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpVersionRuntimeVersion } from '@polkadot/types/lookup';
+import type { Codec } from '@polkadot/types/types';
 
 declare module '@polkadot/api/types/consts' {
   export interface AugmentedConsts<ApiType> {
-    amm: {
-      /**
-       * A configuration flag to enable or disable the creation of new pools by "normal" users.
-       **/
-      allowPermissionlessPoolCreation: bool & AugmentedConst<ApiType>;
-      /**
-       * Defines the fees taken out of each trade and sent back to the AMM pool,
-       * typically 0.3%.
-       **/
-      lpFee: Perbill & AugmentedConst<ApiType>;
-      palletId: PalletId & AugmentedConst<ApiType>;
-      /**
-       * How much the protocol is taking out of each trade.
-       **/
-      protocolFee: Perbill & AugmentedConst<ApiType>;
-      /**
-       * Who/where to send the protocol fees
-       **/
-      protocolFeeReceiver: AccountId & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     balances: {
       /**
        * The minimum amount required to keep an account open.
        **/
-      existentialDeposit: Balance & AugmentedConst<ApiType>;
+      existentialDeposit: u128 & AugmentedConst<ApiType>;
       /**
        * The maximum number of locks that should exist on an account.
        * Not strictly enforced, but used for weight estimation.
@@ -55,54 +27,22 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    liquidStaking: {
-      /**
-       * Base xcm transaction weight
-       **/
-      baseXcmWeight: Weight & AugmentedConst<ApiType>;
-      /**
-       * The pallet id of liquid staking, keeps all the staking assets.
-       **/
-      palletId: PalletId & AugmentedConst<ApiType>;
-      /**
-       * Basis of period.
-       **/
-      periodBasis: BlockNumberFor & AugmentedConst<ApiType>;
-      /**
-       * Account manages the staking assets.
-       **/
-      relayAgent: MultiLocation & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    loans: {
-      /**
-       * The loan's module id, keep all collaterals of CDPs.
-       **/
-      palletId: PalletId & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     multisig: {
       /**
-       * The base amount of currency needed to reserve for creating a multisig execution or to store
-       * a dispatch call for later.
+       * The base amount of currency needed to reserve for creating a multisig execution or to
+       * store a dispatch call for later.
        * 
        * This is held for an additional storage item whose value size is
        * `4 + sizeof((BlockNumber, Balance, AccountId))` bytes and whose key size is
        * `32 + sizeof(AccountId)` bytes.
        **/
-      depositBase: BalanceOf & AugmentedConst<ApiType>;
+      depositBase: u128 & AugmentedConst<ApiType>;
       /**
        * The amount of currency needed per unit threshold when creating a multisig execution.
        * 
        * This is held for adding 32 bytes more into a pre-existing storage value.
        **/
-      depositFactor: BalanceOf & AugmentedConst<ApiType>;
+      depositFactor: u128 & AugmentedConst<ApiType>;
       /**
        * The maximum amount of signatories allowed in the multisig.
        **/
@@ -112,33 +52,23 @@ declare module '@polkadot/api/types/consts' {
        **/
       [key: string]: Codec;
     };
-    nomineeElection: {
-      /**
-       * The maximum size of selected validators
-       **/
-      maxValidators: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     system: {
       /**
        * Maximum number of block number to block hash mappings to keep (oldest pruned first).
        **/
-      blockHashCount: BlockNumber & AugmentedConst<ApiType>;
+      blockHashCount: u32 & AugmentedConst<ApiType>;
       /**
        * The maximum length of a block (in bytes).
        **/
-      blockLength: BlockLength & AugmentedConst<ApiType>;
+      blockLength: FrameSystemLimitsBlockLength & AugmentedConst<ApiType>;
       /**
        * Block & extrinsics weights: base values and limits.
        **/
-      blockWeights: BlockWeights & AugmentedConst<ApiType>;
+      blockWeights: FrameSystemLimitsBlockWeights & AugmentedConst<ApiType>;
       /**
        * The weight of runtime database operations the runtime can invoke.
        **/
-      dbWeight: RuntimeDbWeight & AugmentedConst<ApiType>;
+      dbWeight: FrameSupportWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
       /**
        * The designated SS85 prefix of this chain.
        * 
@@ -150,7 +80,7 @@ declare module '@polkadot/api/types/consts' {
       /**
        * Get the chain's current version.
        **/
-      version: RuntimeVersion & AugmentedConst<ApiType>;
+      version: SpVersionRuntimeVersion & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -158,13 +88,37 @@ declare module '@polkadot/api/types/consts' {
     };
     transactionPayment: {
       /**
+       * A fee mulitplier for `Operational` extrinsics to compute "virtual tip" to boost their
+       * `priority`
+       * 
+       * This value is multipled by the `final_fee` to obtain a "virtual tip" that is later
+       * added to a tip component in regular `priority` calculations.
+       * It means that a `Normal` transaction can front-run a similarly-sized `Operational`
+       * extrinsic (with no tip), by including a tip value greater than the virtual tip.
+       * 
+       * ```rust,ignore
+       * // For `Normal`
+       * let priority = priority_calc(tip);
+       * 
+       * // For `Operational`
+       * let virtual_tip = (inclusion_fee + tip) * OperationalFeeMultiplier;
+       * let priority = priority_calc(tip + virtual_tip);
+       * ```
+       * 
+       * Note that since we use `final_fee` the multiplier applies also to the regular `tip`
+       * sent with the transaction. So, not only does the transaction get a priority bump based
+       * on the `inclusion_fee`, but we also amplify the impact of tips applied to `Operational`
+       * transactions.
+       **/
+      operationalFeeMultiplier: u8 & AugmentedConst<ApiType>;
+      /**
        * The fee to be paid for making a transaction; the per-byte portion.
        **/
-      transactionByteFee: BalanceOf & AugmentedConst<ApiType>;
+      transactionByteFee: u128 & AugmentedConst<ApiType>;
       /**
        * The polynomial that is applied in order to derive fee from weight.
        **/
-      weightToFee: Vec<WeightToFeeCoefficient> & AugmentedConst<ApiType>;
+      weightToFee: Vec<FrameSupportWeightsWeightToFeeCoefficient> & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -175,23 +129,6 @@ declare module '@polkadot/api/types/consts' {
        * The limit on the number of batched calls.
        **/
       batchedCallsLimit: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    xTokens: {
-      /**
-       * Base XCM weight.
-       * 
-       * The actually weight for an XCM message is `T::BaseXcmWeight +
-       * T::Weigher::weight(&msg)`.
-       **/
-      baseXcmWeight: Weight & AugmentedConst<ApiType>;
-      /**
-       * Self chain location.
-       **/
-      selfLocation: MultiLocation & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

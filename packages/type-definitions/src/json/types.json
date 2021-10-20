@@ -30,8 +30,8 @@
     "OrderedSet": "Vec<AccountId>",
     "OrmlAccountData": {
         "free": "Balance",
-        "frozen": "Balance",
-        "reserved": "Balance"
+        "reserved": "Balance",
+        "frozen": "Balance"
     },
     "OrmlBalanceLock": {
         "amount": "Balance",
@@ -122,11 +122,6 @@
         "score": "u128"
     },
     "ValidatorSet": "Vec<ValidatorInfo>",
-    "UnstakeInfo": {
-        "amount": "Balance",
-        "blockNumber": "u32",
-        "eraIndex": "Option<u32>"
-    },
     "StakingSettlementKind": {
         "_enum": [
             "Reward",
