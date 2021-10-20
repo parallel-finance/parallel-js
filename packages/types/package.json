@@ -15,8 +15,7 @@
   "homepage": "https://github.com/parallel-finance/parallel-js",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@open-web3/api-mobx": "^1.0.1",
-    "@open-web3/orml-types": "^1.0.1",
+    "@open-web3/orml-types": "^1.0.2-0",
     "@parallel-finance/type-definitions": "^1.4.0"
   },
   "devDependencies": {
