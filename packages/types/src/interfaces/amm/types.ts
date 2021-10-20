@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Enum, Struct } from '@polkadot/types';
 import type { Balance } from '@parallel-finance/types/interfaces/runtime';
+import type { Enum, Struct } from '@polkadot/types';
 
 /** @name AmountEvaluation */
 export interface AmountEvaluation extends Struct {

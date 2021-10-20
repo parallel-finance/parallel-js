@@ -1,11 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Bytes, HashMap, Json, Metadata, Null, Option, StorageKey, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types';
-import type { AnyNumber, Codec, IExtrinsic, ITuple, Observable } from '@polkadot/types/types';
 import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
 import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
 import type { AccountId, Block, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
+import type { Bytes, HashMap, Json, Metadata, Null, Option, StorageKey, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import type { BeefySignedCommitment } from '@polkadot/types/interfaces/beefy';
@@ -23,6 +22,7 @@ import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
 import type { ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
+import type { AnyNumber, Codec, IExtrinsic, ITuple, Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/rpc-core/types.jsonrpc' {
   export interface RpcInterface {
@@ -115,6 +115,10 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Returns a child storage entry at a specific block state
        **/
       getStorage: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, key: StorageKey | string | Uint8Array | any, at?: Hash | string | Uint8Array) => Observable<Option<StorageData>>>;
+      /**
+       * Returns child storage entries for multiple keys at a specific block state
+       **/
+      getStorageEntries: AugmentedRpc<(childKey: PrefixedStorageKey | string | Uint8Array, keys: Vec<StorageKey> | (StorageKey | string | Uint8Array | any)[], at?: Hash | string | Uint8Array) => Observable<Vec<Option<StorageData>>>>;
       /**
        * Returns the hash of a child storage entry at a block state
        **/
