@@ -12,13 +12,13 @@ This library provides necessary types and JSON-RPC information for user to acces
 ## Update metadata
 Start a local node service on ws://localhost:9944
 ```
-yarn install
+yarn
 yarn update-metadata
 ```
 
 ## Build
 ```
-yarn install
+yarn
 yarn build
 ```
 
