@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
+import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
 import type { AccountId, Balance, FixedU128 } from '@parallel-finance/types/interfaces/runtime';
 import type { Enum, Option, Struct, Text, Vec, bool, u128 } from '@polkadot/types';
 
@@ -56,6 +56,7 @@ export interface Market extends Struct {
   readonly rateModel: InterestRateModel;
   readonly state: MarketState;
   readonly cap: Balance;
+  readonly ptokenId: CurrencyId;
 }
 
 /** @name MarketState */

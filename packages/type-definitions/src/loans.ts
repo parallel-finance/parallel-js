@@ -54,7 +54,8 @@ export default {
       liquidateIncentive: 'Rate',
       rateModel: 'InterestRateModel',
       state: 'MarketState',
-      cap: 'Balance'
+      cap: 'Balance',
+      ptokenId: 'CurrencyId'
     },
     MarketState: {
       _enum: ['Active', 'Pending', 'Supervision']
