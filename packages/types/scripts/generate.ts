@@ -7,10 +7,10 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { generateInterfaceTypes } from '@polkadot/typegen/generate/interfaceRegistry';
 import { generateTsDef } from '@polkadot/typegen/generate/tsDef';
 import {
-    generateDefaultConsts,
-    generateDefaultQuery,
-    generateDefaultTx,
-    generateDefaultRpc
+  generateDefaultConsts,
+  generateDefaultQuery,
+  generateDefaultTx,
+  generateDefaultRpc
 } from '@polkadot/typegen/generate';
 import { registerDefinitions } from '@polkadot/typegen/util';
 import metaHex from '../src/metadata/static-latest';
@@ -44,9 +44,9 @@ const { runtime, ...substrateDefinations } = defaultDefinations;
 const { runtime: _runtime, ...ormlModulesDefinations } = ormlDefinations;
 
 const definations = {
-    '@polkadot/types/interfaces': substrateDefinations,
-    '@open-web3/orml-types/interfaces': ormlModulesDefinations,
-    '@parallel-finance/types/interfaces': parallelDefinations
+  '@polkadot/types/interfaces': substrateDefinations,
+  '@open-web3/orml-types/interfaces': ormlModulesDefinations,
+  '@parallel-finance/types/interfaces': parallelDefinations
 } as any;
 
 const metadata = filterModules(
@@ -65,17 +65,15 @@ const metadata = filterModules(
     'DmpQueue',
     'PolkadotXcm',
     'CumulusXcm',
-    'Currencies',
-    'Tokens',
     'Oracle',
     'XTokens',
-    'UnknownTokens',
     'OrmlXcm',
     'Loans',
     'Prices',
     'LiquidStaking',
+    'Crowdloans',
     'NomineeElection',
-    'AMM',
+    'AMM'
     // 'Vesting', //Conflicts with pallet-vesting https://github.com/polkadot-js/api/issues/2338
     // Otherwise we need alias the module name. https://github.com/parallel-finance/parallel/pull/511
   ],

@@ -1923,13 +1923,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@open-web3/util@npm:^1.0.2-0":
-  version: 1.0.2-0
-  resolution: "@open-web3/util@npm:1.0.2-0"
+"@open-web3/util@npm:^1.0.2-1":
+  version: 1.0.2-1
+  resolution: "@open-web3/util@npm:1.0.2-1"
   dependencies:
     "@yarnpkg/lockfile": ^1.1.0
     big.js: ^6.1.1
-  checksum: bc0f64a74977d4e8e75cf93b2c37184e264eb0f0ad7551af64a611b8b06336790d28877a568a0e214286c1a53dbb6ca1491f0e54e9ec37dcf28f7980b1b7c0e9
+  checksum: d6252d45553d996b7cff2c6fb0fb24573f63a28471f798e6eef813b694cfd0afb9f14ef03d232cdb658ad741442b709eda9ea41d6857d5ac2f8bd963a75f12c9
   languageName: node
   linkType: hard
 
@@ -9798,7 +9798,7 @@ resolve@^2.0.0-next.3:
     "@babel/register": ^7.13.6
     "@babel/runtime": ^7.14.0
     "@open-web3/dev-config": ^0.1.13
-    "@open-web3/util": ^1.0.2-0
+    "@open-web3/util": ^1.0.2-1
     "@types/jest": ^25.2.3
     ts-node: ^8.6.1
     tsconfig-paths: ^3.9.0
