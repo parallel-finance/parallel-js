@@ -1,6 +1,6 @@
 {
   "name": "@parallel-finance/types",
-  "version": "1.4.4",
+  "version": "1.5.0",
   "description": "Polkadot.js type definitions for Parallel Finance",
   "main": "index.js",
   "license": "Apache-2.0",
@@ -15,13 +15,13 @@
   "homepage": "https://github.com/parallel-finance/parallel-js",
   "dependencies": {
     "@babel/runtime": "^7.10.2",
-    "@open-web3/orml-types": "^1.0.2-0",
-    "@parallel-finance/type-definitions": "^1.4.4"
+    "@open-web3/orml-types": "^1.0.2-3",
+    "@parallel-finance/type-definitions": "^1.5.0"
   },
   "devDependencies": {
-    "@polkadot/api": "^6.3.1",
-    "@polkadot/typegen": "^6.3.1",
-    "@polkadot/types": "^6.3.1",
+    "@polkadot/api": "^7.8.2-2",
+    "@polkadot/typegen": "^7.8.2-2",
+    "@polkadot/types": "^7.8.2-2",
     "@types/websocket": "^1.0.0",
     "websocket": "^1.0.31"
   }

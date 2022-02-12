@@ -7,35 +7,21 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { generateInterfaceTypes } from '@polkadot/typegen/generate/interfaceRegistry';
 import { generateTsDef } from '@polkadot/typegen/generate/tsDef';
 import {
-    generateDefaultConsts,
-    generateDefaultQuery,
-    generateDefaultTx,
-    generateDefaultRpc
+  generateDefaultConsts,
+  generateDefaultQuery,
+  generateDefaultErrors,
+  generateDefaultEvents,
+  generateDefaultRpc,
+  generateDefaultTx
 } from '@polkadot/typegen/generate';
 import { registerDefinitions } from '@polkadot/typegen/util';
-import metaHex from '../src/metadata/static-latest';
+import metadata from '../src/metadata/static-latest';
 
 import * as defaultDefinations from '@polkadot/types/interfaces/definitions';
 
 import * as ormlDefinations from '@open-web3/orml-types/interfaces/definitions';
 
 import * as parallelDefinations from '../src/interfaces/definitions';
-
-// Only keep our own modules to avoid conflicts with the one provided by polkadot.js
-function filterModules(names: string[], defs: any): string {
-  const registry = new TypeRegistry();
-  registerDefinitions(registry, defs);
-  const metadata = new Metadata(registry, metaHex);
-
-  // hack https://github.com/polkadot-js/api/issues/2687#issuecomment-705342442
-  metadata.asLatest.toJSON();
-
-  const filtered = metadata.toJSON() as any;
-
-  filtered.metadata.v14.pallets = filtered.metadata.v14.pallets.filter(({ name }: any) => names.includes(name));
-
-  return new Metadata(registry, filtered).toHex();
-}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { runtime, ...substrateDefinations } = defaultDefinations;
@@ -44,48 +30,47 @@ const { runtime, ...substrateDefinations } = defaultDefinations;
 const { runtime: _runtime, ...ormlModulesDefinations } = ormlDefinations;
 
 const definations = {
-    '@polkadot/types/interfaces': substrateDefinations,
-    '@open-web3/orml-types/interfaces': ormlModulesDefinations,
-    '@parallel-finance/types/interfaces': parallelDefinations
+  '@polkadot/types/interfaces': substrateDefinations,
+  '@open-web3/orml-types/interfaces': ormlModulesDefinations,
+  '@parallel-finance/types/interfaces': parallelDefinations
 } as any;
 
-const metadata = filterModules(
-  [
-    'System',
-    'Utility',
-    'Multisig',
-    'Balances',
-    'TransactionPayment',
-    'Sudo',
-    // 'Democracy',
-    'GeneralCouncil',
-    'TechnicalCommittee',
-    'ParachainInfo',
-    'XcmpQueue',
-    'DmpQueue',
-    'PolkadotXcm',
-    'CumulusXcm',
-    'Currencies',
-    'Tokens',
-    'Oracle',
-    'XTokens',
-    'UnknownTokens',
-    'OrmlXcm',
-    'Loans',
-    'Prices',
-    'LiquidStaking',
-    'NomineeElection',
-    'AMM',
-    // 'Vesting', //Conflicts with pallet-vesting https://github.com/polkadot-js/api/issues/2338
-    // Otherwise we need alias the module name. https://github.com/parallel-finance/parallel/pull/511
-  ],
-  definations
-);
+const customLookupDefinitions = {
+  rpc: {},
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
+  types: require('../src/interfaces/lookup.ts').default
+} as Definitions;
 
 generateTsDef(definations, 'packages/types/src/interfaces', '@parallel-finance/types/interfaces');
 generateInterfaceTypes(definations, 'packages/types/src/interfaces/augment-types.ts');
 
-generateDefaultConsts('packages/types/src/interfaces/augment-api-consts.ts', metadata, definations);
-generateDefaultTx('packages/types/src/interfaces/augment-api-tx.ts', metadata, definations);
-generateDefaultQuery('packages/types/src/interfaces/augment-api-query.ts', metadata, definations);
+generateDefaultConsts(
+  'packages/types/src/interfaces/augment-api-consts.ts',
+  metadata,
+  definations,
+  false,
+  customLookupDefinitions
+);
+generateDefaultTx(
+  'packages/types/src/interfaces/augment-api-tx.ts',
+  metadata,
+  definations,
+  false,
+  customLookupDefinitions
+);
+generateDefaultQuery(
+  'packages/types/src/interfaces/augment-api-query.ts',
+  metadata,
+  definations,
+  false,
+  customLookupDefinitions
+);
 generateDefaultRpc('packages/types/src/interfaces/augment-api-rpc.ts', definations);
+generateDefaultErrors('packages/types/src/interfaces/augment-api-errors.ts', metadata, definations, false);
+generateDefaultEvents(
+  'packages/types/src/interfaces/augment-api-events.ts',
+  metadata,
+  definations,
+  false,
+  customLookupDefinitions
+);

@@ -3,8 +3,8 @@
 
 import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { AssetId, FixedU128, Permill } from '@parallel-finance/types/interfaces/runtime';
-import type { i128, u64 } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { i128, u64 } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 
 /** @name Amount */
 export interface Amount extends i128 {}

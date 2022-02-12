@@ -3,7 +3,7 @@
 
 import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
 import type { AccountId, Balance, FixedU128 } from '@parallel-finance/types/interfaces/runtime';
-import type { Enum, Option, Struct, Text, Vec, bool, u128 } from '@polkadot/types';
+import type { Enum, Option, Struct, Text, Vec, bool, u128 } from '@polkadot/types-codec';
 
 /** @name BorrowSnapshot */
 export interface BorrowSnapshot extends Struct {
@@ -34,6 +34,7 @@ export interface InterestRateModel extends Enum {
   readonly asJumpModel: JumpModel;
   readonly isCurveModel: boolean;
   readonly asCurveModel: CurveModel;
+  readonly type: 'JumpModel' | 'CurveModel';
 }
 
 /** @name JumpModel */
@@ -64,6 +65,7 @@ export interface MarketState extends Enum {
   readonly isActive: boolean;
   readonly isPending: boolean;
   readonly isSupervision: boolean;
+  readonly type: 'Active' | 'Pending' | 'Supervision';
 }
 
 /** @name Shortfall */

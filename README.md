@@ -10,7 +10,7 @@ This library provides necessary types and JSON-RPC information for user to acces
   - Polkadot.js type definitions for Parallel Fanance
 
 ## Update metadata
-Start a local node service on ws://localhost:9944
+Start a local node service on ws://localhost:9948
 ```
 yarn
 yarn update-metadata
