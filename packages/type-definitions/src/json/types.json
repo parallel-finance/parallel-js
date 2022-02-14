@@ -143,11 +143,6 @@
         "accountAmount": "Balance",
         "poolAmount": "Balance"
     },
-    "PoolLiquidityAmount": {
-        "baseAmount": "Balance",
-        "quoteAmount": "Balance",
-        "ownership": "Balance"
-    },
     "Amount": "i128",
     "AmountOf": "Amount",
     "Rate": "FixedU128",
@@ -159,5 +154,9 @@
     "Currency": "CurrencyId",
     "AssetIdOf": "AssetId",
     "OracleKey": "AssetId",
-    "Route": "Vec<(AssetId, AssetId)>"
+    "PoolLiquidityAmount": {
+        "baseAmount": "Balance",
+        "quoteAmount": "Balance",
+        "ownership": "Balance"
+    }
 }

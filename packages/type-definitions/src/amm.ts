@@ -8,10 +8,5 @@ export default {
       accountAmount: 'Balance',
       poolAmount: 'Balance'
     },
-    PoolLiquidityAmount: {
-      baseAmount: 'Balance',
-      quoteAmount: 'Balance',
-      ownership: 'Balance'
-    }
   }
 };

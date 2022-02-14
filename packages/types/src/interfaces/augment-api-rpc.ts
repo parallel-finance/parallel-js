@@ -3,7 +3,8 @@
 
 import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
 import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
-import type { AccountId, Block, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
+import type { CurrencyId } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, Balance, Block, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
 import type { Bytes, HashMap, Json, Metadata, Null, Option, StorageKey, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
@@ -391,6 +392,12 @@ declare module '@polkadot/rpc-core/types.jsonrpc' {
        * Retrieves the fee information for an encoded extrinsic
        **/
       queryInfo: AugmentedRpc<(extrinsic: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<RuntimeDispatchInfo>>;
+    };
+    router: {
+      /**
+       * Returns the route that results in the largest amount out for amount in
+       **/
+      getBestRoute: AugmentedRpc<(amount_in: Balance | AnyNumber | Uint8Array, token_in: CurrencyId | AnyNumber | Uint8Array, token_out: CurrencyId | AnyNumber | Uint8Array, at: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[CurrencyId, Balance]>>>;
     };
     rpc: {
       /**

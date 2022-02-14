@@ -10,13 +10,6 @@ export interface AmountEvaluation extends Struct {
   readonly poolAmount: Balance;
 }
 
-/** @name PoolLiquidityAmount */
-export interface PoolLiquidityAmount extends Struct {
-  readonly baseAmount: Balance;
-  readonly quoteAmount: Balance;
-  readonly ownership: Balance;
-}
-
 /** @name SwapType */
 export interface SwapType extends Enum {
   readonly isBuy: boolean;
