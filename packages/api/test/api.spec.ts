@@ -10,7 +10,7 @@ describe('parallel online test', () => {
 
     process.env.NODE_ENV = 'test';
 
-    const provider = new WsProvider('wss://test-para-rpc.parallel.fi');
+    const provider = new WsProvider('wss://heiko-rpc.parallel.fi');
     api = await ApiPromise.create(
       options({
         types: {
