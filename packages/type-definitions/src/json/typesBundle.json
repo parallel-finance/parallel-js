@@ -67,6 +67,34 @@
                         "method": "getAccountLiquidity",
                         "section": "loans"
                     }
+                },
+                "router": {
+                    "getBestRoute": {
+                        "description": "Returns the route that results in the largest amount out for amount in",
+                        "params": [
+                            {
+                                "name": "amount_in",
+                                "type": "Balance"
+                            },
+                            {
+                                "name": "token_in",
+                                "type": "CurrencyId"
+                            },
+                            {
+                                "name": "token_out",
+                                "type": "CurrencyId"
+                            },
+                            {
+                                "name": "at",
+                                "type": "Option<Block>"
+                            }
+                        ],
+                        "type": "(CurrencyId, Balance)",
+                        "isSubscription": false,
+                        "jsonrpc": "router_getBestRoute",
+                        "method": "getBestRoute",
+                        "section": "router"
+                    }
                 }
             },
             "instances": {
@@ -205,30 +233,18 @@
                             "score": "u128"
                         },
                         "ValidatorSet": "Vec<ValidatorInfo>",
-                        "StakingSettlementKind": {
-                            "_enum": [
-                                "Reward",
-                                "Slash"
-                            ]
-                        },
                         "MatchingLedger": {
                             "totalStakeAmount": "Balance",
                             "totalUnstakeAmount": "Balance"
                         },
-                        "SwapType": {
-                            "_enum": [
-                                "Buy",
-                                "Sell"
-                            ]
-                        },
-                        "AmountEvaluation": {
-                            "accountAmount": "Balance",
-                            "poolAmount": "Balance"
-                        },
-                        "PoolLiquidityAmount": {
+                        "Pool": {
                             "baseAmount": "Balance",
                             "quoteAmount": "Balance",
-                            "ownership": "Balance"
+                            "rootKLast": "Balance",
+                            "lpTokenId": "AssetId",
+                            "blockTimestampLast": "BlockNumber",
+                            "price0CumulativeLast": "Balance",
+                            "price1CumulativeLast": "Balance"
                         },
                         "Amount": "i128",
                         "AmountOf": "Amount",

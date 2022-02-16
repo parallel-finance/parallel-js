@@ -1,17 +1,14 @@
 export default {
   rpc: {},
   types: {
-    SwapType: {
-      _enum: ['Buy', 'Sell']
-    },
-    AmountEvaluation: {
-      accountAmount: 'Balance',
-      poolAmount: 'Balance'
-    },
-    PoolLiquidityAmount: {
+    Pool: {
       baseAmount: 'Balance',
       quoteAmount: 'Balance',
-      ownership: 'Balance'
+      rootKLast: 'Balance',
+      lpTokenId: 'AssetId',
+      blockTimestampLast: 'BlockNumber',
+      price0CumulativeLast: 'Balance',
+      price1CumulativeLast: 'Balance'
     }
   }
 };

@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { AssetId } from '@parallel-finance/types/interfaces/runtime';
-import type { Vec } from '@polkadot/types';
-import type { ITuple } from '@polkadot/types/types';
+import type { Vec } from '@polkadot/types-codec';
+import type { ITuple } from '@polkadot/types-codec/types';
 
 /** @name Route */
 export interface Route extends Vec<ITuple<[AssetId, AssetId]>> {}
