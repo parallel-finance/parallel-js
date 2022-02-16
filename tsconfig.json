@@ -15,7 +15,7 @@
       "@parallel-finance/api/*": ["packages/api/src/*"],
       "@parallel-finance/types": ["packages/types/src"],
       "@parallel-finance/types/*": ["packages/types/src/*"],
-      "@parallel-finance/types/lookup": ["packages/types/src/interfaces/types-lookup.ts"],
+      "@polkadot/types/lookup": ["packages/types/src/interfaces/types-lookup.ts"],
       "@parallel-finance/type-definitions": ["packages/type-definitions/src"],
       "@parallel-finance/type-definitions/*": ["packages/type-definitions/src/*"]
     },
