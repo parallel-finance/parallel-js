@@ -35,7 +35,7 @@ describe('parallel bulk transfer test', () => {
       'st8p7os56kbysAKCxRjC1PeUyobEP8b94sQkBbmeWSc2GJzEt'
     ];
     const amounts = ['1000', '1000'];
-    bulkTransfer(api, sender, recipients, amounts);
+    await bulkTransfer(api, sender, recipients, amounts);
   });
 
   it.skip('should decode evnets', async () => {
