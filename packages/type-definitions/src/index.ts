@@ -11,6 +11,7 @@ import loans from './loans';
 import prices from './prices';
 import primitives from './primitives';
 import runtime from './runtime';
+import farming from './farming';
 import router from './router';
 
 import parallelVersioned from './spec/parallel';
@@ -22,6 +23,7 @@ const parallelDefs = {
   prices,
   primitives,
   runtime,
+  farming,
   router
 };
 

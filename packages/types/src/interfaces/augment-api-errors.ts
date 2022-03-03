@@ -23,6 +23,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InsufficientLiquidity: AugmentedError<ApiType>;
       /**
+       * Insufficient supply out.
+       **/
+      InsufficientSupplyOut: AugmentedError<ApiType>;
+      /**
        * LP token has already been minted
        **/
       LpTokenAlreadyExists: AugmentedError<ApiType>;
@@ -68,6 +72,14 @@ declare module '@polkadot/api-base/types/errors' {
        * A more specific UnexpectedSlippage when trading exact amount in
        **/
       MinimumAmountOutViolated: AugmentedError<ApiType>;
+      /**
+       * Route between tokens is not possible
+       **/
+      NoPossibleRoute: AugmentedError<ApiType>;
+      /**
+       * Token doesn't exists in all pools
+       **/
+      TokenDoesNotExists: AugmentedError<ApiType>;
       /**
        * Input balance must not be zero
        **/
@@ -407,6 +419,16 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    currencyAdapter: {
+      /**
+       * Not a native token
+       **/
+      NotANativeToken: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     democracy: {
       /**
        * Cannot cancel the same proposal twice
@@ -542,13 +564,21 @@ declare module '@polkadot/api-base/types/errors' {
     };
     farming: {
       /**
+       * Asset decimal error
+       **/
+      AssetDecimalError: AugmentedError<ApiType>;
+      /**
        * Codec error
        **/
       CodecError: AugmentedError<ApiType>;
       /**
-       * Not a newly created asset
+       * Excess max lock duration for lock pool
        **/
-      NotANewlyCreatedAsset: AugmentedError<ApiType>;
+      ExcessMaxLockDuration: AugmentedError<ApiType>;
+      /**
+       * Excess max user lock item count
+       **/
+      ExcessMaxUserLockItemsCount: AugmentedError<ApiType>;
       /**
        * Not a valid amount
        **/
@@ -566,9 +596,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PoolDoesNotExist: AugmentedError<ApiType>;
       /**
-       * The end block is smaller than start block
+       * Pool is not active
        **/
-      SmallerThanEndBlock: AugmentedError<ApiType>;
+      PoolIsNotActive: AugmentedError<ApiType>;
+      /**
+       * Pool is already in desire status
+       **/
+      PoolNewActiveStatusWrong: AugmentedError<ApiType>;
+      /**
+       * old reward rule is still valid
+       **/
+      RewardRuleStillValid: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -730,17 +768,35 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidStakingCurrency: AugmentedError<ApiType>;
       /**
+       * Nothing to claim yet
+       **/
+      NothingToClaim: AugmentedError<ApiType>;
+      /**
+       * Settlement locked
+       **/
+      SettlementLocked: AugmentedError<ApiType>;
+      /**
        * The stake was below the minimum, `MinStake`.
        **/
       StakeTooSmall: AugmentedError<ApiType>;
       /**
-       * Exceeded unstake queue's capacity
-       **/
-      UnstakeQueueCapExceeded: AugmentedError<ApiType>;
-      /**
        * The unstake was below the minimum, `MinUnstake`.
        **/
       UnstakeTooSmall: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    liquidStakingAgentsMembership: {
+      /**
+       * Already a member.
+       **/
+      AlreadyMember: AugmentedError<ApiType>;
+      /**
+       * Not a member.
+       **/
+      NotMember: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1320,20 +1376,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many calls batched.
        **/
       TooManyCalls: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    validatorFeedersMembership: {
-      /**
-       * Already a member.
-       **/
-      AlreadyMember: AugmentedError<ApiType>;
-      /**
-       * Not a member.
-       **/
-      NotMember: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

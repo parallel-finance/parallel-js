@@ -1,4 +1,5 @@
 export { default as liquidStaking } from './liquidStaking/definitions';
+export { default as farming } from './farming/definitions';
 export { default as loans } from './loans/definitions';
 export { default as amm } from './amm/definitions';
 export { default as prices } from './prices/definitions';

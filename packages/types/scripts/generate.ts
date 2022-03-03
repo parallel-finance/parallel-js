@@ -27,7 +27,8 @@ import * as parallelDefinations from '../src/interfaces/definitions';
 const { runtime, ...substrateDefinations } = defaultDefinations;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { runtime: _runtime, ...ormlModulesDefinations } = ormlDefinations;
+let { runtime: _runtime, ...ormlModulesDefinations } = ormlDefinations;
+delete ormlModulesDefinations.rewards
 
 const definations = {
   '@polkadot/types/interfaces': substrateDefinations,

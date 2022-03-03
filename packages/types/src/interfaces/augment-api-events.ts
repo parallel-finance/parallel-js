@@ -12,24 +12,24 @@ declare module '@polkadot/api-base/types/events' {
     amm: {
       /**
        * Add liquidity into pool
-       * [sender, base_currency_id, quote_currency_id, base_amount, quote_amount]
+       * [sender, base_currency_id, quote_currency_id, base_amount_added, quote_amount_added, lp_token_id, new_base_amount, new_quote_amount]
        **/
-      LiquidityAdded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128]>;
+      LiquidityAdded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
       /**
        * Remove liquidity from pool
-       * [sender, base_currency_id, quote_currency_id, liquidity]
+       * [sender, base_currency_id, quote_currency_id, liquidity, base_amount_removed, quote_amount_removed, lp_token_id, new_base_amount, new_quote_amount]
        **/
-      LiquidityRemoved: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
+      LiquidityRemoved: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u128, u32, u128, u128]>;
       /**
        * A Pool has been created
-       * [trader, currency_id_in, currency_id_out, lp_token_id
+       * [trader, currency_id_in, currency_id_out, lp_token_id]
        **/
       PoolCreated: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32]>;
       /**
        * Trade using liquidity
-       * [trader, currency_id_in, currency_id_out, amount_in, amount_out, new_quote_amount, new_base_amount]
+       * [trader, currency_id_in, currency_id_out, amount_in, amount_out, lp_token_id, new_quote_amount, new_base_amount]
        **/
-      Traded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u128, u128]>;
+      Traded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
       /**
        * Generic event
        **/
@@ -524,19 +524,34 @@ declare module '@polkadot/api-base/types/events' {
     farming: {
       /**
        * Deposited Assets in pool
-       * [sender, asset_id]
+       * [sender, asset_id, asset_id]
        **/
-      AssetsDeposited: AugmentedEvent<ApiType, [AccountId32, u32]>;
+      AssetsDeposited: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
+      /**
+       * Redeem Assets from lock pool
+       * [sender, asset_id, asset_id]
+       **/
+      AssetsRedeem: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
       /**
        * Withdrew Assets from pool
-       * [sender, asset_id]
+       * [sender, asset_id, asset_id]
        **/
-      AssetsWithdrew: AugmentedEvent<ApiType, [AccountId32, u32]>;
+      AssetsWithdrew: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
       /**
        * Add new pool
-       * [asset_id]
+       * [asset_id, asset_id]
        **/
-      PoolAdded: AugmentedEvent<ApiType, [u32]>;
+      PoolAdded: AugmentedEvent<ApiType, [u32, u32]>;
+      /**
+       * Reward added
+       * [asset_id, asset_id, amount]
+       **/
+      RewardAdded: AugmentedEvent<ApiType, [u32, u32, u128]>;
+      /**
+       * Reward Paid for user
+       * [sender, asset_id, asset_id, amount]
+       **/
+      RewardPaid: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
       /**
        * Generic event
        **/
@@ -665,6 +680,11 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BondingExtra: AugmentedEvent<ApiType, [u128]>;
       /**
+       * Claim user's unbonded staking assets
+       * [unbond_index, account_id, amount]
+       **/
+      ClaimedFor: AugmentedEvent<ApiType, [u32, AccountId32, u128]>;
+      /**
        * Exchange rate was updated
        **/
       ExchangeRateUpdated: AugmentedEvent<ApiType, [u128]>;
@@ -696,10 +716,6 @@ declare module '@polkadot/api-base/types/events' {
        **/
       Settlement: AugmentedEvent<ApiType, [u128, u128, u128]>;
       /**
-       * Slash was paid by insurance pool
-       **/
-      SlashPaid: AugmentedEvent<ApiType, [u128]>;
-      /**
        * The assets get staked successfully
        **/
       Staked: AugmentedEvent<ApiType, [AccountId32, u128]>;
@@ -715,6 +731,36 @@ declare module '@polkadot/api-base/types/events' {
        * Sent staking.withdraw_unbonded call to relaychain
        **/
       WithdrawingUnbonded: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    liquidStakingAgentsMembership: {
+      /**
+       * Phantom member, never used.
+       **/
+      Dummy: AugmentedEvent<ApiType, []>;
+      /**
+       * One of the members' keys changed.
+       **/
+      KeyChanged: AugmentedEvent<ApiType, []>;
+      /**
+       * The given member was added; see the transaction for who.
+       **/
+      MemberAdded: AugmentedEvent<ApiType, []>;
+      /**
+       * The given member was removed; see the transaction for who.
+       **/
+      MemberRemoved: AugmentedEvent<ApiType, []>;
+      /**
+       * The membership was reset; see the transaction for who the new set is.
+       **/
+      MembersReset: AugmentedEvent<ApiType, []>;
+      /**
+       * Two members were swapped; see the transaction for who.
+       **/
+      MembersSwapped: AugmentedEvent<ApiType, []>;
       /**
        * Generic event
        **/
@@ -1276,36 +1322,6 @@ declare module '@polkadot/api-base/types/events' {
        * A single item within a Batch of dispatches has completed with no error.
        **/
       ItemCompleted: AugmentedEvent<ApiType, []>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    validatorFeedersMembership: {
-      /**
-       * Phantom member, never used.
-       **/
-      Dummy: AugmentedEvent<ApiType, []>;
-      /**
-       * One of the members' keys changed.
-       **/
-      KeyChanged: AugmentedEvent<ApiType, []>;
-      /**
-       * The given member was added; see the transaction for who.
-       **/
-      MemberAdded: AugmentedEvent<ApiType, []>;
-      /**
-       * The given member was removed; see the transaction for who.
-       **/
-      MemberRemoved: AugmentedEvent<ApiType, []>;
-      /**
-       * The membership was reset; see the transaction for who the new set is.
-       **/
-      MembersReset: AugmentedEvent<ApiType, []>;
-      /**
-       * Two members were swapped; see the transaction for who.
-       **/
-      MembersSwapped: AugmentedEvent<ApiType, []>;
       /**
        * Generic event
        **/

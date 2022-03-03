@@ -2,6 +2,7 @@
 /* eslint-disable */
 
 export * from './liquidStaking/types';
+export * from './farming/types';
 export * from './loans/types';
 export * from './amm/types';
 export * from './prices/types';
