@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AccountId32, H256, Permill } from '@parallel-finance/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLoansMarket, PalletMultisigTimepoint, PalletNomineeElectionValidatorInfo, ParallelPrimitivesUmpRewardDestination, ParallelPrimitivesUmpXcmWeightMisc, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { AccountId32, H256, Permill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletMultisigTimepoint, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
