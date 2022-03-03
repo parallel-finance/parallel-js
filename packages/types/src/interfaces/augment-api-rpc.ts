@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
+import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
 import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
-import type { RpcDataProviderId, TimestampedValue } from '@parallel-finance/types/interfaces/oracle';
 import type { CurrencyId } from '@parallel-finance/types/interfaces/primitives';
 import type { AccountId, Balance, Block, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
 import type { AugmentedRpc } from '@polkadot/rpc-core/types';

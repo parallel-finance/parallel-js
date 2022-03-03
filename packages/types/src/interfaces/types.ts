@@ -8,4 +8,3 @@ export * from './prices/types';
 export * from './primitives/types';
 export * from './router/types';
 export * from './runtime/types';
-export * from './oracle/types';
