@@ -6,11 +6,12 @@ Api lib for executing bulk-transfer
 
 ```
 
-import { ApiPromise, WsProvider } from '@polkadot/api';
+import { ApiPromise, WsProvider } from '@parallel-finance/api';
 import { Keyring } from "@polkadot/keyring";
+import { bulkTransfer } from "@parallel-finance/bulk-transfer";
 import "dotenv/config";
 
-async function usage() {
+async function usage(api, ) {
     const keyring = new Keyring();
     const sender = keyring.addFromUri(process.env.mnemonic!, { name: 'bulk transfer test' }, 'sr25519');
     const recipients = [
