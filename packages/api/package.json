@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.10.2",
-    "@polkadot/api": "^7.10.1",
-    "@polkadot/rpc-core": "^7.10.1"
+    "@polkadot/api": "^7.9.1",
+    "@polkadot/rpc-core": "^7.9.1"
   }
 }

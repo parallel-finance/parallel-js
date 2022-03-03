@@ -19,9 +19,9 @@
     "@parallel-finance/type-definitions": "^1.5.2"
   },
   "devDependencies": {
-    "@polkadot/api": "^7.10.1",
-    "@polkadot/typegen": "^7.10.1",
-    "@polkadot/types": "^7.10.1",
+    "@polkadot/api": "^7.9.1",
+    "@polkadot/typegen": "^7.9.1",
+    "@polkadot/types": "^7.9.1",
     "@types/websocket": "^1.0.0",
     "websocket": "^1.0.31"
   }

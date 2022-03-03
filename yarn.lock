@@ -2039,8 +2039,8 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@open-web3/orml-api-derive": ^1.0.2-3
     "@parallel-finance/types": ^1.5.2
-    "@polkadot/api": ^7.10.1
-    "@polkadot/rpc-core": ^7.10.1
+    "@polkadot/api": ^7.9.1
+    "@polkadot/rpc-core": ^7.9.1
   languageName: unknown
   linkType: soft
 
@@ -2059,9 +2059,9 @@ __metadata:
     "@babel/runtime": ^7.10.2
     "@open-web3/orml-types": ^1.0.2-3
     "@parallel-finance/type-definitions": ^1.5.2
-    "@polkadot/api": ^7.10.1
-    "@polkadot/typegen": ^7.10.1
-    "@polkadot/types": ^7.10.1
+    "@polkadot/api": ^7.9.1
+    "@polkadot/typegen": ^7.9.1
+    "@polkadot/types": ^7.9.1
     "@types/websocket": ^1.0.0
     websocket: ^1.0.31
   languageName: unknown
@@ -2113,7 +2113,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/api@npm:^7.10.1":
+"@polkadot/api@npm:^7.9.1":
   version: 7.10.1
   resolution: "@polkadot/api@npm:7.10.1"
   dependencies:
@@ -2176,7 +2176,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/rpc-core@npm:7.10.1, @polkadot/rpc-core@npm:^7.10.1":
+"@polkadot/rpc-core@npm:7.10.1, @polkadot/rpc-core@npm:^7.9.1":
   version: 7.10.1
   resolution: "@polkadot/rpc-core@npm:7.10.1"
   dependencies:
@@ -2210,7 +2210,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/typegen@npm:^7.10.1":
+"@polkadot/typegen@npm:^7.9.1":
   version: 7.10.1
   resolution: "@polkadot/typegen@npm:7.10.1"
   dependencies:
@@ -2298,7 +2298,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@polkadot/types@npm:^7.10.1":
+"@polkadot/types@npm:^7.9.1":
   version: 7.10.1
   resolution: "@polkadot/types@npm:7.10.1"
   dependencies:
