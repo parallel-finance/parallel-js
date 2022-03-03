@@ -59,8 +59,14 @@
     "VestingScheduleOf": "OrmlVestingSchedule",
     "OrmlCurrencyId": "u8",
     "PoolInfo": {
-        "totalShares": "Share",
-        "rewards": "BTreeMap<OrmlCurrencyId, (Balance, Balance)>"
+        "isActive": "bool",
+        "totalSupply": "Balance",
+        "lockDuration": "BlockNumber",
+        "duration": "BlockNumber",
+        "periodFinish": "BlockNumber",
+        "lastUpdateBlock": "BlockNumber",
+        "rewardRate": "Balance",
+        "rewardPerShareStored": "Balance"
     },
     "CompactBalance": "Compact<Balance>",
     "PoolInfoV0": {
@@ -147,5 +153,12 @@
     "Currency": "CurrencyId",
     "AssetIdOf": "AssetId",
     "OracleKey": "AssetId",
+    "BoundedBalance": "BoundedVec<(Balance, BlockNumber), u32>",
+    "UserPosition": {
+        "depositBalance": "Balance",
+        "lockBalanceItems": "BoundedBalance",
+        "rewardAmount": "Balance",
+        "rewardPerSharePaid": "Balance"
+    },
     "Route": "Vec<(AssetId, AssetId)>"
 }

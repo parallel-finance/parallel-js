@@ -142,6 +142,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       rootOperatorAccountId: AccountId32 & AugmentedConst<ApiType>;
       /**
+       * The threshold percentage of relayers required to approve a proposal
+       **/
+      thresholdPercentage: u32 & AugmentedConst<ApiType>;
+      /**
        * Generic const
        **/
       [key: string]: Codec;
@@ -248,9 +252,17 @@ declare module '@polkadot/api-base/types/consts' {
     };
     farming: {
       /**
+       * Specifies upper limit of lock duration for lock pool
+       **/
+      lockPoolMaxDuration: u32 & AugmentedConst<ApiType>;
+      /**
        * Specifies how many reward tokens can be manipulated by a pool
        **/
       maxRewardTokens: u32 & AugmentedConst<ApiType>;
+      /**
+       * Specifies max amount lock item for a user
+       **/
+      maxUserLockItemsCount: u32 & AugmentedConst<ApiType>;
       /**
        * Defines the pallet's pallet id from which we can define each pool's account id
        **/
@@ -296,14 +308,18 @@ declare module '@polkadot/api-base/types/consts' {
     };
     liquidStaking: {
       /**
-       * Number of blocknumbers that staked funds must remain bonded for.
-       * BondingDuration * SessionsPerEra * EpochDuration / MILLISECS_PER_BLOCK
+       * Number of unbond indexes for unlocking.
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
       /**
        * Account derivative index
        **/
       derivativeIndex: u16 & AugmentedConst<ApiType>;
+      /**
+       * Number of blocknumbers that each period contains.
+       * SessionsPerEra * EpochDuration / MILLISECS_PER_BLOCK
+       **/
+      eraLength: u32 & AugmentedConst<ApiType>;
       /**
        * Liquid currency
        **/
@@ -328,10 +344,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Staking currency
        **/
       stakingCurrency: u32 & AugmentedConst<ApiType>;
-      /**
-       * Unstake queue's capacity
-       **/
-      unstakeQueueCap: u32 & AugmentedConst<ApiType>;
       /**
        * Xcm fees
        **/

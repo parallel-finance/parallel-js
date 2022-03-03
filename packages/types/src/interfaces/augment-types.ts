@@ -4,11 +4,11 @@
 import type { AuthorityOrigin, CallOf, DelayedOrigin, DispatchTime, ScheduleTaskIndex } from '@open-web3/orml-types/interfaces/authority';
 import type { GraduallyUpdate, StorageKeyBytes, StorageValue, StorageValueBytes } from '@open-web3/orml-types/interfaces/graduallyUpdates';
 import type { DataProviderId, OrderedSet, RpcDataProviderId, TimestampedValue, TimestampedValueOf } from '@open-web3/orml-types/interfaces/oracle';
-import type { CompactBalance, OrmlCurrencyId, PoolInfo, PoolInfoV0, Share } from '@open-web3/orml-types/interfaces/rewards';
 import type { OrmlAccountData, OrmlBalanceLock } from '@open-web3/orml-types/interfaces/tokens';
 import type { AuctionInfo, DelayedDispatchTime, DispatchId, Price } from '@open-web3/orml-types/interfaces/traits';
 import type { OrmlVestingSchedule, VestingScheduleOf } from '@open-web3/orml-types/interfaces/vesting';
 import type { Pool } from '@parallel-finance/types/interfaces/amm';
+import type { BoundedBalance, PoolInfo, UserPosition } from '@parallel-finance/types/interfaces/farming';
 import type { MatchingLedger } from '@parallel-finance/types/interfaces/liquidStaking';
 import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Liquidity, Market, MarketState, Shortfall, ValidatorInfo, ValidatorSet } from '@parallel-finance/types/interfaces/loans';
 import type { Amount, AmountOf, AssetIdOf, Currency, CurrencyId, CurrencyIdOf, PriceDetail, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
@@ -182,6 +182,7 @@ declare module '@polkadot/types/types/registry' {
     bool: bool;
     Bool: Bool;
     BorrowSnapshot: BorrowSnapshot;
+    BoundedBalance: BoundedBalance;
     Bounty: Bounty;
     BountyIndex: BountyIndex;
     BountyStatus: BountyStatus;
@@ -229,7 +230,6 @@ declare module '@polkadot/types/types/registry' {
     CompactAssignmentsTo265: CompactAssignmentsTo265;
     CompactAssignmentsWith16: CompactAssignmentsWith16;
     CompactAssignmentsWith24: CompactAssignmentsWith24;
-    CompactBalance: CompactBalance;
     CompactScore: CompactScore;
     CompactScoreCompact: CompactScoreCompact;
     ConfigData: ConfigData;
@@ -704,7 +704,6 @@ declare module '@polkadot/types/types/registry' {
     OriginKindV2: OriginKindV2;
     OrmlAccountData: OrmlAccountData;
     OrmlBalanceLock: OrmlBalanceLock;
-    OrmlCurrencyId: OrmlCurrencyId;
     OrmlVestingSchedule: OrmlVestingSchedule;
     OutboundHrmpMessage: OutboundHrmpMessage;
     OutboundLaneData: OutboundLaneData;
@@ -775,7 +774,6 @@ declare module '@polkadot/types/types/registry' {
     Points: Points;
     Pool: Pool;
     PoolInfo: PoolInfo;
-    PoolInfoV0: PoolInfoV0;
     PortableType: PortableType;
     PortableTypeV14: PortableTypeV14;
     Precommits: Precommits;
@@ -905,7 +903,6 @@ declare module '@polkadot/types/types/registry' {
     SessionKeys9B: SessionKeys9B;
     SetId: SetId;
     SetIndex: SetIndex;
-    Share: Share;
     Shortfall: Shortfall;
     Si0Field: Si0Field;
     Si0LookupTypeId: Si0LookupTypeId;
@@ -1086,6 +1083,7 @@ declare module '@polkadot/types/types/registry' {
     UpgradeGoAhead: UpgradeGoAhead;
     UpgradeRestriction: UpgradeRestriction;
     UpwardMessage: UpwardMessage;
+    UserPosition: UserPosition;
     usize: usize;
     USize: USize;
     ValidationCode: ValidationCode;
