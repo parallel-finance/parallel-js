@@ -7,6 +7,10 @@ declare module '@polkadot/api-base/types/errors' {
   export interface AugmentedErrors<ApiType extends ApiTypes> {
     amm: {
       /**
+       * Conversion failure to u128
+       **/
+      ConversionToU128Failed: AugmentedError<ApiType>;
+      /**
        * Identical assets
        **/
       IdenticalAssets: AugmentedError<ApiType>;
@@ -381,10 +385,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       LastPeriodBeforeFirstPeriod: AugmentedError<ApiType>;
       /**
-       * Exceeded maximum vrfs
-       **/
-      MaxVrfsExceeded: AugmentedError<ApiType>;
-      /**
        * There are no contributions stored in contributed childstorage
        **/
       NoContributions: AugmentedError<ApiType>;
@@ -564,13 +564,13 @@ declare module '@polkadot/api-base/types/errors' {
     };
     farming: {
       /**
-       * Asset decimal error
-       **/
-      AssetDecimalError: AugmentedError<ApiType>;
-      /**
        * Codec error
        **/
       CodecError: AugmentedError<ApiType>;
+      /**
+       * Deposit Balance must be greater than or equal to the withdraw amount
+       **/
+      DepositBalanceLow: AugmentedError<ApiType>;
       /**
        * Excess max lock duration for lock pool
        **/
@@ -596,17 +596,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PoolDoesNotExist: AugmentedError<ApiType>;
       /**
+       * Pool is already in desire status
+       **/
+      PoolInStatus: AugmentedError<ApiType>;
+      /**
+       * Pool is in a target lock duration status
+       **/
+      PoolIsInTargetLockDuration: AugmentedError<ApiType>;
+      /**
        * Pool is not active
        **/
       PoolIsNotActive: AugmentedError<ApiType>;
-      /**
-       * Pool is already in desire status
-       **/
-      PoolNewActiveStatusWrong: AugmentedError<ApiType>;
-      /**
-       * old reward rule is still valid
-       **/
-      RewardRuleStillValid: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

@@ -816,7 +816,7 @@ declare module '@polkadot/api-base/types/submittable' {
       /**
        * Set crowdloans which entered vrf period
        **/
-      setVrfs: AugmentedSubmittable<(vrfs: Vec<u32> | (u32 | AnyNumber | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<u32>]>;
+      setVrf: AugmentedSubmittable<(flag: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [bool]>;
       /**
        * If a `crowdloan` succeeded and its slot expired, use `call` to
        * claim back the funds lent to the parachain
@@ -1218,35 +1218,83 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     farming: {
       /**
-       * Claim reward token from pool
+       * Claim reward asset from pool
+       * 
+       * Origin must be Signed.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
        **/
       claim: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
-       * Create new pool, associated with asset id and reward asset id.
+       * Create new pool from a privileged origin. Pool can be identified by a pair of asset and reward_asset.
+       * 
+       * The origin must conform to `UpdateOrigin`.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Withdraw.
        **/
       create: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
       /**
        * Depositing Assets to reward Pool
+       * 
+       * The origin must be Signed and the sender must have sufficient balance of staking asset.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
+       * - `amount`: the amount of staking asset want to deposit.
        **/
       deposit: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u128]>;
       /**
-       * Dispatch reward token with specified amount and duration
+       * Dispatch reward asset with specified amount and duration
+       * 
+       * The origin must conform to `UpdateOrigin`.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
+       * - `payer`: the payer of reward asset.
+       * - `amount`: the amount of reward asset to dispatch.
+       * - `duration`: the number of block this reward will last for.
        **/
       dispatchReward: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, payer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress, u128, u32]>;
       /**
-       * Redeem Assets from a lock Pool
+       * Redeem unlocked balance of staking asset from Pool
+       * 
+       * Origin must be Signed.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
        **/
       redeem: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
       /**
        * Set pool lock duration
+       * 
+       * The origin must conform to `UpdateOrigin`.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: new lock block number after Withdraw.
        **/
       setPoolLockDuration: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
       /**
        * Set pool active status
+       * 
+       * The origin must conform to `UpdateOrigin`.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
+       * - `is_active`: new active status.
        **/
       setPoolStatus: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, isActive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, bool]>;
       /**
        * Withdrawing Assets from reward Pool
+       * 
+       * The origin must be Signed and the sender must have sufficient deposited balance.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
+       * - `amount`: the amount of staking asset want to withdraw.
        **/
       withdraw: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u128]>;
       /**

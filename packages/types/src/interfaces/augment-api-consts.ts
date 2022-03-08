@@ -129,6 +129,9 @@ declare module '@polkadot/api-base/types/consts' {
        * This must be unique and must not collide with existing IDs within a set of bridged chains.
        **/
       chainId: u32 & AugmentedConst<ApiType>;
+      existentialDeposit: u128 & AugmentedConst<ApiType>;
+      giftAccount: AccountId32 & AugmentedConst<ApiType>;
+      nativeCurrencyId: u32 & AugmentedConst<ApiType>;
       /**
        * The bridge's pallet id, keep all teleported assets.
        **/
@@ -151,10 +154,6 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     crowdloans: {
-      /**
-       * Maximum number of vrf crowdloans
-       **/
-      maxVrfs: u32 & AugmentedConst<ApiType>;
       /**
        * Maximum keys to be migrated in one extrinsic
        **/
@@ -255,10 +254,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Specifies upper limit of lock duration for lock pool
        **/
       lockPoolMaxDuration: u32 & AugmentedConst<ApiType>;
-      /**
-       * Specifies how many reward tokens can be manipulated by a pool
-       **/
-      maxRewardTokens: u32 & AugmentedConst<ApiType>;
       /**
        * Specifies max amount lock item for a user
        **/

@@ -363,9 +363,9 @@ declare module '@polkadot/api-base/types/events' {
       VaultWithdrew: AugmentedEvent<ApiType, [u32, ITuple<[u32, u32]>, AccountId32, u128, PalletCrowdloansVaultPhase]>;
       /**
        * Vrfs updated
-       * [vrf_data]
+       * [vrf_flag]
        **/
-      VrfsUpdated: AugmentedEvent<ApiType, [Vec<u32>]>;
+      VrfUpdated: AugmentedEvent<ApiType, [bool]>;
       /**
        * Generic event
        **/
@@ -524,32 +524,34 @@ declare module '@polkadot/api-base/types/events' {
     farming: {
       /**
        * Deposited Assets in pool
-       * [sender, asset_id, asset_id]
        **/
       AssetsDeposited: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
       /**
        * Redeem Assets from lock pool
-       * [sender, asset_id, asset_id]
        **/
       AssetsRedeem: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
       /**
        * Withdrew Assets from pool
-       * [sender, asset_id, asset_id]
        **/
       AssetsWithdrew: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
       /**
        * Add new pool
-       * [asset_id, asset_id]
        **/
       PoolAdded: AugmentedEvent<ApiType, [u32, u32]>;
       /**
+       * Pool new lock duration was set.
+       **/
+      PoolLockDurationChanged: AugmentedEvent<ApiType, [u32, u32, u32]>;
+      /**
+       * Pool new status was set.
+       **/
+      PoolStatusChanged: AugmentedEvent<ApiType, [u32, u32, bool]>;
+      /**
        * Reward added
-       * [asset_id, asset_id, amount]
        **/
       RewardAdded: AugmentedEvent<ApiType, [u32, u32, u128]>;
       /**
        * Reward Paid for user
-       * [sender, asset_id, asset_id, amount]
        **/
       RewardPaid: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
       /**

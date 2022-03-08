@@ -4,7 +4,7 @@ export default {
     BoundedBalance: 'BoundedVec<(Balance, BlockNumber), u32>',
     PoolInfo: {
       isActive: 'bool',
-      totalSupply: 'Balance',
+      totalDeposited: 'Balance',
       lockDuration: 'BlockNumber',
       duration: 'BlockNumber',
       periodFinish: 'BlockNumber',

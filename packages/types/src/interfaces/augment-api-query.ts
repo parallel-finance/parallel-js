@@ -185,6 +185,7 @@ declare module '@polkadot/api-base/types/storage' {
     };
     crowdloans: {
       cTokensRegistry: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<u32>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
+      isVrf: AugmentedQuery<ApiType, () => Observable<bool>, []> & QueryableStorageEntry<ApiType, []>;
       leasesRegistry: AugmentedQuery<ApiType, (arg: u32 | AnyNumber | Uint8Array) => Observable<Option<ITuple<[u32, u32]>>>, [u32]> & QueryableStorageEntry<ApiType, [u32]>;
       nextTrieIndex: AugmentedQuery<ApiType, () => Observable<u32>, []> & QueryableStorageEntry<ApiType, []>;
       /**
@@ -192,7 +193,6 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       storageVersion: AugmentedQuery<ApiType, () => Observable<PalletCrowdloansReleases>, []> & QueryableStorageEntry<ApiType, []>;
       vaults: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array, arg3: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletCrowdloansVault>>, [u32, u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32, u32]>;
-      vrfs: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
       xcmRequests: AugmentedQuery<ApiType, (arg: u64 | AnyNumber | Uint8Array) => Observable<Option<PalletCrowdloansXcmRequest>>, [u64]> & QueryableStorageEntry<ApiType, [u64]>;
       /**
        * Generic query
