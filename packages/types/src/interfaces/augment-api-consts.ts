@@ -307,9 +307,13 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
       /**
-       * Account derivative index
+       * Derivative index
        **/
       derivativeIndex: u16 & AugmentedConst<ApiType>;
+      /**
+       * Derivative index list
+       **/
+      derivativeIndexList: Vec<u16> & AugmentedConst<ApiType>;
       /**
        * Number of blocknumbers that each period contains.
        * SessionsPerEra * EpochDuration / MILLISECS_PER_BLOCK
@@ -327,6 +331,7 @@ declare module '@polkadot/api-base/types/consts' {
        * Minimum unstake amount
        **/
       minUnstake: u128 & AugmentedConst<ApiType>;
+      numSlashingSpans: u32 & AugmentedConst<ApiType>;
       /**
        * The pallet id of liquid staking, keeps all the staking assets
        **/
@@ -378,16 +383,6 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum amount of signatories allowed in the multisig.
        **/
       maxSignatories: u16 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    nomineeElection: {
-      /**
-       * The maximum size of selected validators
-       **/
-      maxValidators: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

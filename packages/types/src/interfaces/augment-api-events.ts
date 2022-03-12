@@ -5,7 +5,7 @@ import type { AccountId32, H256, Permill } from '@parallel-finance/types/interfa
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLoansMarket, PalletMultisigTimepoint, PalletNomineeElectionValidatorInfo, ParallelPrimitivesUmpRewardDestination, ParallelPrimitivesUmpXcmWeightMisc, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, ParallelPrimitivesUmpRewardDestination, ParallelPrimitivesUmpXcmWeightFeeMisc, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -676,16 +676,16 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Sent staking.bond call to relaychain
        **/
-      Bonding: AugmentedEvent<ApiType, [AccountId32, u128, ParallelPrimitivesUmpRewardDestination]>;
+      Bonding: AugmentedEvent<ApiType, [u16, AccountId32, u128, ParallelPrimitivesUmpRewardDestination]>;
       /**
        * Sent staking.bond_extra call to relaychain
        **/
-      BondingExtra: AugmentedEvent<ApiType, [u128]>;
+      BondingExtra: AugmentedEvent<ApiType, [u16, u128]>;
       /**
        * Claim user's unbonded staking assets
-       * [unbond_index, account_id, amount]
+       * [account_id, amount]
        **/
-      ClaimedFor: AugmentedEvent<ApiType, [u32, AccountId32, u128]>;
+      ClaimedFor: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
        * Exchange rate was updated
        **/
@@ -695,9 +695,14 @@ declare module '@polkadot/api-base/types/events' {
        **/
       MarketCapUpdated: AugmentedEvent<ApiType, [u128]>;
       /**
+       * New era
+       * [era_index, bond_amount, rebond_amount, unbond_amount]
+       **/
+      NewEra: AugmentedEvent<ApiType, [u32, u128, u128, u128]>;
+      /**
        * Sent staking.nominate call to relaychain
        **/
-      Nominating: AugmentedEvent<ApiType, [Vec<AccountId32>]>;
+      Nominating: AugmentedEvent<ApiType, [u16, Vec<AccountId32>]>;
       /**
        * Notification received
        * [multi_location, query_id, res]
@@ -706,25 +711,23 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Sent staking.rebond call to relaychain
        **/
-      Rebonding: AugmentedEvent<ApiType, [u128]>;
+      Rebonding: AugmentedEvent<ApiType, [u16, u128]>;
       /**
-       * InsurancePool's reserve_factor was updated
+       * Reserve_factor was updated
        **/
       ReserveFactorUpdated: AugmentedEvent<ApiType, [Permill]>;
-      /**
-       * Request to perform bond/rebond/unbond on relay chain
-       * 
-       * Send `(bond_amount, rebond_amount, unbond_amount)` as args.
-       **/
-      Settlement: AugmentedEvent<ApiType, [u128, u128, u128]>;
       /**
        * The assets get staked successfully
        **/
       Staked: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
+       * Staking ledger feeded
+       **/
+      StakingLedgerUpdated: AugmentedEvent<ApiType, [u16, PalletLiquidStakingStakingLedger]>;
+      /**
        * Sent staking.unbond call to relaychain
        **/
-      Unbonding: AugmentedEvent<ApiType, [u128]>;
+      Unbonding: AugmentedEvent<ApiType, [u16, u128]>;
       /**
        * The derivative get unstaked successfully
        **/
@@ -732,7 +735,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Sent staking.withdraw_unbonded call to relaychain
        **/
-      WithdrawingUnbonded: AugmentedEvent<ApiType, [u32]>;
+      WithdrawingUnbonded: AugmentedEvent<ApiType, [u16, u32]>;
       /**
        * Generic event
        **/
@@ -851,16 +854,6 @@ declare module '@polkadot/api-base/types/events' {
        * A new multisig operation has begun.
        **/
       NewMultisig: AugmentedEvent<ApiType, [AccountId32, AccountId32, U8aFixed]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    nomineeElection: {
-      /**
-       * Validator set updated
-       **/
-      ValidatorsUpdated: AugmentedEvent<ApiType, [Vec<PalletNomineeElectionValidatorInfo>]>;
       /**
        * Generic event
        **/
@@ -1349,13 +1342,9 @@ declare module '@polkadot/api-base/types/events' {
     };
     xcmHelper: {
       /**
-       * Fees for extrinsics on relaychain were set to new value
+       * Xcm fee and weight updated
        **/
-      XcmFeesUpdated: AugmentedEvent<ApiType, [u128]>;
-      /**
-       * Xcm weight in BuyExecution message
-       **/
-      XcmWeightUpdated: AugmentedEvent<ApiType, [ParallelPrimitivesUmpXcmWeightMisc]>;
+      XcmWeightFeeUpdated: AugmentedEvent<ApiType, [ParallelPrimitivesUmpXcmWeightFeeMisc]>;
       /**
        * Generic event
        **/

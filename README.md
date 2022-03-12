@@ -19,6 +19,9 @@ yarn update-metadata
 ## Build
 ```
 yarn
+curl -H "Content-Type: application/json" -d '{"id":"1", "jsonrpc":"2.0", "method": "state_getMetadata", "params":[]}' http://localhost:9939 > ./custom-node-metadata.json
+./node_modules/.bin/polkadot-types-from-chain --endpoint ws://localhost:9948 --output packages/types/src/interfaces
+./node_modules/.bin/polkadot-types-from-defs --endpoint ./custom-node-metadata.json --input packages/types/src/interfaces --package @parallel-finance/types/interfaces
 yarn build
 ```
 
