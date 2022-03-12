@@ -744,6 +744,10 @@ declare module '@polkadot/api-base/types/errors' {
     };
     liquidStaking: {
       /**
+       * Stash is already bonded.
+       **/
+      AlreadyBonded: AugmentedError<ApiType>;
+      /**
        * Exceeded liquid currency's market cap
        **/
       CapExceeded: AugmentedError<ApiType>;
@@ -751,6 +755,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Invalid market cap
        **/
       InvalidCap: AugmentedError<ApiType>;
+      /**
+       * Invalid derivative index
+       **/
+      InvalidDerivativeIndex: AugmentedError<ApiType>;
       /**
        * Exchange rate is invalid.
        **/
@@ -768,17 +776,33 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidStakingCurrency: AugmentedError<ApiType>;
       /**
+       * Invalid staking ledger
+       **/
+      InvalidStakingLedger: AugmentedError<ApiType>;
+      /**
+       * Can not schedule more unlock chunks.
+       **/
+      NoMoreChunks: AugmentedError<ApiType>;
+      /**
+       * Stash wasn't bonded yet
+       **/
+      NotBonded: AugmentedError<ApiType>;
+      /**
        * Nothing to claim yet
        **/
       NothingToClaim: AugmentedError<ApiType>;
       /**
-       * Settlement locked
+       * Not withdrawn unbonded yet
        **/
-      SettlementLocked: AugmentedError<ApiType>;
+      NotWithdrawn: AugmentedError<ApiType>;
       /**
        * The stake was below the minimum, `MinStake`.
        **/
       StakeTooSmall: AugmentedError<ApiType>;
+      /**
+       * Staking ledger is locked due to mutation in notification_received
+       **/
+      StakingLedgerLocked: AugmentedError<ApiType>;
       /**
        * The unstake was below the minimum, `MinUnstake`.
        **/
@@ -961,24 +985,6 @@ declare module '@polkadot/api-base/types/errors' {
        * A different timepoint was given to the multisig operation that is underway.
        **/
       WrongTimepoint: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
-    nomineeElection: {
-      /**
-       * Invalid validators feeder
-       **/
-      BadValidatorsFeeder: AugmentedError<ApiType>;
-      /**
-       * The maximum number of validators exceeded
-       **/
-      MaxValidatorsExceeded: AugmentedError<ApiType>;
-      /**
-       * Feeded validators cannot be empty
-       **/
-      NoEmptyValidators: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

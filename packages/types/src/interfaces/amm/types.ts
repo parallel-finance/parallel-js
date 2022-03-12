@@ -8,7 +8,8 @@ import type { Struct } from '@polkadot/types-codec';
 export interface Pool extends Struct {
   readonly baseAmount: Balance;
   readonly quoteAmount: Balance;
-  readonly rootKLast: Balance;
+  readonly baseAmountLast: Balance;
+  readonly quoteAmountLast: Balance;
   readonly lpTokenId: AssetId;
   readonly blockTimestampLast: BlockNumber;
   readonly price0CumulativeLast: Balance;

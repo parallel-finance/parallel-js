@@ -61,13 +61,6 @@ export default {
       _enum: ['Active', 'Pending', 'Supervision']
     },
     Liquidity: 'FixedU128',
-    Shortfall: 'FixedU128',
-    ValidatorInfo: {
-      name: 'Option<Text>',
-      address: 'AccountId',
-      stakes: 'u128',
-      score: 'u128'
-    },
-    ValidatorSet: 'Vec<ValidatorInfo>'
+    Shortfall: 'FixedU128'
   }
 };

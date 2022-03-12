@@ -2,8 +2,8 @@
 /* eslint-disable */
 
 import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, FixedU128 } from '@parallel-finance/types/interfaces/runtime';
-import type { Enum, Option, Struct, Text, Vec, bool, u128 } from '@polkadot/types-codec';
+import type { Balance, FixedU128 } from '@parallel-finance/types/interfaces/runtime';
+import type { Enum, Struct, bool, u128 } from '@polkadot/types-codec';
 
 /** @name BorrowSnapshot */
 export interface BorrowSnapshot extends Struct {
@@ -70,16 +70,5 @@ export interface MarketState extends Enum {
 
 /** @name Shortfall */
 export interface Shortfall extends FixedU128 {}
-
-/** @name ValidatorInfo */
-export interface ValidatorInfo extends Struct {
-  readonly name: Option<Text>;
-  readonly address: AccountId;
-  readonly stakes: u128;
-  readonly score: u128;
-}
-
-/** @name ValidatorSet */
-export interface ValidatorSet extends Vec<ValidatorInfo> {}
 
 export type PHANTOM_LOANS = 'loans';

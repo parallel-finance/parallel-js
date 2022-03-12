@@ -13,6 +13,9 @@ import primitives from './primitives';
 import runtime from './runtime';
 import farming from './farming';
 import router from './router';
+import crowdloans from './crowdloans';
+import xcmHelper from './xcmHelper';
+import bridge from './bridge';
 
 import parallelVersioned from './spec/parallel';
 
@@ -24,7 +27,10 @@ const parallelDefs = {
   primitives,
   runtime,
   farming,
-  router
+  router,
+  crowdloans,
+  xcmHelper,
+  bridge
 };
 
 export const types = {

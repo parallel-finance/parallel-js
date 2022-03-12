@@ -29,6 +29,7 @@ describe('parallel bulk transfer test', () => {
 
   it('should send batch transfer', async () => {
     const keyring = new Keyring();
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const sender = keyring.addFromUri(process.env.mnemonic!, { name: 'bulk transfer test' }, 'sr25519');
     const recipients = [
       'stAZnJwXAvRRo884Anfu2in9SBB6tssvcsjBAZnvnVn53krpP',
@@ -43,4 +44,3 @@ describe('parallel bulk transfer test', () => {
     await api.query.system.events.at(head);
   });
 });
-

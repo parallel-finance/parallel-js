@@ -170,7 +170,7 @@
                         "OrmlCurrencyId": "u8",
                         "PoolInfo": {
                             "isActive": "bool",
-                            "totalSupply": "Balance",
+                            "totalDeposited": "Balance",
                             "lockDuration": "BlockNumber",
                             "duration": "BlockNumber",
                             "periodFinish": "BlockNumber",
@@ -232,21 +232,27 @@
                         },
                         "Liquidity": "FixedU128",
                         "Shortfall": "FixedU128",
-                        "ValidatorInfo": {
-                            "name": "Option<Text>",
-                            "address": "AccountId",
-                            "stakes": "u128",
-                            "score": "u128"
-                        },
-                        "ValidatorSet": "Vec<ValidatorInfo>",
                         "MatchingLedger": {
                             "totalStakeAmount": "Balance",
                             "totalUnstakeAmount": "Balance"
                         },
+                        "UnlockChunk": {
+                            "value": "Balance",
+                            "era": "EraIndex"
+                        },
+                        "StakingLedger": {
+                            "stash": "AccountId",
+                            "total": "Balance",
+                            "active": "Balance",
+                            "unlocking": "Vec<UnlockChunk>",
+                            "claimedRewards": "Vec<EraIndex>"
+                        },
+                        "DerivativeIndex": "u16",
                         "Pool": {
                             "baseAmount": "Balance",
                             "quoteAmount": "Balance",
-                            "rootKLast": "Balance",
+                            "baseAmountLast": "Balance",
+                            "quoteAmountLast": "Balance",
                             "lpTokenId": "AssetId",
                             "blockTimestampLast": "BlockNumber",
                             "price0CumulativeLast": "Balance",
@@ -271,6 +277,72 @@
                             "rewardPerSharePaid": "Balance"
                         },
                         "Route": "Vec<(AssetId, AssetId)>",
+                        "VaultPhase": {
+                            "_enum": [
+                                "Pending",
+                                "Contributing",
+                                "Closed",
+                                "Failed",
+                                "Succeeded",
+                                "Expired"
+                            ]
+                        },
+                        "ContributionStrategy": {
+                            "_enum": [
+                                "XCM"
+                            ]
+                        },
+                        "ChildStorageKind": {
+                            "_enum": [
+                                "Pending",
+                                "Flying",
+                                "Contributed"
+                            ]
+                        },
+                        "TrieIndex": "u32",
+                        "LeasePeriod": "BlockNumber",
+                        "Vault": {
+                            "ctoken": "AssetId",
+                            "phase": "VaultPhase",
+                            "contributed": "Balance",
+                            "pending": "Balance",
+                            "flying": "Balance",
+                            "contributionStrategy": "ContributionStrategy",
+                            "cap": "Balance",
+                            "endBlock": "BlockNumber",
+                            "trieIndex": "TrieIndex",
+                            "leaseStart": "LeasePeriod",
+                            "leaseEnd": "LeasePeriod"
+                        },
+                        "XcmWeightFeeMisc": {
+                            "weight": "Weight",
+                            "fee": "Balance"
+                        },
+                        "XcmCall": {
+                            "_enum": [
+                                "Bond",
+                                "BondExtra",
+                                "Unbond",
+                                "Rebond",
+                                "WithdrawUnbonded",
+                                "Nominate",
+                                "Contribute",
+                                "Withdraw",
+                                "AddMemo"
+                            ]
+                        },
+                        "BridgeToken": {
+                            "id": "CurrencyId",
+                            "external": "bool",
+                            "fee": "Balance"
+                        },
+                        "ProposalStatus": {
+                            "_enum": [
+                                "Initiated",
+                                "Approved",
+                                "Rejected"
+                            ]
+                        },
                         "Address": "MultiAddress",
                         "LookupSource": "MultiAddress",
                         "TAssetBalance": "u128"

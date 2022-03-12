@@ -4,7 +4,8 @@ export default {
     Pool: {
       baseAmount: 'Balance',
       quoteAmount: 'Balance',
-      rootKLast: 'Balance',
+      baseAmountLast: 'Balance',
+      quoteAmountLast: 'Balance',
       lpTokenId: 'AssetId',
       blockTimestampLast: 'BlockNumber',
       price0CumulativeLast: 'Balance',

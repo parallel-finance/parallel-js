@@ -1,4 +1,4 @@
-import { ApiPromise, Keyring } from '@polkadot/api';
+import { ApiPromise } from '@polkadot/api';
 import { AddressOrPair } from '@polkadot/api/types';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
