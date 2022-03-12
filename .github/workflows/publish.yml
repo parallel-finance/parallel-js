@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        package: ['packages/api/build/package.json', 'packages/types/build/package.json', 'packages/type-definitions/build/package.json']
+        package: ['packages/api/build/package.json', 'packages/types/build/package.json', 'packages/type-definitions/build/package.json', 'packages/bulk-transfer/build/package.json' ]
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
