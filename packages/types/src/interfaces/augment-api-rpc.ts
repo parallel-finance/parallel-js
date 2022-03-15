@@ -1,10 +1,14 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
+import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
+import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
+import type { CurrencyId } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, Balance, Block, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
 import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
-import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
+import type { AnyNumber, Codec, ITuple } from '@polkadot/types-codec/types';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import type { BeefySignedCommitment } from '@polkadot/types/interfaces/beefy';
@@ -20,7 +24,6 @@ import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import type { AccountId, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import type { ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
@@ -345,6 +348,12 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        **/
       subscribeJustifications: AugmentedRpc<() => Observable<JustificationNotification>>;
     };
+    loans: {
+      /**
+       * Retrieves the oracle value for a given key.
+       **/
+      getAccountLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
+    };
     mmr: {
       /**
        * Generate MMR proof for given leaf index.
@@ -375,6 +384,16 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        **/
       localStorageSet: AugmentedRpc<(kind: StorageKind | 'PERSISTENT' | 'LOCAL' | number | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => Observable<Null>>;
     };
+    oracle: {
+      /**
+       * Retrieves all oracle values.
+       **/
+      getAllValues: AugmentedRpc<(providerId: RpcDataProviderId | string, at?: BlockHash | string | Uint8Array) => Observable<Vec<ITuple<[OracleKey, Option<TimestampedValue>]>>>>;
+      /**
+       * Retrieves the oracle value for a given key.
+       **/
+      getValue: AugmentedRpc<(providerId: RpcDataProviderId | string, key: OracleKey | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<TimestampedValue>>>;
+    };
     payment: {
       /**
        * Query the detailed fee of a given encoded extrinsic
@@ -384,6 +403,12 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        * Retrieves the fee information for an encoded extrinsic
        **/
       queryInfo: AugmentedRpc<(extrinsic: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<RuntimeDispatchInfo>>;
+    };
+    router: {
+      /**
+       * Returns the route that results in the largest amount out for amount in
+       **/
+      getBestRoute: AugmentedRpc<(amount_in: Balance | AnyNumber | Uint8Array, token_in: CurrencyId | AnyNumber | Uint8Array, token_out: CurrencyId | AnyNumber | Uint8Array, at: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[CurrencyId, Balance]>>>;
     };
     rpc: {
       /**
