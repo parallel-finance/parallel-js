@@ -1,12 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AccountId32, Call, H256, MultiAddress, Perbill, Permill } from '@parallel-finance/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
-import type { CumulusPrimitivesParachainInherentParachainInherentData, FrameSupportScheduleMaybeHashed, OrmlVestingVestingSchedule, PalletAssetsDestroyWitness, PalletBridgeBridgeToken, PalletCrowdloansContributionStrategy, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletLoansRateModelInterestRateModel, PalletMultisigTimepoint, ParallelPrimitivesUmpRewardDestination, ParallelPrimitivesUmpXcmCall, ParallelPrimitivesUmpXcmWeightFeeMisc, SpRuntimeHeader, VanillaRuntimeOpaqueSessionKeys, VanillaRuntimeOriginCaller, VanillaRuntimeProxyType, XcmV1MultiLocation, XcmV2Response, XcmV2WeightLimit, XcmVersionedMultiAsset, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { AccountId32, Call, H256, MultiAddress, Perbill, Permill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportScheduleMaybeHashed, PalletAssetsDestroyWitness, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletMultisigTimepoint, SpRuntimeHeader, XcmV1MultiLocation, XcmV2Response, XcmV2WeightLimit, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/submittable' {
   export interface AugmentedSubmittables<ApiType extends ApiTypes> {
@@ -1220,8 +1220,9 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Deposit.
        **/
-      claim: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      claim: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
       /**
        * Create new pool from a privileged origin. Pool can be identified by a pair of asset and reward_asset.
        * 
@@ -1229,9 +1230,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
-       * - `lock_duration`: Lock block number after Withdraw.
+       * - `lock_duration`: Lock block number after Deposit.
+       * - `cool_down_duration`: Lock block number after Withdraw.
        **/
-      create: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
+      create: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array, coolDownDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, u32]>;
       /**
        * Depositing Assets to reward Pool
        * 
@@ -1239,9 +1241,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Deposit.
        * - `amount`: the amount of staking asset want to deposit.
        **/
-      deposit: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u128]>;
+      deposit: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, u128]>;
       /**
        * Dispatch reward asset with specified amount and duration
        * 
@@ -1249,11 +1252,12 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Deposit.
        * - `payer`: the payer of reward asset.
        * - `amount`: the amount of reward asset to dispatch.
        * - `duration`: the number of block this reward will last for.
        **/
-      dispatchReward: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, payer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, duration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, MultiAddress, u128, u32]>;
+      dispatchReward: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array, payer: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, amount: u128 | AnyNumber | Uint8Array, rewardDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, MultiAddress, u128, u32]>;
       /**
        * Redeem unlocked balance of staking asset from Pool
        * 
@@ -1261,18 +1265,30 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Deposit.
        **/
-      redeem: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      redeem: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
       /**
-       * Set pool lock duration
+       * Reset pool unlock height
        * 
        * The origin must conform to `UpdateOrigin`.
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
-       * - `lock_duration`: new lock block number after Withdraw.
+       * - `lock_duration`: Lock block number after Deposit.
        **/
-      setPoolLockDuration: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
+      resetPoolUnlockHeight: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32]>;
+      /**
+       * Set pool cool down duration
+       * 
+       * The origin must conform to `UpdateOrigin`.
+       * 
+       * - `asset`: The identifier of the staking asset.
+       * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Deposit.
+       * - `cool_down_duration`: new lock block number after Withdraw.
+       **/
+      setPoolCoolDownDuration: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array, coolDownDuration: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, u32]>;
       /**
        * Set pool active status
        * 
@@ -1280,9 +1296,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Deposit.
        * - `is_active`: new active status.
        **/
-      setPoolStatus: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, isActive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, bool]>;
+      setPoolStatus: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array, isActive: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, bool]>;
       /**
        * Withdrawing Assets from reward Pool
        * 
@@ -1290,9 +1307,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `asset`: The identifier of the staking asset.
        * - `reward_asset`: The identifier of the reward asset.
+       * - `lock_duration`: Lock block number after Deposit.
        * - `amount`: the amount of staking asset want to withdraw.
        **/
-      withdraw: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u128]>;
+      withdraw: AugmentedSubmittable<(asset: u32 | AnyNumber | Uint8Array, rewardAsset: u32 | AnyNumber | Uint8Array, lockDuration: u32 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, u128]>;
       /**
        * Generic tx
        **/
@@ -2461,7 +2479,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: VanillaRuntimeProxyType | 'Any' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, VanillaRuntimeProxyType, u32]>;
+      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: HeikoRuntimeProxyType | 'Any' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, HeikoRuntimeProxyType, u32]>;
       /**
        * Publish the hash of a proxy-call that will be made in the future.
        * 
@@ -2511,7 +2529,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        * TODO: Might be over counting 1 read
        **/
-      anonymous: AugmentedSubmittable<(proxyType: VanillaRuntimeProxyType | 'Any' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array, index: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [VanillaRuntimeProxyType, u32, u16]>;
+      anonymous: AugmentedSubmittable<(proxyType: HeikoRuntimeProxyType | 'Any' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array, index: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [HeikoRuntimeProxyType, u32, u16]>;
       /**
        * Removes a previously spawned anonymous proxy.
        * 
@@ -2534,7 +2552,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: VanillaRuntimeProxyType | 'Any' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, VanillaRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
+      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: HeikoRuntimeProxyType | 'Any' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, HeikoRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
       /**
        * Dispatch the given `call` from an account that the sender is authorised for through
        * `add_proxy`.
@@ -2552,7 +2570,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      proxy: AugmentedSubmittable<(real: AccountId32 | string | Uint8Array, forceProxyType: Option<VanillaRuntimeProxyType> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Option<VanillaRuntimeProxyType>, Call]>;
+      proxy: AugmentedSubmittable<(real: AccountId32 | string | Uint8Array, forceProxyType: Option<HeikoRuntimeProxyType> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Option<HeikoRuntimeProxyType>, Call]>;
       /**
        * Dispatch the given `call` from an account that the sender is authorized for through
        * `add_proxy`.
@@ -2572,7 +2590,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - P: the number of proxies the user has.
        * # </weight>
        **/
-      proxyAnnounced: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, real: AccountId32 | string | Uint8Array, forceProxyType: Option<VanillaRuntimeProxyType> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, AccountId32, Option<VanillaRuntimeProxyType>, Call]>;
+      proxyAnnounced: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, real: AccountId32 | string | Uint8Array, forceProxyType: Option<HeikoRuntimeProxyType> | null | object | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, AccountId32, Option<HeikoRuntimeProxyType>, Call]>;
       /**
        * Remove the given announcement of a delegate.
        * 
@@ -2637,7 +2655,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: VanillaRuntimeProxyType | 'Any' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, VanillaRuntimeProxyType, u32]>;
+      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: HeikoRuntimeProxyType | 'Any' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, HeikoRuntimeProxyType, u32]>;
       /**
        * Generic tx
        **/
@@ -2717,7 +2735,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - DbWrites per key id: `KeyOwner`
        * # </weight>
        **/
-      setKeys: AugmentedSubmittable<(keys: VanillaRuntimeOpaqueSessionKeys | { aura?: any } | string | Uint8Array, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [VanillaRuntimeOpaqueSessionKeys, Bytes]>;
+      setKeys: AugmentedSubmittable<(keys: HeikoRuntimeOpaqueSessionKeys | { aura?: any } | string | Uint8Array, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [HeikoRuntimeOpaqueSessionKeys, Bytes]>;
       /**
        * Generic tx
        **/
@@ -3199,7 +3217,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Weight of derivative `call` execution + T::WeightInfo::dispatch_as().
        * # </weight>
        **/
-      dispatchAs: AugmentedSubmittable<(asOrigin: VanillaRuntimeOriginCaller | { system: any } | { Void: any } | { GeneralCouncil: any } | { TechnicalCommittee: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [VanillaRuntimeOriginCaller, Call]>;
+      dispatchAs: AugmentedSubmittable<(asOrigin: HeikoRuntimeOriginCaller | { system: any } | { Void: any } | { GeneralCouncil: any } | { TechnicalCommittee: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: Call | { callIndex?: any; args?: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [HeikoRuntimeOriginCaller, Call]>;
       /**
        * Generic tx
        **/
