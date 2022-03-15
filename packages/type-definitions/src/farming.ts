@@ -5,8 +5,9 @@ export default {
     PoolInfo: {
       isActive: 'bool',
       totalDeposited: 'Balance',
-      lockDuration: 'BlockNumber',
-      duration: 'BlockNumber',
+      unlockHeight: 'BlockNumber',
+      coolDownDuration: 'BlockNumber',
+      rewardDuration: 'BlockNumber',
       periodFinish: 'BlockNumber',
       lastUpdateBlock: 'BlockNumber',
       rewardRate: 'Balance',

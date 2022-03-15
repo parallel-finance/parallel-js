@@ -12,8 +12,9 @@ export interface BoundedBalance extends Vec<ITuple<[Balance, BlockNumber]>> {}
 export interface PoolInfo extends Struct {
   readonly isActive: bool;
   readonly totalDeposited: Balance;
-  readonly lockDuration: BlockNumber;
-  readonly duration: BlockNumber;
+  readonly unlockHeight: BlockNumber;
+  readonly coolDownDuration: BlockNumber;
+  readonly rewardDuration: BlockNumber;
   readonly periodFinish: BlockNumber;
   readonly lastUpdateBlock: BlockNumber;
   readonly rewardRate: Balance;
