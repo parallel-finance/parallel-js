@@ -386,7 +386,7 @@ declare module '@polkadot/types/lookup' {
     readonly asAnonymousCreated: {
       readonly anonymous: AccountId32;
       readonly who: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: VanillaRuntimeProxyType;
       readonly disambiguationIndex: u16;
     } & Struct;
     readonly isAnnounced: boolean;
@@ -399,14 +399,14 @@ declare module '@polkadot/types/lookup' {
     readonly asProxyAdded: {
       readonly delegator: AccountId32;
       readonly delegatee: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: VanillaRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
     readonly type: 'ProxyExecuted' | 'AnonymousCreated' | 'Announced' | 'ProxyAdded';
   }
 
-  /** @name HeikoRuntimeProxyType (35) */
-  export interface HeikoRuntimeProxyType extends Enum {
+  /** @name VanillaRuntimeProxyType (35) */
+  export interface VanillaRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly type: 'Any';
   }
@@ -1904,7 +1904,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isDispatchAs: boolean;
     readonly asDispatchAs: {
-      readonly asOrigin: HeikoRuntimeOriginCaller;
+      readonly asOrigin: VanillaRuntimeOriginCaller;
       readonly call: Call;
     } & Struct;
     readonly type: 'Batch' | 'AsDerivative' | 'BatchAll' | 'DispatchAs';
@@ -2144,32 +2144,32 @@ declare module '@polkadot/types/lookup' {
     readonly isProxy: boolean;
     readonly asProxy: {
       readonly real: AccountId32;
-      readonly forceProxyType: Option<HeikoRuntimeProxyType>;
+      readonly forceProxyType: Option<VanillaRuntimeProxyType>;
       readonly call: Call;
     } & Struct;
     readonly isAddProxy: boolean;
     readonly asAddProxy: {
       readonly delegate: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: VanillaRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
     readonly isRemoveProxy: boolean;
     readonly asRemoveProxy: {
       readonly delegate: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: VanillaRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
     readonly isRemoveProxies: boolean;
     readonly isAnonymous: boolean;
     readonly asAnonymous: {
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: VanillaRuntimeProxyType;
       readonly delay: u32;
       readonly index: u16;
     } & Struct;
     readonly isKillAnonymous: boolean;
     readonly asKillAnonymous: {
       readonly spawner: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: VanillaRuntimeProxyType;
       readonly index: u16;
       readonly height: Compact<u32>;
       readonly extIndex: Compact<u32>;
@@ -2193,7 +2193,7 @@ declare module '@polkadot/types/lookup' {
     readonly asProxyAnnounced: {
       readonly delegate: AccountId32;
       readonly real: AccountId32;
-      readonly forceProxyType: Option<HeikoRuntimeProxyType>;
+      readonly forceProxyType: Option<VanillaRuntimeProxyType>;
       readonly call: Call;
     } & Struct;
     readonly type: 'Proxy' | 'AddProxy' | 'RemoveProxy' | 'RemoveProxies' | 'Anonymous' | 'KillAnonymous' | 'Announce' | 'RemoveAnnouncement' | 'RejectAnnouncement' | 'ProxyAnnounced';
@@ -2979,15 +2979,15 @@ declare module '@polkadot/types/lookup' {
   export interface PalletSessionCall extends Enum {
     readonly isSetKeys: boolean;
     readonly asSetKeys: {
-      readonly keys_: HeikoRuntimeOpaqueSessionKeys;
+      readonly keys_: VanillaRuntimeOpaqueSessionKeys;
       readonly proof: Bytes;
     } & Struct;
     readonly isPurgeKeys: boolean;
     readonly type: 'SetKeys' | 'PurgeKeys';
   }
 
-  /** @name HeikoRuntimeOpaqueSessionKeys (261) */
-  export interface HeikoRuntimeOpaqueSessionKeys extends Struct {
+  /** @name VanillaRuntimeOpaqueSessionKeys (261) */
+  export interface VanillaRuntimeOpaqueSessionKeys extends Struct {
     readonly aura: SpConsensusAuraSr25519AppSr25519Public;
   }
 
@@ -3655,8 +3655,8 @@ declare module '@polkadot/types/lookup' {
     readonly data: Bytes;
   }
 
-  /** @name HeikoRuntimeOriginCaller (303) */
-  export interface HeikoRuntimeOriginCaller extends Enum {
+  /** @name VanillaRuntimeOriginCaller (303) */
+  export interface VanillaRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSystemRawOrigin;
     readonly isVoid: boolean;
@@ -3871,7 +3871,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletProxyProxyDefinition (338) */
   export interface PalletProxyProxyDefinition extends Struct {
     readonly delegate: AccountId32;
-    readonly proxyType: HeikoRuntimeProxyType;
+    readonly proxyType: VanillaRuntimeProxyType;
     readonly delay: u32;
   }
 
@@ -4095,7 +4095,7 @@ declare module '@polkadot/types/lookup' {
     readonly priority: u8;
     readonly call: FrameSupportScheduleMaybeHashed;
     readonly maybePeriodic: Option<ITuple<[u32, u32]>>;
-    readonly origin: HeikoRuntimeOriginCaller;
+    readonly origin: VanillaRuntimeOriginCaller;
   }
 
   /** @name PalletSchedulerError (385) */
@@ -4789,7 +4789,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletTransactionPaymentChargeTransactionPayment (514) */
   export interface PalletTransactionPaymentChargeTransactionPayment extends Compact<u128> {}
 
-  /** @name HeikoRuntimeRuntime (515) */
-  export type HeikoRuntimeRuntime = Null;
+  /** @name VanillaRuntimeRuntime (515) */
+  export type VanillaRuntimeRuntime = Null;
 
 } // declare module

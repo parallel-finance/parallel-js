@@ -54,7 +54,7 @@ export default {
     }
   },
   /**
-   * Lookup16: frame_system::EventRecord<heiko_runtime::Event, primitive_types::H256>
+   * Lookup16: frame_system::EventRecord<vanilla_runtime::Event, primitive_types::H256>
    **/
   FrameSystemEventRecord: {
     phase: 'FrameSystemPhase',
@@ -352,7 +352,7 @@ export default {
       AnonymousCreated: {
         anonymous: 'AccountId32',
         who: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'VanillaRuntimeProxyType',
         disambiguationIndex: 'u16',
       },
       Announced: {
@@ -363,15 +363,15 @@ export default {
       ProxyAdded: {
         delegator: 'AccountId32',
         delegatee: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'VanillaRuntimeProxyType',
         delay: 'u32'
       }
     }
   },
   /**
-   * Lookup35: heiko_runtime::ProxyType
+   * Lookup35: vanilla_runtime::ProxyType
    **/
-  HeikoRuntimeProxyType: {
+  VanillaRuntimeProxyType: {
     _enum: ['Any']
   },
   /**
@@ -1689,7 +1689,7 @@ export default {
         calls: 'Vec<Call>',
       },
       dispatch_as: {
-        asOrigin: 'HeikoRuntimeOriginCaller',
+        asOrigin: 'VanillaRuntimeOriginCaller',
         call: 'Call'
       }
     }
@@ -1902,28 +1902,28 @@ export default {
     _enum: {
       proxy: {
         real: 'AccountId32',
-        forceProxyType: 'Option<HeikoRuntimeProxyType>',
+        forceProxyType: 'Option<VanillaRuntimeProxyType>',
         call: 'Call',
       },
       add_proxy: {
         delegate: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'VanillaRuntimeProxyType',
         delay: 'u32',
       },
       remove_proxy: {
         delegate: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'VanillaRuntimeProxyType',
         delay: 'u32',
       },
       remove_proxies: 'Null',
       anonymous: {
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'VanillaRuntimeProxyType',
         delay: 'u32',
         index: 'u16',
       },
       kill_anonymous: {
         spawner: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'VanillaRuntimeProxyType',
         index: 'u16',
         height: 'Compact<u32>',
         extIndex: 'Compact<u32>',
@@ -1943,7 +1943,7 @@ export default {
       proxy_announced: {
         delegate: 'AccountId32',
         real: 'AccountId32',
-        forceProxyType: 'Option<HeikoRuntimeProxyType>',
+        forceProxyType: 'Option<VanillaRuntimeProxyType>',
         call: 'Call'
       }
     }
@@ -2267,7 +2267,7 @@ export default {
     }
   },
   /**
-   * Lookup225: frame_support::traits::schedule::MaybeHashed<heiko_runtime::Call, primitive_types::H256>
+   * Lookup225: frame_support::traits::schedule::MaybeHashed<vanilla_runtime::Call, primitive_types::H256>
    **/
   FrameSupportScheduleMaybeHashed: {
     _enum: {
@@ -2665,16 +2665,16 @@ export default {
         _alias: {
           keys_: 'keys',
         },
-        keys_: 'HeikoRuntimeOpaqueSessionKeys',
+        keys_: 'VanillaRuntimeOpaqueSessionKeys',
         proof: 'Bytes',
       },
       purge_keys: 'Null'
     }
   },
   /**
-   * Lookup261: heiko_runtime::opaque::SessionKeys
+   * Lookup261: vanilla_runtime::opaque::SessionKeys
    **/
-  HeikoRuntimeOpaqueSessionKeys: {
+  VanillaRuntimeOpaqueSessionKeys: {
     aura: 'SpConsensusAuraSr25519AppSr25519Public'
   },
   /**
@@ -3282,9 +3282,9 @@ export default {
     data: 'Bytes'
   },
   /**
-   * Lookup303: heiko_runtime::OriginCaller
+   * Lookup303: vanilla_runtime::OriginCaller
    **/
-  HeikoRuntimeOriginCaller: {
+  VanillaRuntimeOriginCaller: {
     _enum: {
       system: 'FrameSystemRawOrigin',
       __Unused1: 'Null',
@@ -3486,11 +3486,11 @@ export default {
     _enum: ['BalanceLow', 'NoAccount', 'NoPermission', 'Unknown', 'Frozen', 'InUse', 'BadWitness', 'MinBalanceZero', 'NoProvider', 'BadMetadata', 'Unapproved', 'WouldDie', 'AlreadyExists', 'NoDeposit', 'WouldBurn']
   },
   /**
-   * Lookup338: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, heiko_runtime::ProxyType, BlockNumber>
+   * Lookup338: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, vanilla_runtime::ProxyType, BlockNumber>
    **/
   PalletProxyProxyDefinition: {
     delegate: 'AccountId32',
-    proxyType: 'HeikoRuntimeProxyType',
+    proxyType: 'VanillaRuntimeProxyType',
     delay: 'u32'
   },
   /**
@@ -3658,14 +3658,14 @@ export default {
     _enum: ['InsufficientProposersBalance', 'InvalidIndex', 'TooManyApprovals']
   },
   /**
-   * Lookup384: pallet_scheduler::ScheduledV3<frame_support::traits::schedule::MaybeHashed<heiko_runtime::Call, primitive_types::H256>, BlockNumber, heiko_runtime::OriginCaller, sp_core::crypto::AccountId32>
+   * Lookup384: pallet_scheduler::ScheduledV3<frame_support::traits::schedule::MaybeHashed<vanilla_runtime::Call, primitive_types::H256>, BlockNumber, vanilla_runtime::OriginCaller, sp_core::crypto::AccountId32>
    **/
   PalletSchedulerScheduledV3: {
     maybeId: 'Option<Bytes>',
     priority: 'u8',
     call: 'FrameSupportScheduleMaybeHashed',
     maybePeriodic: 'Option<(u32,u32)>',
-    origin: 'HeikoRuntimeOriginCaller'
+    origin: 'VanillaRuntimeOriginCaller'
   },
   /**
    * Lookup385: pallet_scheduler::pallet::Error<T>
@@ -4209,7 +4209,7 @@ export default {
    **/
   PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>',
   /**
-   * Lookup515: heiko_runtime::Runtime
+   * Lookup515: vanilla_runtime::Runtime
    **/
-  HeikoRuntimeRuntime: 'Null'
+  VanillaRuntimeRuntime: 'Null'
 };
