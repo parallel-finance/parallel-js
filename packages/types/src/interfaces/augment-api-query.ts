@@ -1,12 +1,12 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AccountId32, Call, H256, Permill } from '@parallel-finance/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Data } from '@polkadot/types';
 import type { BTreeMap, Bytes, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
-import type { CumulusPalletDmpQueueConfigData, CumulusPalletDmpQueuePageIndexData, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, CumulusPalletXcmpQueueInboundChannelDetails, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueQueueConfigData, FrameSupportWeightsPerDispatchClassU64, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, OrmlOracleModuleTimestampedValue, OrmlUtilitiesOrderedSet, OrmlVestingVestingSchedule, PalletAmmPool, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBridgeBridgeToken, PalletBridgeMaterializeCall, PalletBridgeProposal, PalletCollatorSelectionCandidateInfo, PalletCollectiveVotes, PalletCrowdloansReleases, PalletCrowdloansVault, PalletCrowdloansXcmRequest, PalletDemocracyPreimageStatus, PalletDemocracyReferendumInfo, PalletDemocracyReleases, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletFarmingPoolInfo, PalletFarmingUserPosition, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletLiquidStakingMatchingLedger, PalletLiquidStakingStakingLedger, PalletLiquidStakingUnlockChunk, PalletLiquidStakingXcmRequest, PalletLoansBorrowSnapshot, PalletLoansDeposits, PalletLoansEarnedSnapshot, PalletLoansMarket, PalletMultisigMultisig, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletSchedulerScheduledV3, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletXcmQueryStatus, PalletXcmVersionMigrationStage, ParallelPrimitivesUmpXcmCall, ParallelPrimitivesUmpXcmWeightFeeMisc, PolkadotCorePrimitivesOutboundHrmpMessage, PolkadotPrimitivesV1AbridgedHostConfiguration, PolkadotPrimitivesV1PersistedValidationData, PolkadotPrimitivesV1UpgradeRestriction, SpConsensusAuraSr25519AppSr25519Public, SpCoreCryptoKeyTypeId, SpRuntimeDigest, VanillaRuntimeOpaqueSessionKeys, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { AccountId32, Call, H256, Permill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportWeightsPerDispatchClassU64, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletCollectiveVotes, PalletDemocracyPreimageStatus, PalletDemocracyReferendumInfo, PalletDemocracyReleases, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletMultisigMultisig, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletSchedulerScheduledV3, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletXcmQueryStatus, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesOutboundHrmpMessage, PolkadotPrimitivesV1UpgradeRestriction, SpCoreCryptoKeyTypeId, SpRuntimeDigest, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
 
 declare module '@polkadot/api-base/types/storage' {
@@ -316,11 +316,11 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * Each pool is associated to a stake asset and reward asset pair
        **/
-      pools: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletFarmingPoolInfo>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
+      pools: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array, arg3: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletFarmingPoolInfo>>, [u32, u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32, u32]>;
       /**
        * User position in pool which is associated to a stake asset and reward asset pair
        **/
-      positions: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array, arg3: AccountId32 | string | Uint8Array) => Observable<PalletFarmingUserPosition>, [u32, u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, u32, AccountId32]>;
+      positions: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array, arg3: u32 | AnyNumber | Uint8Array, arg4: AccountId32 | string | Uint8Array) => Observable<PalletFarmingUserPosition>, [u32, u32, u32, AccountId32]> & QueryableStorageEntry<ApiType, [u32, u32, u32, AccountId32]>;
       /**
        * Generic query
        **/
@@ -842,7 +842,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * The next session keys for a validator.
        **/
-      nextKeys: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<VanillaRuntimeOpaqueSessionKeys>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      nextKeys: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<HeikoRuntimeOpaqueSessionKeys>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * True if the underlying economic identities or weighting behind the validators
        * has changed in the queued validator set.
@@ -852,7 +852,7 @@ declare module '@polkadot/api-base/types/storage' {
        * The queued keys for the next session. When the next session begins, these keys
        * will be used to determine the validator's session keys.
        **/
-      queuedKeys: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId32, VanillaRuntimeOpaqueSessionKeys]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      queuedKeys: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId32, HeikoRuntimeOpaqueSessionKeys]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The current set of validators.
        **/

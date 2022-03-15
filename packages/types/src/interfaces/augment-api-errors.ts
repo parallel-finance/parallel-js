@@ -572,6 +572,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DepositBalanceLow: AugmentedError<ApiType>;
       /**
+       * Excess max cool down duration for pool
+       **/
+      ExcessMaxCoolDownDuration: AugmentedError<ApiType>;
+      /**
        * Excess max lock duration for lock pool
        **/
       ExcessMaxLockDuration: AugmentedError<ApiType>;
@@ -600,13 +604,21 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PoolInStatus: AugmentedError<ApiType>;
       /**
-       * Pool is in a target lock duration status
+       * Pool is in a target cool down duration status
        **/
-      PoolIsInTargetLockDuration: AugmentedError<ApiType>;
+      PoolIsInTargetCoolDownDuration: AugmentedError<ApiType>;
       /**
        * Pool is not active
        **/
       PoolIsNotActive: AugmentedError<ApiType>;
+      /**
+       * Pool is in lock status, withdraw is not allowed.
+       **/
+      PoolUnderLock: AugmentedError<ApiType>;
+      /**
+       * Last reward is not finish
+       **/
+      RewardNotFinish: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

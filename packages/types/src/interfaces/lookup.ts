@@ -54,7 +54,7 @@ export default {
     }
   },
   /**
-   * Lookup16: frame_system::EventRecord<vanilla_runtime::Event, primitive_types::H256>
+   * Lookup16: frame_system::EventRecord<heiko_runtime::Event, primitive_types::H256>
    **/
   FrameSystemEventRecord: {
     phase: 'FrameSystemPhase',
@@ -352,7 +352,7 @@ export default {
       AnonymousCreated: {
         anonymous: 'AccountId32',
         who: 'AccountId32',
-        proxyType: 'VanillaRuntimeProxyType',
+        proxyType: 'HeikoRuntimeProxyType',
         disambiguationIndex: 'u16',
       },
       Announced: {
@@ -363,15 +363,15 @@ export default {
       ProxyAdded: {
         delegator: 'AccountId32',
         delegatee: 'AccountId32',
-        proxyType: 'VanillaRuntimeProxyType',
+        proxyType: 'HeikoRuntimeProxyType',
         delay: 'u32'
       }
     }
   },
   /**
-   * Lookup35: vanilla_runtime::ProxyType
+   * Lookup35: heiko_runtime::ProxyType
    **/
-  VanillaRuntimeProxyType: {
+  HeikoRuntimeProxyType: {
     _enum: ['Any']
   },
   /**
@@ -1504,14 +1504,15 @@ export default {
    **/
   PalletFarmingEvent: {
     _enum: {
-      PoolAdded: '(u32,u32)',
-      PoolStatusChanged: '(u32,u32,bool)',
-      PoolLockDurationChanged: '(u32,u32,u32)',
-      AssetsDeposited: '(AccountId32,u32,u32,u128)',
-      AssetsWithdrew: '(AccountId32,u32,u32,u128)',
-      AssetsRedeem: '(AccountId32,u32,u32,u128)',
-      RewardPaid: '(AccountId32,u32,u32,u128)',
-      RewardAdded: '(u32,u32,u128)'
+      PoolAdded: '(u32,u32,u32)',
+      PoolStatusChanged: '(u32,u32,u32,bool)',
+      PoolCoolDownDurationChanged: '(u32,u32,u32,u32)',
+      PoolUnlockHeightReset: '(u32,u32,u32,u32)',
+      AssetsDeposited: '(AccountId32,u32,u32,u32,u128)',
+      AssetsWithdrew: '(AccountId32,u32,u32,u32,u128)',
+      AssetsRedeem: '(AccountId32,u32,u32,u32,u128)',
+      RewardPaid: '(AccountId32,u32,u32,u32,u128)',
+      RewardAdded: '(u32,u32,u32,u128)'
     }
   },
   /**
@@ -1688,7 +1689,7 @@ export default {
         calls: 'Vec<Call>',
       },
       dispatch_as: {
-        asOrigin: 'VanillaRuntimeOriginCaller',
+        asOrigin: 'HeikoRuntimeOriginCaller',
         call: 'Call'
       }
     }
@@ -1901,28 +1902,28 @@ export default {
     _enum: {
       proxy: {
         real: 'AccountId32',
-        forceProxyType: 'Option<VanillaRuntimeProxyType>',
+        forceProxyType: 'Option<HeikoRuntimeProxyType>',
         call: 'Call',
       },
       add_proxy: {
         delegate: 'AccountId32',
-        proxyType: 'VanillaRuntimeProxyType',
+        proxyType: 'HeikoRuntimeProxyType',
         delay: 'u32',
       },
       remove_proxy: {
         delegate: 'AccountId32',
-        proxyType: 'VanillaRuntimeProxyType',
+        proxyType: 'HeikoRuntimeProxyType',
         delay: 'u32',
       },
       remove_proxies: 'Null',
       anonymous: {
-        proxyType: 'VanillaRuntimeProxyType',
+        proxyType: 'HeikoRuntimeProxyType',
         delay: 'u32',
         index: 'u16',
       },
       kill_anonymous: {
         spawner: 'AccountId32',
-        proxyType: 'VanillaRuntimeProxyType',
+        proxyType: 'HeikoRuntimeProxyType',
         index: 'u16',
         height: 'Compact<u32>',
         extIndex: 'Compact<u32>',
@@ -1942,7 +1943,7 @@ export default {
       proxy_announced: {
         delegate: 'AccountId32',
         real: 'AccountId32',
-        forceProxyType: 'Option<VanillaRuntimeProxyType>',
+        forceProxyType: 'Option<HeikoRuntimeProxyType>',
         call: 'Call'
       }
     }
@@ -2266,7 +2267,7 @@ export default {
     }
   },
   /**
-   * Lookup225: frame_support::traits::schedule::MaybeHashed<vanilla_runtime::Call, primitive_types::H256>
+   * Lookup225: frame_support::traits::schedule::MaybeHashed<heiko_runtime::Call, primitive_types::H256>
    **/
   FrameSupportScheduleMaybeHashed: {
     _enum: {
@@ -2664,16 +2665,16 @@ export default {
         _alias: {
           keys_: 'keys',
         },
-        keys_: 'VanillaRuntimeOpaqueSessionKeys',
+        keys_: 'HeikoRuntimeOpaqueSessionKeys',
         proof: 'Bytes',
       },
       purge_keys: 'Null'
     }
   },
   /**
-   * Lookup261: vanilla_runtime::opaque::SessionKeys
+   * Lookup261: heiko_runtime::opaque::SessionKeys
    **/
-  VanillaRuntimeOpaqueSessionKeys: {
+  HeikoRuntimeOpaqueSessionKeys: {
     aura: 'SpConsensusAuraSr25519AppSr25519Public'
   },
   /**
@@ -3155,13 +3156,21 @@ export default {
         asset: 'u32',
         rewardAsset: 'u32',
         lockDuration: 'u32',
+        coolDownDuration: 'u32',
       },
       set_pool_status: {
         asset: 'u32',
         rewardAsset: 'u32',
+        lockDuration: 'u32',
         isActive: 'bool',
       },
-      set_pool_lock_duration: {
+      set_pool_cool_down_duration: {
+        asset: 'u32',
+        rewardAsset: 'u32',
+        lockDuration: 'u32',
+        coolDownDuration: 'u32',
+      },
+      reset_pool_unlock_height: {
         asset: 'u32',
         rewardAsset: 'u32',
         lockDuration: 'u32',
@@ -3169,27 +3178,32 @@ export default {
       deposit: {
         asset: 'u32',
         rewardAsset: 'u32',
+        lockDuration: 'u32',
         amount: 'u128',
       },
       withdraw: {
         asset: 'u32',
         rewardAsset: 'u32',
+        lockDuration: 'u32',
         amount: 'u128',
       },
       redeem: {
         asset: 'u32',
         rewardAsset: 'u32',
+        lockDuration: 'u32',
       },
       claim: {
         asset: 'u32',
         rewardAsset: 'u32',
+        lockDuration: 'u32',
       },
       dispatch_reward: {
         asset: 'u32',
         rewardAsset: 'u32',
+        lockDuration: 'u32',
         payer: 'MultiAddress',
         amount: 'u128',
-        duration: 'u32'
+        rewardDuration: 'u32'
       }
     }
   },
@@ -3268,9 +3282,9 @@ export default {
     data: 'Bytes'
   },
   /**
-   * Lookup303: vanilla_runtime::OriginCaller
+   * Lookup303: heiko_runtime::OriginCaller
    **/
-  VanillaRuntimeOriginCaller: {
+  HeikoRuntimeOriginCaller: {
     _enum: {
       system: 'FrameSystemRawOrigin',
       __Unused1: 'Null',
@@ -3472,11 +3486,11 @@ export default {
     _enum: ['BalanceLow', 'NoAccount', 'NoPermission', 'Unknown', 'Frozen', 'InUse', 'BadWitness', 'MinBalanceZero', 'NoProvider', 'BadMetadata', 'Unapproved', 'WouldDie', 'AlreadyExists', 'NoDeposit', 'WouldBurn']
   },
   /**
-   * Lookup338: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, vanilla_runtime::ProxyType, BlockNumber>
+   * Lookup338: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, heiko_runtime::ProxyType, BlockNumber>
    **/
   PalletProxyProxyDefinition: {
     delegate: 'AccountId32',
-    proxyType: 'VanillaRuntimeProxyType',
+    proxyType: 'HeikoRuntimeProxyType',
     delay: 'u32'
   },
   /**
@@ -3644,14 +3658,14 @@ export default {
     _enum: ['InsufficientProposersBalance', 'InvalidIndex', 'TooManyApprovals']
   },
   /**
-   * Lookup384: pallet_scheduler::ScheduledV3<frame_support::traits::schedule::MaybeHashed<vanilla_runtime::Call, primitive_types::H256>, BlockNumber, vanilla_runtime::OriginCaller, sp_core::crypto::AccountId32>
+   * Lookup384: pallet_scheduler::ScheduledV3<frame_support::traits::schedule::MaybeHashed<heiko_runtime::Call, primitive_types::H256>, BlockNumber, heiko_runtime::OriginCaller, sp_core::crypto::AccountId32>
    **/
   PalletSchedulerScheduledV3: {
     maybeId: 'Option<Bytes>',
     priority: 'u8',
     call: 'FrameSupportScheduleMaybeHashed',
     maybePeriodic: 'Option<(u32,u32)>',
-    origin: 'VanillaRuntimeOriginCaller'
+    origin: 'HeikoRuntimeOriginCaller'
   },
   /**
    * Lookup385: pallet_scheduler::pallet::Error<T>
@@ -4057,20 +4071,21 @@ export default {
     _enum: ['InvalidVoteThreshold', 'OriginNoPermission', 'ChainIdAlreadyRegistered', 'ChainIdNotRegistered', 'BridgeTokenAlreadyRegistered', 'BridgeTokenNotRegistered', 'MemberAlreadyVoted', 'BridgedAmountTooLow', 'ProposalDoesNotExist', 'ProposalAlreadyComplete', 'ProposalExpired']
   },
   /**
-   * Lookup475: pallet_farming::types::PoolInfo<BlockNumber, BalanceOf>
+   * Lookup476: pallet_farming::types::PoolInfo<BlockNumber, BalanceOf>
    **/
   PalletFarmingPoolInfo: {
     isActive: 'bool',
     totalDeposited: 'u128',
-    lockDuration: 'u32',
-    duration: 'u32',
+    unlockHeight: 'u32',
+    coolDownDuration: 'u32',
+    rewardDuration: 'u32',
     periodFinish: 'u32',
     lastUpdateBlock: 'u32',
     rewardRate: 'u128',
     rewardPerShareStored: 'u128'
   },
   /**
-   * Lookup477: pallet_farming::types::UserPosition<BalanceOf, frame_support::storage::bounded_vec::BoundedVec<T, S>>
+   * Lookup478: pallet_farming::types::UserPosition<BalanceOf, frame_support::storage::bounded_vec::BoundedVec<T, S>>
    **/
   PalletFarmingUserPosition: {
     depositBalance: 'u128',
@@ -4079,25 +4094,25 @@ export default {
     rewardPerSharePaid: 'u128'
   },
   /**
-   * Lookup481: pallet_farming::pallet::Error<T>
+   * Lookup482: pallet_farming::pallet::Error<T>
    **/
   PalletFarmingError: {
-    _enum: ['PoolDoesNotExist', 'PoolAlreadyExists', 'PoolIsNotActive', 'PoolInStatus', 'NotAValidDuration', 'PoolIsInTargetLockDuration', 'NotAValidAmount', 'DepositBalanceLow', 'CodecError', 'ExcessMaxLockDuration', 'ExcessMaxUserLockItemsCount']
+    _enum: ['PoolDoesNotExist', 'PoolAlreadyExists', 'PoolIsNotActive', 'PoolInStatus', 'NotAValidDuration', 'PoolIsInTargetCoolDownDuration', 'NotAValidAmount', 'PoolUnderLock', 'DepositBalanceLow', 'CodecError', 'ExcessMaxLockDuration', 'ExcessMaxCoolDownDuration', 'ExcessMaxUserLockItemsCount', 'RewardNotFinish']
   },
   /**
-   * Lookup482: pallet_xcm_helper::pallet::Error<T>
+   * Lookup483: pallet_xcm_helper::pallet::Error<T>
    **/
   PalletXcmHelperError: {
     _enum: ['MultiLocationNotInvertible', 'SendXcmError', 'ZeroXcmWeightMisc', 'ZeroXcmFees', 'InsufficientXcmFees']
   },
   /**
-   * Lookup484: polkadot_primitives::v1::UpgradeRestriction
+   * Lookup485: polkadot_primitives::v1::UpgradeRestriction
    **/
   PolkadotPrimitivesV1UpgradeRestriction: {
     _enum: ['Present']
   },
   /**
-   * Lookup485: cumulus_pallet_parachain_system::relay_state_snapshot::MessagingStateSnapshot
+   * Lookup486: cumulus_pallet_parachain_system::relay_state_snapshot::MessagingStateSnapshot
    **/
   CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot: {
     dmqMqcHead: 'H256',
@@ -4106,7 +4121,7 @@ export default {
     egressChannels: 'Vec<(u32,PolkadotPrimitivesV1AbridgedHrmpChannel)>'
   },
   /**
-   * Lookup488: polkadot_primitives::v1::AbridgedHrmpChannel
+   * Lookup489: polkadot_primitives::v1::AbridgedHrmpChannel
    **/
   PolkadotPrimitivesV1AbridgedHrmpChannel: {
     maxCapacity: 'u32',
@@ -4117,7 +4132,7 @@ export default {
     mqcHead: 'Option<H256>'
   },
   /**
-   * Lookup489: polkadot_primitives::v1::AbridgedHostConfiguration
+   * Lookup490: polkadot_primitives::v1::AbridgedHostConfiguration
    **/
   PolkadotPrimitivesV1AbridgedHostConfiguration: {
     maxCodeSize: 'u32',
@@ -4131,20 +4146,20 @@ export default {
     validationUpgradeDelay: 'u32'
   },
   /**
-   * Lookup495: polkadot_core_primitives::OutboundHrmpMessage<polkadot_parachain::primitives::Id>
+   * Lookup496: polkadot_core_primitives::OutboundHrmpMessage<polkadot_parachain::primitives::Id>
    **/
   PolkadotCorePrimitivesOutboundHrmpMessage: {
     recipient: 'u32',
     data: 'Bytes'
   },
   /**
-   * Lookup496: cumulus_pallet_parachain_system::pallet::Error<T>
+   * Lookup497: cumulus_pallet_parachain_system::pallet::Error<T>
    **/
   CumulusPalletParachainSystemError: {
     _enum: ['OverlappingUpgrades', 'ProhibitedByPolkadot', 'TooBig', 'ValidationDataNotAvailable', 'HostConfigurationNotAvailable', 'NotScheduled', 'NothingAuthorized', 'Unauthorized']
   },
   /**
-   * Lookup498: sp_runtime::MultiSignature
+   * Lookup499: sp_runtime::MultiSignature
    **/
   SpRuntimeMultiSignature: {
     _enum: {
@@ -4154,47 +4169,47 @@ export default {
     }
   },
   /**
-   * Lookup499: sp_core::ed25519::Signature
+   * Lookup500: sp_core::ed25519::Signature
    **/
   SpCoreEd25519Signature: '[u8;64]',
   /**
-   * Lookup501: sp_core::sr25519::Signature
+   * Lookup502: sp_core::sr25519::Signature
    **/
   SpCoreSr25519Signature: '[u8;64]',
   /**
-   * Lookup502: sp_core::ecdsa::Signature
+   * Lookup503: sp_core::ecdsa::Signature
    **/
   SpCoreEcdsaSignature: '[u8;65]',
   /**
-   * Lookup505: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
+   * Lookup506: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
    **/
   FrameSystemExtensionsCheckNonZeroSender: 'Null',
   /**
-   * Lookup506: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
+   * Lookup507: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
    **/
   FrameSystemExtensionsCheckSpecVersion: 'Null',
   /**
-   * Lookup507: frame_system::extensions::check_tx_version::CheckTxVersion<T>
+   * Lookup508: frame_system::extensions::check_tx_version::CheckTxVersion<T>
    **/
   FrameSystemExtensionsCheckTxVersion: 'Null',
   /**
-   * Lookup508: frame_system::extensions::check_genesis::CheckGenesis<T>
+   * Lookup509: frame_system::extensions::check_genesis::CheckGenesis<T>
    **/
   FrameSystemExtensionsCheckGenesis: 'Null',
   /**
-   * Lookup511: frame_system::extensions::check_nonce::CheckNonce<T>
+   * Lookup512: frame_system::extensions::check_nonce::CheckNonce<T>
    **/
   FrameSystemExtensionsCheckNonce: 'Compact<u32>',
   /**
-   * Lookup512: frame_system::extensions::check_weight::CheckWeight<T>
+   * Lookup513: frame_system::extensions::check_weight::CheckWeight<T>
    **/
   FrameSystemExtensionsCheckWeight: 'Null',
   /**
-   * Lookup513: pallet_transaction_payment::ChargeTransactionPayment<T>
+   * Lookup514: pallet_transaction_payment::ChargeTransactionPayment<T>
    **/
   PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>',
   /**
-   * Lookup514: vanilla_runtime::Runtime
+   * Lookup515: heiko_runtime::Runtime
    **/
-  VanillaRuntimeRuntime: 'Null'
+  HeikoRuntimeRuntime: 'Null'
 };

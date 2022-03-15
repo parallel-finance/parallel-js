@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AccountId32, H256, Permill } from '@parallel-finance/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, ParallelPrimitivesUmpRewardDestination, ParallelPrimitivesUmpXcmWeightFeeMisc, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { AccountId32, H256, Permill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletMultisigTimepoint, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -525,35 +525,39 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Deposited Assets in pool
        **/
-      AssetsDeposited: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
+      AssetsDeposited: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32, u128]>;
       /**
        * Redeem Assets from lock pool
        **/
-      AssetsRedeem: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
+      AssetsRedeem: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32, u128]>;
       /**
        * Withdrew Assets from pool
        **/
-      AssetsWithdrew: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
+      AssetsWithdrew: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32, u128]>;
       /**
        * Add new pool
        **/
-      PoolAdded: AugmentedEvent<ApiType, [u32, u32]>;
+      PoolAdded: AugmentedEvent<ApiType, [u32, u32, u32]>;
       /**
-       * Pool new lock duration was set.
+       * Pool new cool down duration was set.
        **/
-      PoolLockDurationChanged: AugmentedEvent<ApiType, [u32, u32, u32]>;
+      PoolCoolDownDurationChanged: AugmentedEvent<ApiType, [u32, u32, u32, u32]>;
       /**
        * Pool new status was set.
        **/
-      PoolStatusChanged: AugmentedEvent<ApiType, [u32, u32, bool]>;
+      PoolStatusChanged: AugmentedEvent<ApiType, [u32, u32, u32, bool]>;
+      /**
+       * Pool unlock height was reset.
+       **/
+      PoolUnlockHeightReset: AugmentedEvent<ApiType, [u32, u32, u32, u32]>;
       /**
        * Reward added
        **/
-      RewardAdded: AugmentedEvent<ApiType, [u32, u32, u128]>;
+      RewardAdded: AugmentedEvent<ApiType, [u32, u32, u32, u128]>;
       /**
        * Reward Paid for user
        **/
-      RewardPaid: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128]>;
+      RewardPaid: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32, u128]>;
       /**
        * Generic event
        **/
@@ -1104,11 +1108,11 @@ declare module '@polkadot/api-base/types/events' {
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u16]>;
+      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, HeikoRuntimeProxyType, u16]>;
       /**
        * A proxy was added.
        **/
-      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, HeikoRuntimeProxyType, u32]>;
       /**
        * A proxy was executed correctly, with the given.
        **/
