@@ -17,7 +17,7 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<Block>'
+          type: 'Option<BlockHash>'
         }
       ],
       type: '(CurrencyId, Balance)',
