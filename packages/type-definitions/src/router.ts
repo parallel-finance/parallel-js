@@ -17,10 +17,12 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<BlockHash>'
+          type: 'Option<BlockHash>',
+          isHistoric: true,
+          isOptional: true
         }
       ],
-      type: '(Vec<CurrencyId>, Balance)',
+      type: '(Vec<CurrencyId>, FixedU128)',
       isSubscription: false,
       jsonrpc: 'router_getBestRoute',
       method: 'getBestRoute',
