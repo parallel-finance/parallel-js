@@ -17,7 +17,9 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<BlockHash>'
+          type: 'Option<BlockHash>',
+          isHistoric: true,
+          isOptional: true
         }
       ],
       type: '(Vec<CurrencyId>, FixedU128)',

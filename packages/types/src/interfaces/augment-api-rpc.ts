@@ -352,7 +352,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Retrieves the oracle value for a given key.
        **/
-      getAccountLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
+      getAccountLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
     };
     mmr: {
       /**
@@ -408,7 +408,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Returns the route that results in the largest amount out for amount in
        **/
-      getBestRoute: AugmentedRpc<(amount_in: Balance | AnyNumber | Uint8Array, token_in: CurrencyId | AnyNumber | Uint8Array, token_out: CurrencyId | AnyNumber | Uint8Array, at: Option<BlockHash> | null | object | string | Uint8Array) => Observable<ITuple<[Vec<CurrencyId>, FixedU128]>>>;
+      getBestRoute: AugmentedRpc<(amount_in: Balance | AnyNumber | Uint8Array, token_in: CurrencyId | AnyNumber | Uint8Array, token_out: CurrencyId | AnyNumber | Uint8Array, at?: Option<BlockHash> | null | object | string | Uint8Array) => Observable<ITuple<[Vec<CurrencyId>, FixedU128]>>>;
     };
     rpc: {
       /**

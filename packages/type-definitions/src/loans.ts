@@ -9,7 +9,9 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<Block>'
+          type: 'Option<Block>',
+          isHistoric: true,
+          isOptional: true
         }
       ],
       type: '(Liquidity, Shortfall)',
