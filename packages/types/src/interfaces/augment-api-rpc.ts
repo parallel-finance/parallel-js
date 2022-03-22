@@ -4,7 +4,7 @@
 import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
 import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
 import type { CurrencyId } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, Block, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
+import type { AccountId, Balance, Block, BlockNumber, FixedU128, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
 import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
@@ -408,7 +408,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Returns the route that results in the largest amount out for amount in
        **/
-      getBestRoute: AugmentedRpc<(amount_in: Balance | AnyNumber | Uint8Array, token_in: CurrencyId | AnyNumber | Uint8Array, token_out: CurrencyId | AnyNumber | Uint8Array, at: Option<BlockHash> | null | object | string | Uint8Array) => Observable<ITuple<[Vec<CurrencyId>, Balance]>>>;
+      getBestRoute: AugmentedRpc<(amount_in: Balance | AnyNumber | Uint8Array, token_in: CurrencyId | AnyNumber | Uint8Array, token_out: CurrencyId | AnyNumber | Uint8Array, at: Option<BlockHash> | null | object | string | Uint8Array) => Observable<ITuple<[Vec<CurrencyId>, FixedU128]>>>;
     };
     rpc: {
       /**

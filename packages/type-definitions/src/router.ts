@@ -20,7 +20,7 @@ export default {
           type: 'Option<BlockHash>'
         }
       ],
-      type: '(Vec<CurrencyId>, Balance)',
+      type: '(Vec<CurrencyId>, FixedU128)',
       isSubscription: false,
       jsonrpc: 'router_getBestRoute',
       method: 'getBestRoute',
