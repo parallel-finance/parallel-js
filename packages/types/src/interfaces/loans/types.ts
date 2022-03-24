@@ -56,7 +56,8 @@ export interface Market extends Struct {
   readonly liquidateIncentive: Rate;
   readonly rateModel: InterestRateModel;
   readonly state: MarketState;
-  readonly cap: Balance;
+  readonly supplyCap: Balance;
+  readonly borrowCap: Balance;
   readonly ptokenId: CurrencyId;
 }
 
