@@ -413,6 +413,20 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    crowdloansAutomatorsMembership: {
+      /**
+       * Already a member.
+       **/
+      AlreadyMember: AugmentedError<ApiType>;
+      /**
+       * Not a member.
+       **/
+      NotMember: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     cumulusXcm: {
       /**
        * Generic error
@@ -840,6 +854,10 @@ declare module '@polkadot/api-base/types/errors' {
     };
     loans: {
       /**
+       * Upper bound of borrowing is exceeded
+       **/
+      BorrowCapacityExceeded: AugmentedError<ApiType>;
+      /**
        * Deposits are not used as a collateral
        **/
       DepositsAreNotCollateral: AugmentedError<ApiType>;
@@ -847,10 +865,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Asset already enabled/disabled collateral
        **/
       DuplicateOperation: AugmentedError<ApiType>;
-      /**
-       * Market reached its upper limitation
-       **/
-      ExceededMarketCapacity: AugmentedError<ApiType>;
       /**
        * Insufficient cash in the pool
        **/
@@ -931,6 +945,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Oracle price not ready
        **/
       PriceOracleNotReady: AugmentedError<ApiType>;
+      /**
+       * Upper bound of supplying is exceeded
+       **/
+      SupplyCapacityExceeded: AugmentedError<ApiType>;
       /**
        * Repay amount greater than allowed
        **/
@@ -1510,14 +1528,13 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       DistinctReserveForAssetAndFee: AugmentedError<ApiType>;
       /**
-       * The fee amount was zero when the fee specification extrinsic is
-       * being used.
-       **/
-      FeeCannotBeZero: AugmentedError<ApiType>;
-      /**
        * Could not get ancestry of asset reserve location.
        **/
       InvalidAncestry: AugmentedError<ApiType>;
+      /**
+       * The MultiAsset is invalid.
+       **/
+      InvalidAsset: AugmentedError<ApiType>;
       /**
        * Invalid transfer destination.
        **/
@@ -1531,10 +1548,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotCrossChainTransferableCurrency: AugmentedError<ApiType>;
       /**
-       * Not fungible asset.
-       **/
-      NotFungible: AugmentedError<ApiType>;
-      /**
        * The number of assets to be sent is over the maximum
        **/
       TooManyAssetsBeingSent: AugmentedError<ApiType>;
@@ -1546,6 +1559,14 @@ declare module '@polkadot/api-base/types/errors' {
        * XCM execution failed.
        **/
       XcmExecutionFailed: AugmentedError<ApiType>;
+      /**
+       * The transfering asset amount is zero.
+       **/
+      ZeroAmount: AugmentedError<ApiType>;
+      /**
+       * The fee is zero.
+       **/
+      ZeroFee: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

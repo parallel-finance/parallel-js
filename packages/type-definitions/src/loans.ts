@@ -56,7 +56,8 @@ export default {
       liquidateIncentive: 'Rate',
       rateModel: 'InterestRateModel',
       state: 'MarketState',
-      cap: 'Balance',
+      supplyCap: 'Balance',
+      borrowCap: 'Balance',
       ptokenId: 'CurrencyId'
     },
     MarketState: {
