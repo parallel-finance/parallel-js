@@ -5,7 +5,7 @@ import type { AccountId32, H256, Permill } from '@parallel-finance/types/interfa
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, KerriaRuntimeProxyType, OrmlVestingVestingSchedule, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, ParallelPrimitivesUmpRewardDestination, ParallelPrimitivesUmpXcmWeightFeeMisc, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, ParallelPrimitivesUmpRewardDestination, ParallelPrimitivesUmpXcmWeightFeeMisc, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -542,10 +542,15 @@ declare module '@polkadot/api-base/types/events' {
     };
     emergencyShutdown: {
       /**
-       * Toggled Shutdown Flag
+       * Toggled Call
        * [flag]
        **/
-      ToggledShutdownFlag: AugmentedEvent<ApiType, [bool]>;
+      ToggledCall: AugmentedEvent<ApiType, [bool]>;
+      /**
+       * Toggled Pallet
+       * [flag]
+       **/
+      ToggledPallet: AugmentedEvent<ApiType, [bool]>;
       /**
        * Generic event
        **/
@@ -975,6 +980,24 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
+    payroll: {
+      /**
+       * Cancel an existing stream. \[stream_id, sender, recipient, sender_balance, recipient_balance]
+       **/
+      CancelStream: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u32, u128, u128]>;
+      /**
+       * Creates a payment stream. \[stream_id, sender, recipient, deposit, currency_id, start_time, stop_time\]
+       **/
+      CreateStream: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u128, u32, u64, u64]>;
+      /**
+       * Withdraw payment from stream. \[stream_id, recipient, amount\]
+       **/
+      WithdrawFromStream: AugmentedEvent<ApiType, [u128, AccountId32, u32, u128]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
     polkadotXcm: {
       /**
        * Some assets have been placed in an asset trap.
@@ -1138,11 +1161,11 @@ declare module '@polkadot/api-base/types/events' {
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, KerriaRuntimeProxyType, u16]>;
+      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u16]>;
       /**
        * A proxy was added.
        **/
-      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, KerriaRuntimeProxyType, u32]>;
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
       /**
        * A proxy was executed correctly, with the given.
        **/

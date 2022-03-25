@@ -1108,6 +1108,40 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    payroll: {
+      /**
+       * Insufficient deposit size
+       **/
+      DepositIsZero: AugmentedError<ApiType>;
+      /**
+       * Amount exceeds balance
+       **/
+      ExceedsBalance: AugmentedError<ApiType>;
+      /**
+       * Caller is not the recipient
+       **/
+      NotTheRecipient: AugmentedError<ApiType>;
+      /**
+       * Caller is not the streamer
+       **/
+      NotTheStreamer: AugmentedError<ApiType>;
+      /**
+       * Sender as specified themselves as the recipient
+       **/
+      RecipientIsAlsoSender: AugmentedError<ApiType>;
+      /**
+       * Start time is before current block time
+       **/
+      StartBeforeBlockTime: AugmentedError<ApiType>;
+      /**
+       * Stop time is before start time
+       **/
+      StopBeforeStart: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     polkadotXcm: {
       /**
        * The location is invalid since it already has a subscription from us.
