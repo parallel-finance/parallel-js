@@ -392,6 +392,16 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    payroll: {
+      /**
+       * The payroll module id, keep all collaterals of CDPs.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     proxy: {
       /**
        * The base amount of currency needed to reserve for creating an announcement.
