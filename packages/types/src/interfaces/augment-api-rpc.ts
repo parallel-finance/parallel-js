@@ -3,11 +3,11 @@
 
 import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
 import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
-import type { CurrencyId } from '@parallel-finance/types/interfaces/primitives';
+import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
 import type { AccountId, Balance, Block, BlockNumber, FixedU128, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
 import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
-import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
+import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u128, u32, u64 } from '@polkadot/types-codec';
 import type { AnyNumber, Codec, ITuple } from '@polkadot/types-codec/types';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
@@ -350,9 +350,13 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
     };
     loans: {
       /**
-       * Retrieves the oracle value for a given key.
+       * Retrieves account liquidity for the given user.
        **/
       getAccountLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
+      /**
+       * Retrieves market status data for a given asset id.
+       **/
+      getMarketStatus: AugmentedRpc<(asset_id: CurrencyId | AnyNumber | Uint8Array, at?: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Rate, Rate, Rate, Ratio, u128, u128, FixedU128]>>>;
     };
     mmr: {
       /**

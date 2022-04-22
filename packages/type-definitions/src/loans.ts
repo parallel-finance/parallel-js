@@ -1,7 +1,7 @@
 export default {
   rpc: {
     getAccountLiquidity: {
-      description: 'Retrieves the oracle value for a given key.',
+      description: 'Retrieves account liquidity for the given user.',
       params: [
         {
           name: 'account',
@@ -18,6 +18,26 @@ export default {
       isSubscription: false,
       jsonrpc: 'loans_getAccountLiquidity',
       method: 'getAccountLiquidity',
+      section: 'loans'
+    },
+    getMarketStatus: {
+      description: 'Retrieves market status data for a given asset id.',
+      params: [
+        {
+          name: 'asset_id',
+          type: 'CurrencyId'
+        },
+        {
+          name: 'at',
+          type: 'Option<Block>',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: '(Rate, Rate, Rate, Ratio, u128, u128, FixedU128)',
+      isSubscription: false,
+      jsonrpc: 'loans_getMarketStatus',
+      method: 'getMarketStatus',
       section: 'loans'
     }
   },
