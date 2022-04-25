@@ -71,9 +71,11 @@ export default {
     },
     Market: {
       collateralFactor: 'Ratio',
+      liquidationThreshold: 'Ratio',
       reserveFactor: 'Ratio',
       closeFactor: 'Ratio',
       liquidateIncentive: 'Rate',
+      liquidateIncentiveReservedFactor: 'Ratio',
       rateModel: 'InterestRateModel',
       state: 'MarketState',
       supplyCap: 'Balance',
@@ -82,6 +84,10 @@ export default {
     },
     MarketState: {
       _enum: ['Active', 'Pending', 'Supervision']
+    },
+    RewardMarketState: {
+      index: 'Balance',
+      block: 'BlockNumber'
     },
     Liquidity: 'FixedU128',
     Shortfall: 'FixedU128'
