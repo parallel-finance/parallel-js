@@ -34,7 +34,7 @@ export default {
           isOptional: true
         }
       ],
-      type: '(Rate, Rate, Rate, Ratio, u128, u128, FixedU128)',
+      type: '(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)',
       isSubscription: false,
       jsonrpc: 'loans_getMarketStatus',
       method: 'getMarketStatus',
