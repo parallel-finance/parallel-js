@@ -106,9 +106,11 @@
     },
     "Market": {
         "collateralFactor": "Ratio",
+        "liquidationThreshold": "Ratio",
         "reserveFactor": "Ratio",
         "closeFactor": "Ratio",
         "liquidateIncentive": "Rate",
+        "liquidateIncentiveReservedFactor": "Ratio",
         "rateModel": "InterestRateModel",
         "state": "MarketState",
         "supplyCap": "Balance",
@@ -121,6 +123,10 @@
             "Pending",
             "Supervision"
         ]
+    },
+    "RewardMarketState": {
+        "index": "Balance",
+        "block": "BlockNumber"
     },
     "Liquidity": "FixedU128",
     "Shortfall": "FixedU128",

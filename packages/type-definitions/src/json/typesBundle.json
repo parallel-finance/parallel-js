@@ -83,7 +83,7 @@
                                 "isOptional": true
                             }
                         ],
-                        "type": "(Rate, Rate, Rate, Ratio, u128, u128, FixedU128)",
+                        "type": "(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)",
                         "isSubscription": false,
                         "jsonrpc": "loans_getMarketStatus",
                         "method": "getMarketStatus",
@@ -240,9 +240,11 @@
                         },
                         "Market": {
                             "collateralFactor": "Ratio",
+                            "liquidationThreshold": "Ratio",
                             "reserveFactor": "Ratio",
                             "closeFactor": "Ratio",
                             "liquidateIncentive": "Rate",
+                            "liquidateIncentiveReservedFactor": "Ratio",
                             "rateModel": "InterestRateModel",
                             "state": "MarketState",
                             "supplyCap": "Balance",
@@ -255,6 +257,10 @@
                                 "Pending",
                                 "Supervision"
                             ]
+                        },
+                        "RewardMarketState": {
+                            "index": "Balance",
+                            "block": "BlockNumber"
                         },
                         "Liquidity": "FixedU128",
                         "Shortfall": "FixedU128",
