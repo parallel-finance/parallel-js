@@ -10,6 +10,7 @@ import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSup
 declare module '@polkadot/api-base/types/consts' {
   export interface AugmentedConsts<ApiType extends ApiTypes> {
     amm: {
+      getNativeCurrencyId: u32 & AugmentedConst<ApiType>;
       lockAccountId: AccountId32 & AugmentedConst<ApiType>;
       /**
        * Defines the fees taken out of each trade and sent back to the AMM pool,
@@ -129,8 +130,17 @@ declare module '@polkadot/api-base/types/consts' {
        * This must be unique and must not collide with existing IDs within a set of bridged chains.
        **/
       chainId: u32 & AugmentedConst<ApiType>;
+      /**
+       * The essential balance for an existed account
+       **/
       existentialDeposit: u128 & AugmentedConst<ApiType>;
+      /**
+       * An account to pay the bonus
+       **/
       giftAccount: AccountId32 & AugmentedConst<ApiType>;
+      /**
+       * Currency id of the native token
+       **/
       nativeCurrencyId: u32 & AugmentedConst<ApiType>;
       /**
        * The bridge's pallet id, keep all teleported assets.
@@ -311,10 +321,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
       /**
-       * Derivative index
-       **/
-      derivativeIndex: u16 & AugmentedConst<ApiType>;
-      /**
        * Derivative index list
        **/
       derivativeIndexList: Vec<u16> & AugmentedConst<ApiType>;
@@ -327,6 +333,10 @@ declare module '@polkadot/api-base/types/consts' {
        * Liquid currency
        **/
       liquidCurrency: u32 & AugmentedConst<ApiType>;
+      /**
+       * The minimum active bond to become and maintain the role of a nominator.
+       **/
+      minNominatorBond: u128 & AugmentedConst<ApiType>;
       /**
        * Minimum stake amount
        **/
@@ -363,6 +373,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
+       * Reward asset id.
+       **/
+      rewardAssetId: u32 & AugmentedConst<ApiType>;
+      /**
        * Generic const
        **/
       [key: string]: Codec;
@@ -387,16 +401,6 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum amount of signatories allowed in the multisig.
        **/
       maxSignatories: u16 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    payroll: {
-      /**
-       * The payroll module id, keep all collaterals of CDPs.
-       **/
-      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -461,6 +465,40 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
+    stableSwap: {
+      /**
+       * Optimal Amplification Coefficient
+       **/
+      amplificationCoefficient: u8 & AugmentedConst<ApiType>;
+      lockAccountId: AccountId32 & AugmentedConst<ApiType>;
+      lpFee: Permill & AugmentedConst<ApiType>;
+      minimumLiquidity: u128 & AugmentedConst<ApiType>;
+      numTokens: u8 & AugmentedConst<ApiType>;
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Precision
+       **/
+      precision: u128 & AugmentedConst<ApiType>;
+      /**
+       * How much the protocol is taking out of each trade.
+       **/
+      protocolFee: Permill & AugmentedConst<ApiType>;
+      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    streaming: {
+      /**
+       * The streaming module id, keep all collaterals of CDPs.
+       **/
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
     system: {
       /**
        * Maximum number of block number to block hash mappings to keep (oldest pruned first).
@@ -510,6 +548,10 @@ declare module '@polkadot/api-base/types/consts' {
     };
     transactionPayment: {
       /**
+       * The polynomial that is applied in order to derive fee from length.
+       **/
+      lengthToFee: Vec<FrameSupportWeightsWeightToFeeCoefficient> & AugmentedConst<ApiType>;
+      /**
        * A fee mulitplier for `Operational` extrinsics to compute "virtual tip" to boost their
        * `priority`
        * 
@@ -533,10 +575,6 @@ declare module '@polkadot/api-base/types/consts' {
        * transactions.
        **/
       operationalFeeMultiplier: u8 & AugmentedConst<ApiType>;
-      /**
-       * The fee to be paid for making a transaction; the per-byte portion.
-       **/
-      transactionByteFee: u128 & AugmentedConst<ApiType>;
       /**
        * The polynomial that is applied in order to derive fee from weight.
        **/

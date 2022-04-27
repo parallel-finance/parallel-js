@@ -10,7 +10,7 @@ import type { OrmlVestingSchedule, VestingScheduleOf } from '@open-web3/orml-typ
 import type { Pool } from '@parallel-finance/types/interfaces/amm';
 import type { BoundedBalance, PoolInfo, UserPosition } from '@parallel-finance/types/interfaces/farming';
 import type { DerivativeIndex, MatchingLedger } from '@parallel-finance/types/interfaces/liquidStaking';
-import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Liquidity, Market, MarketState, Shortfall } from '@parallel-finance/types/interfaces/loans';
+import type { BorrowSnapshot, CurveModel, Deposits, EarnedSnapshot, InterestRateModel, JumpModel, Liquidity, Market, MarketState, RewardMarketState, Shortfall } from '@parallel-finance/types/interfaces/loans';
 import type { Amount, AmountOf, AssetIdOf, Currency, CurrencyId, CurrencyIdOf, PriceDetail, Rate, Ratio, Timestamp } from '@parallel-finance/types/interfaces/primitives';
 import type { Route } from '@parallel-finance/types/interfaces/router';
 import type { AccountId, AccountId20, AccountId32, AccountIdOf, AccountIndex, Address, AssetId, Balance, BalanceOf, Block, BlockNumber, BlockNumberFor, BlockNumberOf, Call, CallHash, CallHashOf, ChangesTrieConfiguration, ChangesTrieSignal, CodecHash, Consensus, ConsensusEngineId, CrateVersion, Digest, DigestItem, EncodedJustification, ExtrinsicsWeight, Fixed128, Fixed64, FixedI128, FixedI64, FixedU128, FixedU64, H1024, H128, H160, H2048, H256, H32, H512, H64, Hash, Header, HeaderPartial, I32F32, Index, IndicesLookupSource, Justification, Justifications, KeyTypeId, KeyValue, LockIdentifier, LookupSource, LookupTarget, ModuleId, Moment, MultiAddress, MultiSigner, OpaqueCall, OracleKey, OracleValue, Origin, OriginCaller, PalletId, PalletVersion, PalletsOrigin, Pays, PerU16, Perbill, Percent, Permill, Perquintill, Phantom, PhantomData, PreRuntime, Releases, RuntimeDbWeight, Seal, SealV0, SignedBlock, SignedBlockWithJustification, SignedBlockWithJustifications, Slot, StorageData, StorageProof, TransactionInfo, TransactionPriority, TransactionStorageProof, U32F32, ValidatorId, ValidatorIdOf, Weight, WeightMultiplier } from '@parallel-finance/types/interfaces/runtime';
@@ -858,6 +858,7 @@ declare module '@polkadot/types/types/registry' {
     ResponseV2Result: ResponseV2Result;
     Retriable: Retriable;
     RewardDestination: RewardDestination;
+    RewardMarketState: RewardMarketState;
     RewardPoint: RewardPoint;
     RoundSnapshot: RoundSnapshot;
     RoundState: RoundState;

@@ -93,6 +93,14 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    assetRegistry: {
+      AssetAlreadyExists: AugmentedError<ApiType>;
+      AssetDoesNotExist: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     assets: {
       /**
        * The asset-account already exists.
@@ -235,17 +243,29 @@ declare module '@polkadot/api-base/types/errors' {
     };
     bridge: {
       /**
-       * The bridged amount is too low
+       * The bridging amount is exceed the capacity
        **/
-      BridgedAmountTooLow: AugmentedError<ApiType>;
+      BridgeInCapExceeded: AugmentedError<ApiType>;
+      /**
+       * The bridging amount is exceed the capacity
+       **/
+      BridgeOutCapExceeded: AugmentedError<ApiType>;
       /**
        * The bridge token is invalid, it cannot be a existed bridge_token_id
        **/
       BridgeTokenAlreadyRegistered: AugmentedError<ApiType>;
       /**
+       * The bridge token is not available in cross-chain
+       **/
+      BridgeTokenDisabled: AugmentedError<ApiType>;
+      /**
        * The bridge token is not registered and the related operation will be invalid
        **/
       BridgeTokenNotRegistered: AugmentedError<ApiType>;
+      /**
+       * The bridging amount is too low
+       **/
+      BridgingAmountTooLow: AugmentedError<ApiType>;
       /**
        * The chain_id is invalid, it cannot be a existed chain_id or this chain_id
        **/
@@ -259,7 +279,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidVoteThreshold: AugmentedError<ApiType>;
       /**
-       * The AdminMember already vote for the proposal
+       * The RelayMembers already vote for the proposal
        **/
       MemberAlreadyVoted: AugmentedError<ApiType>;
       /**
@@ -345,7 +365,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CapExceeded: AugmentedError<ApiType>;
       /**
-       * Crowdloan ParaId aready exists
+       * Crowdloan ParaId already exists
        **/
       CrowdloanAlreadyExists: AugmentedError<ApiType>;
       /**
@@ -778,6 +798,11 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CapExceeded: AugmentedError<ApiType>;
       /**
+       * Cannot have a nominator role with value less than the minimum defined by
+       * `MinNominatorBond`
+       **/
+      InsufficientBond: AugmentedError<ApiType>;
+      /**
        * Invalid market cap
        **/
       InvalidCap: AugmentedError<ApiType>;
@@ -797,6 +822,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Invalid liquid currency
        **/
       InvalidLiquidCurrency: AugmentedError<ApiType>;
+      /**
+       * The merkle proof is invalid
+       **/
+      InvalidProof: AugmentedError<ApiType>;
       /**
        * Invalid staking currency
        **/
@@ -858,6 +887,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       BorrowCapacityExceeded: AugmentedError<ApiType>;
       /**
+       * Codec error
+       **/
+      CodecError: AugmentedError<ApiType>;
+      /**
        * Deposits are not used as a collateral
        **/
       DepositsAreNotCollateral: AugmentedError<ApiType>;
@@ -882,6 +915,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InsufficientLiquidity: AugmentedError<ApiType>;
       /**
+       * Insufficient Market Liquidity
+       **/
+      InsufficientMarketLiquidity: AugmentedError<ApiType>;
+      /**
        * Insufficient reserves
        **/
       InsufficientReserves: AugmentedError<ApiType>;
@@ -890,15 +927,19 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InsufficientShortfall: AugmentedError<ApiType>;
       /**
-       * The cap cannot be zero
+       * Amount cannot be zero
        **/
-      InvalidCap: AugmentedError<ApiType>;
+      InvalidAmount: AugmentedError<ApiType>;
       /**
        * Invalid asset id
        **/
       InvalidCurrencyId: AugmentedError<ApiType>;
       /**
-       * The factor should be bigger than 0% and smaller than 100%
+       * The exchange rate should be greater than 0.02 and less than 1
+       **/
+      InvalidExchangeRate: AugmentedError<ApiType>;
+      /**
+       * The factor should be greater than 0% and less than 100%
        **/
       InvalidFactor: AugmentedError<ApiType>;
       /**
@@ -910,13 +951,17 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidRateModelParam: AugmentedError<ApiType>;
       /**
+       * The supply cap cannot be zero
+       **/
+      InvalidSupplyCap: AugmentedError<ApiType>;
+      /**
        * Liquidator is same as borrower
        **/
       LiquidatorIsBorrower: AugmentedError<ApiType>;
       /**
        * Market already exists
        **/
-      MarketAlredyExists: AugmentedError<ApiType>;
+      MarketAlreadyExists: AugmentedError<ApiType>;
       /**
        * Market does not exist
        **/
@@ -1108,40 +1153,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    payroll: {
-      /**
-       * Insufficient deposit size
-       **/
-      DepositIsZero: AugmentedError<ApiType>;
-      /**
-       * Amount exceeds balance
-       **/
-      ExceedsBalance: AugmentedError<ApiType>;
-      /**
-       * Caller is not the recipient
-       **/
-      NotTheRecipient: AugmentedError<ApiType>;
-      /**
-       * Caller is not the streamer
-       **/
-      NotTheStreamer: AugmentedError<ApiType>;
-      /**
-       * Sender as specified themselves as the recipient
-       **/
-      RecipientIsAlsoSender: AugmentedError<ApiType>;
-      /**
-       * Start time is before current block time
-       **/
-      StartBeforeBlockTime: AugmentedError<ApiType>;
-      /**
-       * Stop time is before start time
-       **/
-      StopBeforeStart: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     polkadotXcm: {
       /**
        * The location is invalid since it already has a subscription from us.
@@ -1319,6 +1330,90 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    stableSwap: {
+      /**
+       * Conversion failure to u128
+       **/
+      ConversionToU128Failed: AugmentedError<ApiType>;
+      /**
+       * Identical assets
+       **/
+      IdenticalAssets: AugmentedError<ApiType>;
+      /**
+       * Insufficient amount in
+       **/
+      InsufficientAmountIn: AugmentedError<ApiType>;
+      /**
+       * Insufficient amount out
+       **/
+      InsufficientAmountOut: AugmentedError<ApiType>;
+      /**
+       * Insufficient liquidity
+       **/
+      InsufficientLiquidity: AugmentedError<ApiType>;
+      /**
+       * Insufficient supply out.
+       **/
+      InsufficientSupplyOut: AugmentedError<ApiType>;
+      /**
+       * Invariant Error
+       **/
+      InvalidInvariant: AugmentedError<ApiType>;
+      /**
+       * LP token has already been minted
+       **/
+      LpTokenAlreadyExists: AugmentedError<ApiType>;
+      /**
+       * Not an ideal price ratio
+       **/
+      NotAnIdealPrice: AugmentedError<ApiType>;
+      /**
+       * Pool does not exist
+       **/
+      PoolAlreadyExists: AugmentedError<ApiType>;
+      /**
+       * Pool does not exist
+       **/
+      PoolDoesNotExist: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
+    streaming: {
+      /**
+       * Insufficient deposit size
+       **/
+      DepositIsZero: AugmentedError<ApiType>;
+      /**
+       * Amount exceeds balance
+       **/
+      InsufficientBalance: AugmentedError<ApiType>;
+      /**
+       * Caller is not the recipient
+       **/
+      NotTheRecipient: AugmentedError<ApiType>;
+      /**
+       * Caller is not the streamer
+       **/
+      NotTheStreamer: AugmentedError<ApiType>;
+      /**
+       * Sender as specified themselves as the recipient
+       **/
+      RecipientIsAlsoSender: AugmentedError<ApiType>;
+      /**
+       * Start time is before current block time
+       **/
+      StartBeforeBlockTime: AugmentedError<ApiType>;
+      /**
+       * Stop time is before start time
+       **/
+      StopBeforeStart: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     sudo: {
       /**
        * Sender must be the Sudo account
@@ -1483,6 +1578,11 @@ declare module '@polkadot/api-base/types/errors' {
     };
     xcmHelper: {
       /**
+       * The version of the `Versioned` value used is not able to be
+       * interpreted.
+       **/
+      BadVersion: AugmentedError<ApiType>;
+      /**
        * Insufficient xcm fees
        **/
       InsufficientXcmFees: AugmentedError<ApiType>;
@@ -1491,9 +1591,15 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       MultiLocationNotInvertible: AugmentedError<ApiType>;
       /**
-       * Xcm message send failure
+       * The message and destination was recognized as being reachable but
+       * the operation could not be completed.
        **/
-      SendXcmError: AugmentedError<ApiType>;
+      SendFailure: AugmentedError<ApiType>;
+      /**
+       * The message and destination combination was not recognized as being
+       * reachable.
+       **/
+      Unreachable: AugmentedError<ApiType>;
       /**
        * Xcm fees cannot be zero
        **/
@@ -1539,7 +1645,7 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       AssetHasNoReserve: AugmentedError<ApiType>;
       /**
-       * The specified index does not exist in a MultiAssets struct
+       * The specified index does not exist in a MultiAssets struct.
        **/
       AssetIndexNonExistent: AugmentedError<ApiType>;
       /**
@@ -1558,9 +1664,13 @@ declare module '@polkadot/api-base/types/errors' {
       DestinationNotInvertible: AugmentedError<ApiType>;
       /**
        * We tried sending distinct asset and fee but they have different
-       * reserve chains
+       * reserve chains.
        **/
       DistinctReserveForAssetAndFee: AugmentedError<ApiType>;
+      /**
+       * Fee is not enough.
+       **/
+      FeeNotEnough: AugmentedError<ApiType>;
       /**
        * Could not get ancestry of asset reserve location.
        **/
@@ -1582,7 +1692,11 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotCrossChainTransferableCurrency: AugmentedError<ApiType>;
       /**
-       * The number of assets to be sent is over the maximum
+       * Not supported MultiLocation
+       **/
+      NotSupportedMultiLocation: AugmentedError<ApiType>;
+      /**
+       * The number of assets to be sent is over the maximum.
        **/
       TooManyAssetsBeingSent: AugmentedError<ApiType>;
       /**

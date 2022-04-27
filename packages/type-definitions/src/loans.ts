@@ -1,7 +1,7 @@
 export default {
   rpc: {
     getAccountLiquidity: {
-      description: 'Retrieves the oracle value for a given key.',
+      description: 'Retrieves account liquidity for the given user.',
       params: [
         {
           name: 'account',
@@ -18,6 +18,26 @@ export default {
       isSubscription: false,
       jsonrpc: 'loans_getAccountLiquidity',
       method: 'getAccountLiquidity',
+      section: 'loans'
+    },
+    getMarketStatus: {
+      description: 'Retrieves market status data for a given asset id.',
+      params: [
+        {
+          name: 'asset_id',
+          type: 'CurrencyId'
+        },
+        {
+          name: 'at',
+          type: 'Option<Block>',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: '(Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128)',
+      isSubscription: false,
+      jsonrpc: 'loans_getMarketStatus',
+      method: 'getMarketStatus',
       section: 'loans'
     }
   },
@@ -51,9 +71,11 @@ export default {
     },
     Market: {
       collateralFactor: 'Ratio',
+      liquidationThreshold: 'Ratio',
       reserveFactor: 'Ratio',
       closeFactor: 'Ratio',
       liquidateIncentive: 'Rate',
+      liquidateIncentiveReservedFactor: 'Ratio',
       rateModel: 'InterestRateModel',
       state: 'MarketState',
       supplyCap: 'Balance',
@@ -62,6 +84,10 @@ export default {
     },
     MarketState: {
       _enum: ['Active', 'Pending', 'Supervision']
+    },
+    RewardMarketState: {
+      index: 'Balance',
+      block: 'BlockNumber'
     },
     Liquidity: 'FixedU128',
     Shortfall: 'FixedU128'
