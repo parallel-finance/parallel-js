@@ -1,7 +1,7 @@
 export default {
   rpc: {
-    getAccountLiquidity: {
-      description: 'Retrieves account liquidity for the given user.',
+    getCollateralLiquidity: {
+      description: 'Retrieves collateral liquidity for the given user.',
       params: [
         {
           name: 'account',
@@ -16,8 +16,28 @@ export default {
       ],
       type: '(Liquidity, Shortfall)',
       isSubscription: false,
-      jsonrpc: 'loans_getAccountLiquidity',
-      method: 'getAccountLiquidity',
+      jsonrpc: 'loans_getCollateralLiquidity',
+      method: 'getCollateralLiquidity',
+      section: 'loans'
+    },
+    getLiquidationThresholdLiquidity: {
+      description: 'Retrieves liquidation threshold liquidity for the given user.',
+      params: [
+        {
+          name: 'account',
+          type: 'AccountId'
+        },
+        {
+          name: 'at',
+          type: 'Option<Block>',
+          isHistoric: true,
+          isOptional: true
+        }
+      ],
+      type: '(Liquidity, Shortfall)',
+      isSubscription: false,
+      jsonrpc: 'loans_getLiquidationThresholdLiquidity',
+      method: 'getLiquidationThresholdLiquidity',
       section: 'loans'
     },
     getMarketStatus: {
