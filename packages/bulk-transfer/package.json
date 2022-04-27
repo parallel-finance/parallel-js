@@ -1,6 +1,6 @@
 {
   "name": "@parallel-finance/bulk-transfer",
-  "version": "1.6.6",
+  "version": "1.6.7",
   "description": "API library for bulk transfer",
   "main": "index.js",
   "author": "Parallel Team",
@@ -16,7 +16,7 @@
   "homepage": "https://github.com/parallel-finance/parallel-js",
   "dependencies": {
     "@open-web3/orml-api-derive": "^1.0.2-3",
-    "@parallel-finance/types": "^1.6.6"
+    "@parallel-finance/types": "^1.6.7"
   },
   "devDependencies": {
     "@babel/runtime": "^7.10.2",
