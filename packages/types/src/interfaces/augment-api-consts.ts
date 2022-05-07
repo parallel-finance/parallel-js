@@ -1,10 +1,10 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AccountId32, Permill } from '@parallel-finance/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Option, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
+import type { AccountId32, Permill } from '@polkadot/types/interfaces/runtime';
 import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSupportWeightsWeightToFeeCoefficient, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpVersionRuntimeVersion, XcmV0JunctionNetworkId, XcmV1MultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/consts' {
@@ -465,30 +465,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    stableSwap: {
-      /**
-       * Optimal Amplification Coefficient
-       **/
-      amplificationCoefficient: u8 & AugmentedConst<ApiType>;
-      lockAccountId: AccountId32 & AugmentedConst<ApiType>;
-      lpFee: Permill & AugmentedConst<ApiType>;
-      minimumLiquidity: u128 & AugmentedConst<ApiType>;
-      numTokens: u8 & AugmentedConst<ApiType>;
-      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
-      /**
-       * Precision
-       **/
-      precision: u128 & AugmentedConst<ApiType>;
-      /**
-       * How much the protocol is taking out of each trade.
-       **/
-      protocolFee: Permill & AugmentedConst<ApiType>;
-      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     streaming: {
       /**
        * The streaming module id, keep all collaterals of CDPs.
@@ -654,6 +630,10 @@ declare module '@polkadot/api-base/types/consts' {
        * Account on relaychain for receiving refunded fees
        **/
       refundLocation: AccountId32 & AugmentedConst<ApiType>;
+      /**
+       * Relay currency
+       **/
+      relayCurrency: u32 & AugmentedConst<ApiType>;
       /**
        * Relay network
        **/

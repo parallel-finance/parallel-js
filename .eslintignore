@@ -1,4 +1,3 @@
 **/build/*
 **/coverage/*
 **/node_modules/*
-packages/types/src/metadata/static-latest.ts

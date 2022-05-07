@@ -11,13 +11,15 @@
     "resolveJsonModule": true,
     "noUnusedLocals": false,
     "paths": {
-      "@parallel-finance/api": ["packages/api/src"],
       "@parallel-finance/api/*": ["packages/api/src/*"],
-      "@parallel-finance/types": ["packages/types/src"],
+      "@parallel-finance/api": ["packages/api/src"],
       "@parallel-finance/types/*": ["packages/types/src/*"],
-      "@polkadot/types/lookup": ["packages/types/src/interfaces/types-lookup.ts"],
+      "@parallel-finance/types": ["packages/types/src"],
+      "@parallel-finance/type-definitions/*": ["packages/type-definitions/src/*"],
       "@parallel-finance/type-definitions": ["packages/type-definitions/src"],
-      "@parallel-finance/type-definitions/*": ["packages/type-definitions/src/*"]
+      "@polkadot/api/augment": ["packages/types/src/interfaces/augment-api.ts"],
+      "@polkadot/types/augment": ["packages/types/src/interfaces/augment-types.ts"],
+      "@polkadot/types/lookup": ["packages/types/src/interfaces/types-lookup.ts"]
     },
     "skipLibCheck": true,
     "typeRoots": [

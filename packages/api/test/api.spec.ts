@@ -34,4 +34,3 @@ describe('parallel online test', () => {
     await api.query.system.events.at(head);
   });
 });
-
