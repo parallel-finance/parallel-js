@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
-import type { Balance, BlockNumber, FixedU128 } from '@parallel-finance/types/interfaces/runtime';
+import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/src/interfaces/primitives';
+import type { Balance, BlockNumber, FixedU128 } from '@parallel-finance/types/src/interfaces/runtime';
 import type { Enum, Struct, bool, u128 } from '@polkadot/types-codec';
 
 /** @name BorrowSnapshot */

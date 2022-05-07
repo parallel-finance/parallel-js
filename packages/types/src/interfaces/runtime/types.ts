@@ -1,7 +1,6 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Price } from '@open-web3/orml-types/interfaces/traits';
 import type { GenericAccountId, GenericAccountIndex, GenericBlock, GenericCall, GenericConsensusEngineId, GenericEthereumAccountId, GenericLookupSource, GenericMultiAddress, StorageKey } from '@polkadot/types';
 import type { Bytes, Compact, DoNotConstruct, Enum, Int, Null, Option, Struct, U8aFixed, UInt, Vec, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
@@ -294,6 +293,9 @@ export interface PhantomData extends Null {}
 
 /** @name PreRuntime */
 export interface PreRuntime extends ITuple<[ConsensusEngineId, Bytes]> {}
+
+/** @name Price */
+export interface Price extends FixedU128 {}
 
 /** @name Releases */
 export interface Releases extends Enum {

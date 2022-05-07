@@ -1,10 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
-import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
-import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
-import type { AccountId, Balance, Block, BlockNumber, FixedU128, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
+import type { Liquidity, Shortfall } from '@parallel-finance/types/src/interfaces/loans';
+import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/src/interfaces/primitives';
 import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
@@ -16,6 +14,7 @@ import type { BlockHash } from '@polkadot/types/interfaces/chain';
 import type { PrefixedStorageKey } from '@polkadot/types/interfaces/childstate';
 import type { AuthorityId } from '@polkadot/types/interfaces/consensus';
 import type { CodeUploadRequest, CodeUploadResult, ContractCallRequest, ContractExecResult, ContractInstantiateResult, InstantiateRequest } from '@polkadot/types/interfaces/contracts';
+import type { BlockStats } from '@polkadot/types/interfaces/dev';
 import type { CreatedBlock } from '@polkadot/types/interfaces/engine';
 import type { EthAccount, EthCallRequest, EthFilter, EthFilterChanges, EthLog, EthReceipt, EthRichBlock, EthSubKind, EthSubParams, EthSyncStatus, EthTransaction, EthTransactionRequest, EthWork } from '@polkadot/types/interfaces/eth';
 import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
@@ -24,7 +23,8 @@ import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import type { ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
+import type { AccountId, Balance, Block, BlockNumber, FixedU128, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import type { MigrationStatusResult, ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
@@ -157,6 +157,12 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        * Upload new code without instantiating a contract from it
        **/
       uploadCode: AugmentedRpc<(uploadRequest: CodeUploadRequest | { origin?: any; code?: any; storageDepositLimit?: any } | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<CodeUploadResult>>;
+    };
+    dev: {
+      /**
+       * Reexecute the specified `block_hash` and gather statistics while doing so
+       **/
+      getBlockStats: AugmentedRpc<(at: Hash | string | Uint8Array) => Observable<Option<BlockStats>>>;
     };
     engine: {
       /**
@@ -392,16 +398,6 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        **/
       localStorageSet: AugmentedRpc<(kind: StorageKind | 'PERSISTENT' | 'LOCAL' | number | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => Observable<Null>>;
     };
-    oracle: {
-      /**
-       * Retrieves all oracle values.
-       **/
-      getAllValues: AugmentedRpc<(providerId: RpcDataProviderId | string, at?: BlockHash | string | Uint8Array) => Observable<Vec<ITuple<[OracleKey, Option<TimestampedValue>]>>>>;
-      /**
-       * Retrieves the oracle value for a given key.
-       **/
-      getValue: AugmentedRpc<(providerId: RpcDataProviderId | string, key: OracleKey | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<TimestampedValue>>>;
-    };
     payment: {
       /**
        * Query the detailed fee of a given encoded extrinsic
@@ -505,6 +501,10 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        * Provides a way to trace the re-execution of a single block
        **/
       traceBlock: AugmentedRpc<(block: Hash | string | Uint8Array, targets: Option<Text> | null | object | string | Uint8Array, storageKeys: Option<Text> | null | object | string | Uint8Array, methods: Option<Text> | null | object | string | Uint8Array) => Observable<TraceBlockResponse>>;
+      /**
+       * Check current migration state
+       **/
+      trieMigrationStatus: AugmentedRpc<(at?: BlockHash | string | Uint8Array) => Observable<MigrationStatusResult>>;
     };
     syncstate: {
       /**

@@ -1,11 +1,11 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { AccountId32, H256, Permill } from '@parallel-finance/types/interfaces/runtime';
 import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { AccountId32, H256, Permill } from '@polkadot/types/interfaces/runtime';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, ParallelRuntimeProxyType, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -904,12 +904,12 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * Event emitted when market reward speed updated.
        **/
-      MarketRewardSpeedUpdated: AugmentedEvent<ApiType, [u32, u128]>;
+      MarketRewardSpeedUpdated: AugmentedEvent<ApiType, [u32, u128, u128]>;
       /**
-       * New interest rate model is set
+       * New market is set
        * [new_interest_rate_model]
        **/
-      NewMarket: AugmentedEvent<ApiType, [PalletLoansMarket]>;
+      NewMarket: AugmentedEvent<ApiType, [u32, PalletLoansMarket]>;
       /**
        * Event emitted when assets are redeemed
        * [sender, asset_id, amount]
@@ -943,10 +943,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       RewardWithdrawn: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
-       * Event emitted when a market is activated
+       * New market parameters is updated
        * [admin, asset_id]
        **/
-      UpdatedMarket: AugmentedEvent<ApiType, [PalletLoansMarket]>;
+      UpdatedMarket: AugmentedEvent<ApiType, [u32, PalletLoansMarket]>;
       /**
        * Generic event
        **/
@@ -1219,11 +1219,11 @@ declare module '@polkadot/api-base/types/events' {
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u16]>;
+      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, ParallelRuntimeProxyType, u16]>;
       /**
        * A proxy was added.
        **/
-      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, ParallelRuntimeProxyType, u32]>;
       /**
        * A proxy was executed correctly, with the given.
        **/
@@ -1231,7 +1231,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A proxy was removed.
        **/
-      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
+      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, ParallelRuntimeProxyType, u32]>;
       /**
        * Generic event
        **/
@@ -1270,35 +1270,17 @@ declare module '@polkadot/api-base/types/events' {
        **/
       [key: string]: AugmentedEvent<ApiType>;
     };
-    stableSwap: {
-      /**
-       * Delta Calculated
-       **/
-      DeltaCalculated: AugmentedEvent<ApiType, [u32, u32, u128]>;
-      /**
-       * Add liquidity into pool
-       * [sender, base_currency_id, quote_currency_id, base_amount_added, quote_amount_added, lp_token_id, new_base_amount, new_quote_amount]
-       **/
-      LiquidityAdded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
-      /**
-       * Remove liquidity from pool
-       * [sender, base_currency_id, quote_currency_id, liquidity, base_amount_removed, quote_amount_removed, lp_token_id, new_base_amount, new_quote_amount]
-       **/
-      LiquidityRemoved: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u128, u32, u128, u128]>;
-      PoolCreated: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32]>;
-      Traded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
     streaming: {
+      /**
+       * Set minimum deposit for creating a stream
+       **/
+      MinimumDepositSet: AugmentedEvent<ApiType, [u32, u128]>;
       /**
        * Cancel an existing stream. \[stream_id, sender, recipient, sender_balance, recipient_balance]
        **/
       StreamCanceled: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u32, u128, u128]>;
       /**
-       * Creates a payment stream. \[stream_id, sender, recipient, deposit, currency_id, start_time, stop_time\]
+       * Creates a payment stream. \[stream_id, sender, recipient, deposit, asset_id, start_time, stop_time\]
        **/
       StreamCreated: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u128, u32, u64, u64]>;
       /**

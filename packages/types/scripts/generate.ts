@@ -7,6 +7,7 @@ import { TypeRegistry } from '@polkadot/types/create';
 import { generateInterfaceTypes } from '@polkadot/typegen/generate/interfaceRegistry';
 import { generateTsDef } from '@polkadot/typegen/generate/tsDef';
 import {
+  generateDefaultLookup,
   generateDefaultConsts,
   generateDefaultQuery,
   generateDefaultErrors,
@@ -14,8 +15,7 @@ import {
   generateDefaultRpc,
   generateDefaultTx
 } from '@polkadot/typegen/generate';
-import { registerDefinitions } from '@polkadot/typegen/util';
-import metadata from '../src/metadata/static-latest';
+import { result as metadata } from '../src/metadata/static-latest.json';
 
 import * as defaultDefinations from '@polkadot/types/interfaces/definitions';
 
@@ -28,7 +28,8 @@ const { runtime, ...substrateDefinations } = defaultDefinations;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let { runtime: _runtime, ...ormlModulesDefinations } = ormlDefinations;
-delete ormlModulesDefinations.rewards
+delete ormlModulesDefinations.rewards;
+delete ormlModulesDefinations.__esModule;
 
 const definations = {
   '@polkadot/types/interfaces': substrateDefinations,
@@ -41,37 +42,37 @@ const customLookupDefinitions = {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-var-requires
   types: require('../src/interfaces/lookup.ts').default
 } as Definitions;
-
-generateTsDef(definations, 'packages/types/src/interfaces', '@parallel-finance/types/interfaces');
-generateInterfaceTypes(definations, 'packages/types/src/interfaces/augment-types.ts');
-
-generateDefaultConsts(
-  'packages/types/src/interfaces/augment-api-consts.ts',
-  metadata,
-  definations,
-  false,
-  customLookupDefinitions
-);
-generateDefaultTx(
-  'packages/types/src/interfaces/augment-api-tx.ts',
-  metadata,
-  definations,
-  false,
-  customLookupDefinitions
-);
-generateDefaultQuery(
-  'packages/types/src/interfaces/augment-api-query.ts',
-  metadata,
-  definations,
-  false,
-  customLookupDefinitions
-);
-generateDefaultRpc('packages/types/src/interfaces/augment-api-rpc.ts', definations);
-generateDefaultErrors('packages/types/src/interfaces/augment-api-errors.ts', metadata, definations, false);
-generateDefaultEvents(
-  'packages/types/src/interfaces/augment-api-events.ts',
-  metadata,
-  definations,
-  false,
-  customLookupDefinitions
-);
+//
+// generateTsDef(definations, 'packages/types/src/interfaces', '@parallel-finance/types/interfaces');
+// generateInterfaceTypes(definations, 'packages/types/src/interfaces/augment-types.ts');
+//
+// generateDefaultConsts(
+//   'packages/types/src/interfaces/augment-api-consts.ts',
+//   metadata,
+//   definations,
+//   false,
+//   customLookupDefinitions
+// );
+// generateDefaultTx(
+//   'packages/types/src/interfaces/augment-api-tx.ts',
+//   metadata,
+//   definations,
+//   false,
+//   customLookupDefinitions
+// );
+// generateDefaultQuery(
+//   'packages/types/src/interfaces/augment-api-query.ts',
+//   metadata,
+//   definations,
+//   false,
+//   customLookupDefinitions
+// );
+// generateDefaultRpc('packages/types/src/interfaces/augment-api-rpc.ts', definations);
+// generateDefaultErrors('packages/types/src/interfaces/augment-api-errors.ts', metadata, definations, false);
+// generateDefaultEvents(
+//   'packages/types/src/interfaces/augment-api-events.ts',
+//   metadata,
+//   definations,
+//   false,
+//   customLookupDefinitions
+// );
