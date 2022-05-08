@@ -17,7 +17,7 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<BlockHash>',
+          type: 'BlockHash',
           isHistoric: true,
           isOptional: true
         }
