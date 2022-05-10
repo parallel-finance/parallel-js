@@ -24,6 +24,11 @@ yarn generate:meta
 yarn build
 ```
 
+## Bump Version
+```
+./scripts/bump.sh 1.7.3
+```
+
 ## Open Source Credits
 
 We would like to thank the following projects.
