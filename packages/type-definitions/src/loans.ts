@@ -9,7 +9,7 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<Block>',
+          type: 'BlockHash',
           isHistoric: true,
           isOptional: true
         }
@@ -29,7 +29,7 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<Block>',
+          type: 'BlockHash',
           isHistoric: true,
           isOptional: true
         }
@@ -49,7 +49,7 @@ export default {
         },
         {
           name: 'at',
-          type: 'Option<Block>',
+          type: 'BlockHash',
           isHistoric: true,
           isOptional: true
         }

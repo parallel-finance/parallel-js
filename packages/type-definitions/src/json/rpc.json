@@ -77,7 +77,7 @@
                 },
                 {
                     "name": "at",
-                    "type": "Option<Block>",
+                    "type": "BlockHash",
                     "isHistoric": true,
                     "isOptional": true
                 }
@@ -97,7 +97,7 @@
                 },
                 {
                     "name": "at",
-                    "type": "Option<Block>",
+                    "type": "BlockHash",
                     "isHistoric": true,
                     "isOptional": true
                 }
@@ -117,7 +117,7 @@
                 },
                 {
                     "name": "at",
-                    "type": "Option<Block>",
+                    "type": "BlockHash",
                     "isHistoric": true,
                     "isOptional": true
                 }
