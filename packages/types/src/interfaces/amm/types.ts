@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { AssetId, Balance, BlockNumber } from '@parallel-finance/types/src/interfaces/runtime';
+import type { AssetId, Balance, BlockNumber } from '@parallel-finance/types/interfaces/runtime';
 import type { Struct } from '@polkadot/types-codec';
 
 /** @name Pool */

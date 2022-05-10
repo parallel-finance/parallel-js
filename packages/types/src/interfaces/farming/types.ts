@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { Balance, BlockNumber } from '@parallel-finance/types/src/interfaces/runtime';
+import type { Balance, BlockNumber } from '@parallel-finance/types/interfaces/runtime';
 import type { Struct, Vec, bool } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 

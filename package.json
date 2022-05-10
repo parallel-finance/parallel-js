@@ -19,8 +19,8 @@
     "postinstall": "polkadot-dev-yarn-only",
     "test": "polkadot-dev-run-test --coverage",
     "update-metadata": "ts-node --project ./tsconfig.json packages/types/scripts/updateMetadata.ts",
-    "generate:defs": "node -r ts-node/register -r tsconfig-paths/register node_modules/.bin/polkadot-types-from-defs --package @parallel-finance/types/src/interfaces --endpoint ./packages/types/src/metadata/static-latest.json --input packages/types/src/interfaces",
-    "generate:meta": "node -r ts-node/register -r tsconfig-paths/register node_modules/.bin/polkadot-types-from-chain --package @parallel-finance/types/src/interfaces --endpoint ./packages/types/src/metadata/static-latest.json --output packages/types/src/interfaces",
+    "generate:defs": "node -r ts-node/register -r tsconfig-paths/register node_modules/.bin/polkadot-types-from-defs --package @parallel-finance/types/interfaces --endpoint ./packages/types/src/metadata/static-latest.json --input packages/types/src/interfaces",
+    "generate:meta": "node -r ts-node/register -r tsconfig-paths/register node_modules/.bin/polkadot-types-from-chain --package @parallel-finance/types/interfaces --endpoint ./packages/types/src/metadata/static-latest.json --output packages/types/src/interfaces",
     "conn-test": "ts-node packages/api/test/index.ts"
   },
   "devDependencies": {

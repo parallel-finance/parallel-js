@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { AccountId, Balance } from '@parallel-finance/types/src/interfaces/runtime';
+import type { AccountId, Balance } from '@parallel-finance/types/interfaces/runtime';
 import type { Struct, Vec, u16 } from '@polkadot/types-codec';
 import type { EraIndex } from '@polkadot/types/interfaces/staking';
 
