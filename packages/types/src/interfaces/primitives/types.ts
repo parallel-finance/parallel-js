@@ -1,7 +1,7 @@
 // Auto-generated via `yarn polkadot-types-from-defs`, do not edit
 /* eslint-disable */
 
-import type { AssetId, FixedU128, Permill, Price } from '@parallel-finance/types/src/interfaces/runtime';
+import type { AssetId, FixedU128, Permill, Price } from '@parallel-finance/types/interfaces/runtime';
 import type { i128, u64 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 

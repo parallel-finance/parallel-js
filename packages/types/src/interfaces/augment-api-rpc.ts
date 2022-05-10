@@ -1,8 +1,8 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { Liquidity, Shortfall } from '@parallel-finance/types/src/interfaces/loans';
-import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/src/interfaces/primitives';
+import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
+import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
 import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, u32, u64 } from '@polkadot/types-codec';
