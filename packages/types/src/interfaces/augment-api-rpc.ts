@@ -23,7 +23,7 @@ import type { MmrLeafProof } from '@polkadot/types/interfaces/mmr';
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import type { AccountId, Balance, Block, BlockNumber, FixedU128, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
+import type { AccountId, Balance, BlockNumber, FixedU128, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import type { MigrationStatusResult, ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
@@ -358,15 +358,15 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Retrieves collateral liquidity for the given user.
        **/
-      getCollateralLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
+      getCollateralLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
       /**
        * Retrieves liquidation threshold liquidity for the given user.
        **/
-      getLiquidationThresholdLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
+      getLiquidationThresholdLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
       /**
        * Retrieves market status data for a given asset id.
        **/
-      getMarketStatus: AugmentedRpc<(asset_id: CurrencyId | AnyNumber | Uint8Array, at?: Option<Block> | null | object | string | Uint8Array) => Observable<ITuple<[Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128]>>>;
+      getMarketStatus: AugmentedRpc<(asset_id: CurrencyId | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128]>>>;
     };
     mmr: {
       /**
