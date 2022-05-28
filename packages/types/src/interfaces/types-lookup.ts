@@ -3999,11 +3999,8 @@ declare module '@polkadot/types/lookup' {
 
   /** @name SpTrieStorageProof (307) */
   export interface SpTrieStorageProof extends Struct {
-    readonly trieNodes: BTreeSet;
+    readonly trieNodes: BTreeSet<Bytes>;
   }
-
-  /** @name BTreeSet (308) */
-  export interface BTreeSet extends Vec<Bytes> {}
 
   /** @name PolkadotCorePrimitivesInboundDownwardMessage (310) */
   export interface PolkadotCorePrimitivesInboundDownwardMessage extends Struct {

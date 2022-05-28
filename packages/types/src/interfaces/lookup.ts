@@ -3589,12 +3589,8 @@ export default {
    * Lookup307: sp_trie::storage_proof::StorageProof
    **/
   SpTrieStorageProof: {
-    trieNodes: 'BTreeSet'
+    trieNodes: 'BTreeSet<Bytes>'
   },
-  /**
-   * Lookup308: BTreeSet<T>
-   **/
-  BTreeSet: 'Vec<Bytes>',
   /**
    * Lookup310: polkadot_core_primitives::InboundDownwardMessage<BlockNumber>
    **/
