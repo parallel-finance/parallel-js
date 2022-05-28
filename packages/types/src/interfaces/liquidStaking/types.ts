@@ -10,8 +10,14 @@ export interface DerivativeIndex extends u16 {}
 
 /** @name MatchingLedger */
 export interface MatchingLedger extends Struct {
-  readonly totalStakeAmount: Balance;
-  readonly totalUnstakeAmount: Balance;
+  readonly totalStakeAmount: ReservableAmount;
+  readonly totalUnstakeAmount: ReservableAmount;
+}
+
+/** @name ReservableAmount */
+export interface ReservableAmount extends Struct {
+  readonly total: Balance;
+  readonly reserved: Balance;
 }
 
 /** @name StakingLedger */

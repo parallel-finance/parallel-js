@@ -431,7 +431,8 @@ declare module '@polkadot/types/lookup' {
     readonly isStaking: boolean;
     readonly isCrowdloans: boolean;
     readonly isFarming: boolean;
-    readonly type: 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming';
+    readonly isStreaming: boolean;
+    readonly type: 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming';
   }
 
   /** @name PalletIdentityEvent (39) */
@@ -1618,7 +1619,11 @@ declare module '@polkadot/types/lookup' {
     readonly asNewEra: u32;
     readonly isMatching: boolean;
     readonly asMatching: ITuple<[u128, u128, u128]>;
-    readonly type: 'Staked' | 'Unstaked' | 'StakingLedgerUpdated' | 'Bonding' | 'BondingExtra' | 'Unbonding' | 'Rebonding' | 'WithdrawingUnbonded' | 'Nominating' | 'StakingLedgerCapUpdated' | 'ReserveFactorUpdated' | 'ExchangeRateUpdated' | 'NotificationReceived' | 'ClaimedFor' | 'NewEra' | 'Matching';
+    readonly isReservesReduced: boolean;
+    readonly asReservesReduced: ITuple<[AccountId32, u128]>;
+    readonly isUnstakeCancelled: boolean;
+    readonly asUnstakeCancelled: ITuple<[AccountId32, u128, u128]>;
+    readonly type: 'Staked' | 'Unstaked' | 'StakingLedgerUpdated' | 'Bonding' | 'BondingExtra' | 'Unbonding' | 'Rebonding' | 'WithdrawingUnbonded' | 'Nominating' | 'StakingLedgerCapUpdated' | 'ReserveFactorUpdated' | 'ExchangeRateUpdated' | 'NotificationReceived' | 'ClaimedFor' | 'NewEra' | 'Matching' | 'ReservesReduced' | 'UnstakeCancelled';
   }
 
   /** @name PalletLiquidStakingStakingLedger (122) */
@@ -1785,14 +1790,14 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletStreamingEvent (141) */
   export interface PalletStreamingEvent extends Enum {
     readonly isStreamCreated: boolean;
-    readonly asStreamCreated: ITuple<[u128, AccountId32, AccountId32, u128, u32, u64, u64]>;
+    readonly asStreamCreated: ITuple<[u128, AccountId32, AccountId32, u128, u32, u64, u64, bool]>;
     readonly isStreamWithdrawn: boolean;
     readonly asStreamWithdrawn: ITuple<[u128, AccountId32, u32, u128]>;
-    readonly isStreamCanceled: boolean;
-    readonly asStreamCanceled: ITuple<[u128, AccountId32, AccountId32, u32, u128, u128]>;
+    readonly isStreamCancelled: boolean;
+    readonly asStreamCancelled: ITuple<[u128, AccountId32, AccountId32, u32, u128, u128]>;
     readonly isMinimumDepositSet: boolean;
     readonly asMinimumDepositSet: ITuple<[u32, u128]>;
-    readonly type: 'StreamCreated' | 'StreamWithdrawn' | 'StreamCanceled' | 'MinimumDepositSet';
+    readonly type: 'StreamCreated' | 'StreamWithdrawn' | 'StreamCancelled' | 'MinimumDepositSet';
   }
 
   /** @name PalletAssetRegistryEvent (142) */
@@ -3531,7 +3536,16 @@ declare module '@polkadot/types/lookup' {
       readonly stakingLedger: PalletLiquidStakingStakingLedger;
       readonly proof: Vec<Bytes>;
     } & Struct;
-    readonly type: 'Stake' | 'Unstake' | 'UpdateReserveFactor' | 'UpdateStakingLedgerCap' | 'Bond' | 'BondExtra' | 'Unbond' | 'Rebond' | 'WithdrawUnbonded' | 'Nominate' | 'NotificationReceived' | 'ClaimFor' | 'ForceSetEraStartBlock' | 'ForceSetCurrentEra' | 'ForceAdvanceEra' | 'ForceMatching' | 'ForceSetStakingLedger' | 'SetCurrentEra' | 'SetStakingLedger';
+    readonly isReduceReserves: boolean;
+    readonly asReduceReserves: {
+      readonly receiver: MultiAddress;
+      readonly reduceAmount: Compact<u128>;
+    } & Struct;
+    readonly isCancelUnstake: boolean;
+    readonly asCancelUnstake: {
+      readonly amount: Compact<u128>;
+    } & Struct;
+    readonly type: 'Stake' | 'Unstake' | 'UpdateReserveFactor' | 'UpdateStakingLedgerCap' | 'Bond' | 'BondExtra' | 'Unbond' | 'Rebond' | 'WithdrawUnbonded' | 'Nominate' | 'NotificationReceived' | 'ClaimFor' | 'ForceSetEraStartBlock' | 'ForceSetCurrentEra' | 'ForceAdvanceEra' | 'ForceMatching' | 'ForceSetStakingLedger' | 'SetCurrentEra' | 'SetStakingLedger' | 'ReduceReserves' | 'CancelUnstake';
   }
 
   /** @name PalletMembershipCall (283) */
@@ -3892,20 +3906,21 @@ declare module '@polkadot/types/lookup' {
 
   /** @name PalletStreamingCall (301) */
   export interface PalletStreamingCall extends Enum {
-    readonly isCreateStream: boolean;
-    readonly asCreateStream: {
+    readonly isCreate: boolean;
+    readonly asCreate: {
       readonly recipient: AccountId32;
       readonly deposit: u128;
       readonly assetId: u32;
       readonly startTime: u64;
-      readonly stopTime: u64;
+      readonly endTime: u64;
+      readonly cancellable: bool;
     } & Struct;
-    readonly isCancelStream: boolean;
-    readonly asCancelStream: {
+    readonly isCancel: boolean;
+    readonly asCancel: {
       readonly streamId: u128;
     } & Struct;
-    readonly isWithdrawFromStream: boolean;
-    readonly asWithdrawFromStream: {
+    readonly isWithdraw: boolean;
+    readonly asWithdraw: {
       readonly streamId: u128;
       readonly amount: u128;
     } & Struct;
@@ -3914,7 +3929,7 @@ declare module '@polkadot/types/lookup' {
       readonly assetId: u32;
       readonly minimumDeposit: u128;
     } & Struct;
-    readonly type: 'CreateStream' | 'CancelStream' | 'WithdrawFromStream' | 'SetMinimumDeposit';
+    readonly type: 'Create' | 'Cancel' | 'Withdraw' | 'SetMinimumDeposit';
   }
 
   /** @name PalletAssetRegistryCall (302) */
@@ -3984,8 +3999,11 @@ declare module '@polkadot/types/lookup' {
 
   /** @name SpTrieStorageProof (307) */
   export interface SpTrieStorageProof extends Struct {
-    readonly trieNodes: BTreeSet<Bytes>;
+    readonly trieNodes: BTreeSet;
   }
+
+  /** @name BTreeSet (308) */
+  export interface BTreeSet extends Vec<Bytes> {}
 
   /** @name PolkadotCorePrimitivesInboundDownwardMessage (310) */
   export interface PolkadotCorePrimitivesInboundDownwardMessage extends Struct {
@@ -4932,7 +4950,8 @@ declare module '@polkadot/types/lookup' {
     readonly isNotWithdrawn: boolean;
     readonly isInsufficientBond: boolean;
     readonly isInvalidProof: boolean;
-    readonly type: 'InvalidExchangeRate' | 'StakeTooSmall' | 'UnstakeTooSmall' | 'InvalidLiquidCurrency' | 'InvalidStakingCurrency' | 'InvalidDerivativeIndex' | 'InvalidStakingLedger' | 'CapExceeded' | 'InvalidCap' | 'InvalidFactor' | 'NothingToClaim' | 'NotBonded' | 'AlreadyBonded' | 'NoMoreChunks' | 'StakingLedgerLocked' | 'NotWithdrawn' | 'InsufficientBond' | 'InvalidProof';
+    readonly isNoUnlockings: boolean;
+    readonly type: 'InvalidExchangeRate' | 'StakeTooSmall' | 'UnstakeTooSmall' | 'InvalidLiquidCurrency' | 'InvalidStakingCurrency' | 'InvalidDerivativeIndex' | 'InvalidStakingLedger' | 'CapExceeded' | 'InvalidCap' | 'InvalidFactor' | 'NothingToClaim' | 'NotBonded' | 'AlreadyBonded' | 'NoMoreChunks' | 'StakingLedgerLocked' | 'NotWithdrawn' | 'InsufficientBond' | 'InvalidProof' | 'NoUnlockings';
   }
 
   /** @name PalletMembershipError (475) */
@@ -5089,38 +5108,69 @@ declare module '@polkadot/types/lookup' {
     readonly deposit: u128;
     readonly assetId: u32;
     readonly ratePerSec: u128;
-    readonly recipient: AccountId32;
     readonly sender: AccountId32;
+    readonly recipient: AccountId32;
     readonly startTime: u64;
-    readonly stopTime: u64;
+    readonly endTime: u64;
+    readonly status: PalletStreamingStreamStatus;
+    readonly cancellable: bool;
   }
 
-  /** @name PalletStreamingError (503) */
+  /** @name PalletStreamingStreamStatus (503) */
+  export interface PalletStreamingStreamStatus extends Enum {
+    readonly isOngoing: boolean;
+    readonly asOngoing: {
+      readonly asCollateral: bool;
+    } & Struct;
+    readonly isCompleted: boolean;
+    readonly asCompleted: {
+      readonly cancelled: bool;
+    } & Struct;
+    readonly type: 'Ongoing' | 'Completed';
+  }
+
+  /** @name PalletStreamingStreamKind (505) */
+  export interface PalletStreamingStreamKind extends Enum {
+    readonly isSend: boolean;
+    readonly isReceive: boolean;
+    readonly isFinish: boolean;
+    readonly type: 'Send' | 'Receive' | 'Finish';
+  }
+
+  /** @name PalletStreamingError (508) */
   export interface PalletStreamingError extends Enum {
     readonly isRecipientIsAlsoSender: boolean;
+    readonly isInvalidAssetId: boolean;
     readonly isDepositLowerThanMinimum: boolean;
-    readonly isStartBeforeBlockTime: boolean;
-    readonly isStopBeforeStart: boolean;
-    readonly isNotTheStreamer: boolean;
+    readonly isStartTimeBeforeCurrentTime: boolean;
+    readonly isEndTimeBeforeStartTime: boolean;
+    readonly isInvalidDuration: boolean;
+    readonly isInvalidRatePerSecond: boolean;
+    readonly isInvalidStreamId: boolean;
+    readonly isNotTheSender: boolean;
     readonly isNotTheRecipient: boolean;
-    readonly isInsufficientBalance: boolean;
-    readonly type: 'RecipientIsAlsoSender' | 'DepositLowerThanMinimum' | 'StartBeforeBlockTime' | 'StopBeforeStart' | 'NotTheStreamer' | 'NotTheRecipient' | 'InsufficientBalance';
+    readonly isCannotBeCancelled: boolean;
+    readonly isInsufficientStreamBalance: boolean;
+    readonly isExcessMaxStreamsCount: boolean;
+    readonly isNotStarted: boolean;
+    readonly isHasFinished: boolean;
+    readonly type: 'RecipientIsAlsoSender' | 'InvalidAssetId' | 'DepositLowerThanMinimum' | 'StartTimeBeforeCurrentTime' | 'EndTimeBeforeStartTime' | 'InvalidDuration' | 'InvalidRatePerSecond' | 'InvalidStreamId' | 'NotTheSender' | 'NotTheRecipient' | 'CannotBeCancelled' | 'InsufficientStreamBalance' | 'ExcessMaxStreamsCount' | 'NotStarted' | 'HasFinished';
   }
 
-  /** @name PalletAssetRegistryError (505) */
+  /** @name PalletAssetRegistryError (510) */
   export interface PalletAssetRegistryError extends Enum {
     readonly isAssetAlreadyExists: boolean;
     readonly isAssetDoesNotExist: boolean;
     readonly type: 'AssetAlreadyExists' | 'AssetDoesNotExist';
   }
 
-  /** @name PolkadotPrimitivesV2UpgradeRestriction (507) */
+  /** @name PolkadotPrimitivesV2UpgradeRestriction (512) */
   export interface PolkadotPrimitivesV2UpgradeRestriction extends Enum {
     readonly isPresent: boolean;
     readonly type: 'Present';
   }
 
-  /** @name CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot (508) */
+  /** @name CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot (513) */
   export interface CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot extends Struct {
     readonly dmqMqcHead: H256;
     readonly relayDispatchQueueSize: ITuple<[u32, u32]>;
@@ -5128,7 +5178,7 @@ declare module '@polkadot/types/lookup' {
     readonly egressChannels: Vec<ITuple<[u32, PolkadotPrimitivesV2AbridgedHrmpChannel]>>;
   }
 
-  /** @name PolkadotPrimitivesV2AbridgedHrmpChannel (511) */
+  /** @name PolkadotPrimitivesV2AbridgedHrmpChannel (516) */
   export interface PolkadotPrimitivesV2AbridgedHrmpChannel extends Struct {
     readonly maxCapacity: u32;
     readonly maxTotalSize: u32;
@@ -5138,7 +5188,7 @@ declare module '@polkadot/types/lookup' {
     readonly mqcHead: Option<H256>;
   }
 
-  /** @name PolkadotPrimitivesV2AbridgedHostConfiguration (512) */
+  /** @name PolkadotPrimitivesV2AbridgedHostConfiguration (517) */
   export interface PolkadotPrimitivesV2AbridgedHostConfiguration extends Struct {
     readonly maxCodeSize: u32;
     readonly maxHeadDataSize: u32;
@@ -5151,13 +5201,13 @@ declare module '@polkadot/types/lookup' {
     readonly validationUpgradeDelay: u32;
   }
 
-  /** @name PolkadotCorePrimitivesOutboundHrmpMessage (518) */
+  /** @name PolkadotCorePrimitivesOutboundHrmpMessage (523) */
   export interface PolkadotCorePrimitivesOutboundHrmpMessage extends Struct {
     readonly recipient: u32;
     readonly data: Bytes;
   }
 
-  /** @name CumulusPalletParachainSystemError (519) */
+  /** @name CumulusPalletParachainSystemError (524) */
   export interface CumulusPalletParachainSystemError extends Enum {
     readonly isOverlappingUpgrades: boolean;
     readonly isProhibitedByPolkadot: boolean;
@@ -5170,7 +5220,7 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'OverlappingUpgrades' | 'ProhibitedByPolkadot' | 'TooBig' | 'ValidationDataNotAvailable' | 'HostConfigurationNotAvailable' | 'NotScheduled' | 'NothingAuthorized' | 'Unauthorized';
   }
 
-  /** @name SpRuntimeMultiSignature (521) */
+  /** @name SpRuntimeMultiSignature (526) */
   export interface SpRuntimeMultiSignature extends Enum {
     readonly isEd25519: boolean;
     readonly asEd25519: SpCoreEd25519Signature;
@@ -5181,37 +5231,37 @@ declare module '@polkadot/types/lookup' {
     readonly type: 'Ed25519' | 'Sr25519' | 'Ecdsa';
   }
 
-  /** @name SpCoreEd25519Signature (522) */
+  /** @name SpCoreEd25519Signature (527) */
   export interface SpCoreEd25519Signature extends U8aFixed {}
 
-  /** @name SpCoreSr25519Signature (524) */
+  /** @name SpCoreSr25519Signature (529) */
   export interface SpCoreSr25519Signature extends U8aFixed {}
 
-  /** @name SpCoreEcdsaSignature (525) */
+  /** @name SpCoreEcdsaSignature (530) */
   export interface SpCoreEcdsaSignature extends U8aFixed {}
 
-  /** @name FrameSystemExtensionsCheckNonZeroSender (528) */
+  /** @name FrameSystemExtensionsCheckNonZeroSender (533) */
   export type FrameSystemExtensionsCheckNonZeroSender = Null;
 
-  /** @name FrameSystemExtensionsCheckSpecVersion (529) */
+  /** @name FrameSystemExtensionsCheckSpecVersion (534) */
   export type FrameSystemExtensionsCheckSpecVersion = Null;
 
-  /** @name FrameSystemExtensionsCheckTxVersion (530) */
+  /** @name FrameSystemExtensionsCheckTxVersion (535) */
   export type FrameSystemExtensionsCheckTxVersion = Null;
 
-  /** @name FrameSystemExtensionsCheckGenesis (531) */
+  /** @name FrameSystemExtensionsCheckGenesis (536) */
   export type FrameSystemExtensionsCheckGenesis = Null;
 
-  /** @name FrameSystemExtensionsCheckNonce (534) */
+  /** @name FrameSystemExtensionsCheckNonce (539) */
   export interface FrameSystemExtensionsCheckNonce extends Compact<u32> {}
 
-  /** @name FrameSystemExtensionsCheckWeight (535) */
+  /** @name FrameSystemExtensionsCheckWeight (540) */
   export type FrameSystemExtensionsCheckWeight = Null;
 
-  /** @name PalletTransactionPaymentChargeTransactionPayment (536) */
+  /** @name PalletTransactionPaymentChargeTransactionPayment (541) */
   export interface PalletTransactionPaymentChargeTransactionPayment extends Compact<u128> {}
 
-  /** @name ParallelRuntimeRuntime (537) */
+  /** @name ParallelRuntimeRuntime (542) */
   export type ParallelRuntimeRuntime = Null;
 
 } // declare module

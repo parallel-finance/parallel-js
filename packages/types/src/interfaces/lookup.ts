@@ -389,7 +389,7 @@ export default {
    * Lookup37: parallel_runtime::ProxyType
    **/
   ParallelRuntimeProxyType: {
-    _enum: ['Any', 'Loans', 'Staking', 'Crowdloans', 'Farming']
+    _enum: ['Any', 'Loans', 'Staking', 'Crowdloans', 'Farming', 'Streaming']
   },
   /**
    * Lookup39: pallet_identity::pallet::Event<T>
@@ -1414,7 +1414,9 @@ export default {
       NotificationReceived: '(XcmV1MultiLocation,u64,Option<(u32,XcmV2TraitsError)>)',
       ClaimedFor: '(AccountId32,u128)',
       NewEra: 'u32',
-      Matching: '(u128,u128,u128)'
+      Matching: '(u128,u128,u128)',
+      ReservesReduced: '(AccountId32,u128)',
+      UnstakeCancelled: '(AccountId32,u128,u128)'
     }
   },
   /**
@@ -1559,9 +1561,9 @@ export default {
    **/
   PalletStreamingEvent: {
     _enum: {
-      StreamCreated: '(u128,AccountId32,AccountId32,u128,u32,u64,u64)',
+      StreamCreated: '(u128,AccountId32,AccountId32,u128,u32,u64,u64,bool)',
       StreamWithdrawn: '(u128,AccountId32,u32,u128)',
-      StreamCanceled: '(u128,AccountId32,AccountId32,u32,u128,u128)',
+      StreamCancelled: '(u128,AccountId32,AccountId32,u32,u128,u128)',
       MinimumDepositSet: '(u32,u128)'
     }
   },
@@ -3157,7 +3159,14 @@ export default {
       set_staking_ledger: {
         derivativeIndex: 'u16',
         stakingLedger: 'PalletLiquidStakingStakingLedger',
-        proof: 'Vec<Bytes>'
+        proof: 'Vec<Bytes>',
+      },
+      reduce_reserves: {
+        receiver: 'MultiAddress',
+        reduceAmount: 'Compact<u128>',
+      },
+      cancel_unstake: {
+        amount: 'Compact<u128>'
       }
     }
   },
@@ -3493,17 +3502,18 @@ export default {
    **/
   PalletStreamingCall: {
     _enum: {
-      create_stream: {
+      create: {
         recipient: 'AccountId32',
         deposit: 'u128',
         assetId: 'u32',
         startTime: 'u64',
-        stopTime: 'u64',
+        endTime: 'u64',
+        cancellable: 'bool',
       },
-      cancel_stream: {
+      cancel: {
         streamId: 'u128',
       },
-      withdraw_from_stream: {
+      withdraw: {
         streamId: 'u128',
         amount: 'u128',
       },
@@ -3579,8 +3589,12 @@ export default {
    * Lookup307: sp_trie::storage_proof::StorageProof
    **/
   SpTrieStorageProof: {
-    trieNodes: 'BTreeSet<Bytes>'
+    trieNodes: 'BTreeSet'
   },
+  /**
+   * Lookup308: BTreeSet<T>
+   **/
+  BTreeSet: 'Vec<Bytes>',
   /**
    * Lookup310: polkadot_core_primitives::InboundDownwardMessage<BlockNumber>
    **/
@@ -4342,7 +4356,7 @@ export default {
    * Lookup474: pallet_liquid_staking::pallet::Error<T>
    **/
   PalletLiquidStakingError: {
-    _enum: ['InvalidExchangeRate', 'StakeTooSmall', 'UnstakeTooSmall', 'InvalidLiquidCurrency', 'InvalidStakingCurrency', 'InvalidDerivativeIndex', 'InvalidStakingLedger', 'CapExceeded', 'InvalidCap', 'InvalidFactor', 'NothingToClaim', 'NotBonded', 'AlreadyBonded', 'NoMoreChunks', 'StakingLedgerLocked', 'NotWithdrawn', 'InsufficientBond', 'InvalidProof']
+    _enum: ['InvalidExchangeRate', 'StakeTooSmall', 'UnstakeTooSmall', 'InvalidLiquidCurrency', 'InvalidStakingCurrency', 'InvalidDerivativeIndex', 'InvalidStakingLedger', 'CapExceeded', 'InvalidCap', 'InvalidFactor', 'NothingToClaim', 'NotBonded', 'AlreadyBonded', 'NoMoreChunks', 'StakingLedgerLocked', 'NotWithdrawn', 'InsufficientBond', 'InvalidProof', 'NoUnlockings']
   },
   /**
    * Lookup475: pallet_membership::pallet::Error<T, I>
@@ -4446,38 +4460,59 @@ export default {
     _enum: ['MultiLocationNotInvertible', 'ZeroXcmWeightMisc', 'ZeroXcmFees', 'InsufficientXcmFees', 'Unreachable', 'SendFailure', 'BadVersion']
   },
   /**
-   * Lookup502: pallet_streaming::Stream<T>
+   * Lookup502: pallet_streaming::types::Stream<T>
    **/
   PalletStreamingStream: {
     remainingBalance: 'u128',
     deposit: 'u128',
     assetId: 'u32',
     ratePerSec: 'u128',
-    recipient: 'AccountId32',
     sender: 'AccountId32',
+    recipient: 'AccountId32',
     startTime: 'u64',
-    stopTime: 'u64'
+    endTime: 'u64',
+    status: 'PalletStreamingStreamStatus',
+    cancellable: 'bool'
   },
   /**
-   * Lookup503: pallet_streaming::pallet::Error<T>
+   * Lookup503: pallet_streaming::types::StreamStatus
+   **/
+  PalletStreamingStreamStatus: {
+    _enum: {
+      Ongoing: {
+        asCollateral: 'bool',
+      },
+      Completed: {
+        cancelled: 'bool'
+      }
+    }
+  },
+  /**
+   * Lookup505: pallet_streaming::types::StreamKind
+   **/
+  PalletStreamingStreamKind: {
+    _enum: ['Send', 'Receive', 'Finish']
+  },
+  /**
+   * Lookup508: pallet_streaming::pallet::Error<T>
    **/
   PalletStreamingError: {
-    _enum: ['RecipientIsAlsoSender', 'DepositLowerThanMinimum', 'StartBeforeBlockTime', 'StopBeforeStart', 'NotTheStreamer', 'NotTheRecipient', 'InsufficientBalance']
+    _enum: ['RecipientIsAlsoSender', 'InvalidAssetId', 'DepositLowerThanMinimum', 'StartTimeBeforeCurrentTime', 'EndTimeBeforeStartTime', 'InvalidDuration', 'InvalidRatePerSecond', 'InvalidStreamId', 'NotTheSender', 'NotTheRecipient', 'CannotBeCancelled', 'InsufficientStreamBalance', 'ExcessMaxStreamsCount', 'NotStarted', 'HasFinished']
   },
   /**
-   * Lookup505: pallet_asset_registry::pallet::Error<T>
+   * Lookup510: pallet_asset_registry::pallet::Error<T>
    **/
   PalletAssetRegistryError: {
     _enum: ['AssetAlreadyExists', 'AssetDoesNotExist']
   },
   /**
-   * Lookup507: polkadot_primitives::v2::UpgradeRestriction
+   * Lookup512: polkadot_primitives::v2::UpgradeRestriction
    **/
   PolkadotPrimitivesV2UpgradeRestriction: {
     _enum: ['Present']
   },
   /**
-   * Lookup508: cumulus_pallet_parachain_system::relay_state_snapshot::MessagingStateSnapshot
+   * Lookup513: cumulus_pallet_parachain_system::relay_state_snapshot::MessagingStateSnapshot
    **/
   CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot: {
     dmqMqcHead: 'H256',
@@ -4486,7 +4521,7 @@ export default {
     egressChannels: 'Vec<(u32,PolkadotPrimitivesV2AbridgedHrmpChannel)>'
   },
   /**
-   * Lookup511: polkadot_primitives::v2::AbridgedHrmpChannel
+   * Lookup516: polkadot_primitives::v2::AbridgedHrmpChannel
    **/
   PolkadotPrimitivesV2AbridgedHrmpChannel: {
     maxCapacity: 'u32',
@@ -4497,7 +4532,7 @@ export default {
     mqcHead: 'Option<H256>'
   },
   /**
-   * Lookup512: polkadot_primitives::v2::AbridgedHostConfiguration
+   * Lookup517: polkadot_primitives::v2::AbridgedHostConfiguration
    **/
   PolkadotPrimitivesV2AbridgedHostConfiguration: {
     maxCodeSize: 'u32',
@@ -4511,20 +4546,20 @@ export default {
     validationUpgradeDelay: 'u32'
   },
   /**
-   * Lookup518: polkadot_core_primitives::OutboundHrmpMessage<polkadot_parachain::primitives::Id>
+   * Lookup523: polkadot_core_primitives::OutboundHrmpMessage<polkadot_parachain::primitives::Id>
    **/
   PolkadotCorePrimitivesOutboundHrmpMessage: {
     recipient: 'u32',
     data: 'Bytes'
   },
   /**
-   * Lookup519: cumulus_pallet_parachain_system::pallet::Error<T>
+   * Lookup524: cumulus_pallet_parachain_system::pallet::Error<T>
    **/
   CumulusPalletParachainSystemError: {
     _enum: ['OverlappingUpgrades', 'ProhibitedByPolkadot', 'TooBig', 'ValidationDataNotAvailable', 'HostConfigurationNotAvailable', 'NotScheduled', 'NothingAuthorized', 'Unauthorized']
   },
   /**
-   * Lookup521: sp_runtime::MultiSignature
+   * Lookup526: sp_runtime::MultiSignature
    **/
   SpRuntimeMultiSignature: {
     _enum: {
@@ -4534,47 +4569,47 @@ export default {
     }
   },
   /**
-   * Lookup522: sp_core::ed25519::Signature
+   * Lookup527: sp_core::ed25519::Signature
    **/
   SpCoreEd25519Signature: '[u8;64]',
   /**
-   * Lookup524: sp_core::sr25519::Signature
+   * Lookup529: sp_core::sr25519::Signature
    **/
   SpCoreSr25519Signature: '[u8;64]',
   /**
-   * Lookup525: sp_core::ecdsa::Signature
+   * Lookup530: sp_core::ecdsa::Signature
    **/
   SpCoreEcdsaSignature: '[u8;65]',
   /**
-   * Lookup528: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
+   * Lookup533: frame_system::extensions::check_non_zero_sender::CheckNonZeroSender<T>
    **/
   FrameSystemExtensionsCheckNonZeroSender: 'Null',
   /**
-   * Lookup529: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
+   * Lookup534: frame_system::extensions::check_spec_version::CheckSpecVersion<T>
    **/
   FrameSystemExtensionsCheckSpecVersion: 'Null',
   /**
-   * Lookup530: frame_system::extensions::check_tx_version::CheckTxVersion<T>
+   * Lookup535: frame_system::extensions::check_tx_version::CheckTxVersion<T>
    **/
   FrameSystemExtensionsCheckTxVersion: 'Null',
   /**
-   * Lookup531: frame_system::extensions::check_genesis::CheckGenesis<T>
+   * Lookup536: frame_system::extensions::check_genesis::CheckGenesis<T>
    **/
   FrameSystemExtensionsCheckGenesis: 'Null',
   /**
-   * Lookup534: frame_system::extensions::check_nonce::CheckNonce<T>
+   * Lookup539: frame_system::extensions::check_nonce::CheckNonce<T>
    **/
   FrameSystemExtensionsCheckNonce: 'Compact<u32>',
   /**
-   * Lookup535: frame_system::extensions::check_weight::CheckWeight<T>
+   * Lookup540: frame_system::extensions::check_weight::CheckWeight<T>
    **/
   FrameSystemExtensionsCheckWeight: 'Null',
   /**
-   * Lookup536: pallet_transaction_payment::ChargeTransactionPayment<T>
+   * Lookup541: pallet_transaction_payment::ChargeTransactionPayment<T>
    **/
   PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>',
   /**
-   * Lookup537: parallel_runtime::Runtime
+   * Lookup542: parallel_runtime::Runtime
    **/
   ParallelRuntimeRuntime: 'Null'
 };

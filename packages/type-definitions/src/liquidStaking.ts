@@ -1,9 +1,13 @@
 export default {
   rpc: {},
   types: {
+    ReservableAmount: {
+      total: 'Balance',
+      reserved: 'Balance'
+    },
     MatchingLedger: {
-      totalStakeAmount: 'Balance',
-      totalUnstakeAmount: 'Balance'
+      totalStakeAmount: 'ReservableAmount',
+      totalUnstakeAmount: 'ReservableAmount'
     },
     UnlockChunk: {
       value: 'Balance',
