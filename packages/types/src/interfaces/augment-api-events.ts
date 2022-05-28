@@ -799,6 +799,11 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ReserveFactorUpdated: AugmentedEvent<ApiType, [Permill]>;
       /**
+       * Event emitted when the reserves are reduced
+       * [receiver, reduced_amount]
+       **/
+      ReservesReduced: AugmentedEvent<ApiType, [AccountId32, u128]>;
+      /**
        * The assets get staked successfully
        **/
       Staked: AugmentedEvent<ApiType, [AccountId32, u128]>;
@@ -814,6 +819,11 @@ declare module '@polkadot/api-base/types/events' {
        * Sent staking.unbond call to relaychain
        **/
       Unbonding: AugmentedEvent<ApiType, [u16, u128]>;
+      /**
+       * Unstake cancelled
+       * [account_id, amount, liquid_amount]
+       **/
+      UnstakeCancelled: AugmentedEvent<ApiType, [AccountId32, u128, u128]>;
       /**
        * The derivative get unstaked successfully
        **/
@@ -1273,18 +1283,22 @@ declare module '@polkadot/api-base/types/events' {
     streaming: {
       /**
        * Set minimum deposit for creating a stream
+       * \[asset_id, minimum_deposit\]
        **/
       MinimumDepositSet: AugmentedEvent<ApiType, [u32, u128]>;
       /**
-       * Cancel an existing stream. \[stream_id, sender, recipient, sender_balance, recipient_balance]
+       * Cancel an existing stream.
+       * \[stream_id, sender, recipient, asset_id, sender_balance, recipient_balance]
        **/
-      StreamCanceled: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u32, u128, u128]>;
+      StreamCancelled: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u32, u128, u128]>;
       /**
-       * Creates a payment stream. \[stream_id, sender, recipient, deposit, asset_id, start_time, stop_time\]
+       * Creates a payment stream.
+       * \[stream_id, sender, recipient, deposit, asset_id, start_time, end_time, cancellable\]
        **/
-      StreamCreated: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u128, u32, u64, u64]>;
+      StreamCreated: AugmentedEvent<ApiType, [u128, AccountId32, AccountId32, u128, u32, u64, u64, bool]>;
       /**
-       * Withdraw payment from stream. \[stream_id, recipient, amount\]
+       * Withdraw payment from stream.
+       * \[stream_id, recipient, asset_id, amount\]
        **/
       StreamWithdrawn: AugmentedEvent<ApiType, [u128, AccountId32, u32, u128]>;
       /**

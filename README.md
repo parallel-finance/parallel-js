@@ -26,7 +26,7 @@ yarn build
 
 ## Bump Version
 ```
-./scripts/bump.sh 1.7.3
+./scripts/bump.sh 1.7.5
 ```
 
 ## Open Source Credits

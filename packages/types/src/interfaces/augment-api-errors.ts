@@ -851,6 +851,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotWithdrawn: AugmentedError<ApiType>;
       /**
+       * No unlocking items
+       **/
+      NoUnlockings: AugmentedError<ApiType>;
+      /**
        * The stake was below the minimum, `MinStake`.
        **/
       StakeTooSmall: AugmentedError<ApiType>;
@@ -1332,21 +1336,57 @@ declare module '@polkadot/api-base/types/errors' {
     };
     streaming: {
       /**
+       * Stream cannot be cancelled
+       **/
+      CannotBeCancelled: AugmentedError<ApiType>;
+      /**
        * Insufficient deposit size
        **/
       DepositLowerThanMinimum: AugmentedError<ApiType>;
       /**
+       * End time is before start time
+       **/
+      EndTimeBeforeStartTime: AugmentedError<ApiType>;
+      /**
+       * Excess max streams count
+       **/
+      ExcessMaxStreamsCount: AugmentedError<ApiType>;
+      /**
+       * Stream was cancelled or completed
+       **/
+      HasFinished: AugmentedError<ApiType>;
+      /**
        * Amount exceeds balance
        **/
-      InsufficientBalance: AugmentedError<ApiType>;
+      InsufficientStreamBalance: AugmentedError<ApiType>;
       /**
-       * Caller is not the recipient
+       * Asset is not supported to create stream
+       **/
+      InvalidAssetId: AugmentedError<ApiType>;
+      /**
+       * The duration calculated is too short or too long
+       **/
+      InvalidDuration: AugmentedError<ApiType>;
+      /**
+       * The rate per second calculated is zero
+       **/
+      InvalidRatePerSecond: AugmentedError<ApiType>;
+      /**
+       * The stream id is not found
+       **/
+      InvalidStreamId: AugmentedError<ApiType>;
+      /**
+       * Stream not started
+       **/
+      NotStarted: AugmentedError<ApiType>;
+      /**
+       * Caller is not the stream recipient
        **/
       NotTheRecipient: AugmentedError<ApiType>;
       /**
-       * Caller is not the streamer
+       * Caller is not the stream sender
        **/
-      NotTheStreamer: AugmentedError<ApiType>;
+      NotTheSender: AugmentedError<ApiType>;
       /**
        * Sender as specified themselves as the recipient
        **/
@@ -1354,11 +1394,7 @@ declare module '@polkadot/api-base/types/errors' {
       /**
        * Start time is before current block time
        **/
-      StartBeforeBlockTime: AugmentedError<ApiType>;
-      /**
-       * Stop time is before start time
-       **/
-      StopBeforeStart: AugmentedError<ApiType>;
+      StartTimeBeforeCurrentTime: AugmentedError<ApiType>;
       /**
        * Generic error
        **/

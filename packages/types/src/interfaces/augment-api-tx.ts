@@ -1901,6 +1901,10 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       bondExtra: AugmentedSubmittable<(derivativeIndex: u16 | AnyNumber | Uint8Array, amount: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Compact<u128>]>;
       /**
+       * Cancel unstake
+       **/
+      cancelUnstake: AugmentedSubmittable<(amount: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>]>;
+      /**
        * Claim assets back when current era index arrived
        * at target era
        **/
@@ -1937,6 +1941,10 @@ declare module '@polkadot/api-base/types/submittable' {
        * Rebond on relaychain via xcm.transact
        **/
       rebond: AugmentedSubmittable<(derivativeIndex: u16 | AnyNumber | Uint8Array, amount: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u16, Compact<u128>]>;
+      /**
+       * Reduces reserves by transferring to receiver.
+       **/
+      reduceReserves: AugmentedSubmittable<(receiver: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array, reduceAmount: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
       /**
        * Set current era by providing storage proof
        **/
@@ -2637,7 +2645,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
+      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
       /**
        * Publish the hash of a proxy-call that will be made in the future.
        * 
@@ -2687,7 +2695,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        * TODO: Might be over counting 1 read
        **/
-      anonymous: AugmentedSubmittable<(proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array, index: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeProxyType, u32, u16]>;
+      anonymous: AugmentedSubmittable<(proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array, index: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeProxyType, u32, u16]>;
       /**
        * Removes a previously spawned anonymous proxy.
        * 
@@ -2710,7 +2718,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
+      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
       /**
        * Dispatch the given `call` from an account that the sender is authorised for through
        * `add_proxy`.
@@ -2813,7 +2821,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
+      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
       /**
        * Generic tx
        **/
@@ -2901,21 +2909,46 @@ declare module '@polkadot/api-base/types/submittable' {
     };
     streaming: {
       /**
-       * Cancel an existing stream
+       * Cancel a existed stream and return back the deposit to sender and recipient
+       * 
+       * Can only be called by the sender
+       * 
+       * - `stream_id`: the stream id which will be canceled
        **/
-      cancelStream: AugmentedSubmittable<(streamId: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128]>;
+      cancel: AugmentedSubmittable<(streamId: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128]>;
       /**
-       * Create a stream
+       * Create a new stream between sender and recipient
+       * 
+       * Transfer assets to another account in the form of stream
+       * Any supported assets in parallel/heiko can be used to stream.
+       * The sender's assets will be locked into palletId
+       * Will transfer to recipient as the stream progresses
+       * 
+       * - `recipient`: the receiving address
+       * - `deposit`: the amount sender will deposit to create the stream
+       * - `asset_id`: asset should be able to lookup.
+       * - `start_time`: the time when the stream will start
+       * - `end_time`: the time when the stream will end
        **/
-      createStream: AugmentedSubmittable<(recipient: AccountId32 | string | Uint8Array, deposit: u128 | AnyNumber | Uint8Array, assetId: u32 | AnyNumber | Uint8Array, startTime: u64 | AnyNumber | Uint8Array, stopTime: u64 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u128, u32, u64, u64]>;
+      create: AugmentedSubmittable<(recipient: AccountId32 | string | Uint8Array, deposit: u128 | AnyNumber | Uint8Array, assetId: u32 | AnyNumber | Uint8Array, startTime: u64 | AnyNumber | Uint8Array, endTime: u64 | AnyNumber | Uint8Array, cancellable: bool | boolean | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, u128, u32, u64, u64, bool]>;
       /**
-       * Withdraw from an existing stream
+       * Set the minimum deposit for a stream
+       * 
+       * Can only be called by the UpdateOrigin
+       * 
+       * - `asset_id`: the stream id which will be set the minimum deposit
+       * - `minimum_deposit`: the minimum deposit for a stream
        **/
       setMinimumDeposit: AugmentedSubmittable<(assetId: u32 | AnyNumber | Uint8Array, minimumDeposit: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
       /**
-       * Withdraw from an existing stream
+       * Withdraw from a existed stream
+       * 
+       * Can be called by the sender or the recipient
+       * 
+       * - `stream_id`: the stream id which will be withdraw from
+       * ` `amount`: the amount of asset to withdraw
        **/
-      withdrawFromStream: AugmentedSubmittable<(streamId: u128 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u128]>;
+      withdraw: AugmentedSubmittable<(streamId: u128 | AnyNumber | Uint8Array, amount: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128, u128]>;
       /**
        * Generic tx
        **/

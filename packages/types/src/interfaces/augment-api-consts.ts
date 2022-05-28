@@ -325,6 +325,11 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       derivativeIndexList: Vec<u16> & AugmentedConst<ApiType>;
       /**
+       * Number of blocknumbers that do_matching after each era updated.
+       * Need to do_bond before relaychain store npos solution
+       **/
+      electionSolutionStoredOffset: u32 & AugmentedConst<ApiType>;
+      /**
        * Number of blocknumbers that each period contains.
        * SessionsPerEra * EpochDuration / MILLISECS_PER_BLOCK
        **/
@@ -466,6 +471,14 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     streaming: {
+      /**
+       * The max count of streams that has been cancelled or completed for an account
+       **/
+      maxFinishedStreamsCount: u32 & AugmentedConst<ApiType>;
+      /**
+       * The max count of streams for an account
+       **/
+      maxStreamsCount: u32 & AugmentedConst<ApiType>;
       /**
        * The streaming module id, keep all collaterals of CDPs.
        **/
