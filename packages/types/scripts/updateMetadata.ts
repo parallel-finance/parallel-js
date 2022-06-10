@@ -4,7 +4,7 @@ import fs from 'fs';
 import { w3cwebsocket as WebSocket } from 'websocket';
 
 const main = (): void => {
-  const endpoint = 'wss://rpc.parallel.fi';
+  const endpoint = process.env.ENDPOINT || 'wss://rpc.parallel.fi';
   console.log('Connecting to ', endpoint);
   const ws = new WebSocket(endpoint);
   ws.onopen = (): void => {
