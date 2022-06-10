@@ -5,7 +5,7 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256, Permill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, ParallelRuntimeProxyType, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -352,6 +352,11 @@ declare module '@polkadot/api-base/types/events' {
        * [para_id, vault_id]
        **/
       PartiallyRefunded: AugmentedEvent<ApiType, [u32, ITuple<[u32, u32]>]>;
+      /**
+       * Refunded
+       * [para_id, vault_id, account, child_storage_kind, amount]
+       **/
+      UserRefunded: AugmentedEvent<ApiType, [u32, ITuple<[u32, u32]>, AccountId32, PalletCrowdloansChildStorageKind, u128]>;
       /**
        * A user claimed CToken from vault
        * [para_id, vault_id, ctoken_id, account, amount, phase]
@@ -912,6 +917,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       LiquidatedBorrow: AugmentedEvent<ApiType, [AccountId32, AccountId32, u32, u32, u128, u128]>;
       /**
+       * Liquidation free collaterals has been updated
+       **/
+      LiquidationFreeCollateralsUpdated: AugmentedEvent<ApiType, [Vec<u32>]>;
+      /**
        * Event emitted when market reward speed updated.
        **/
       MarketRewardSpeedUpdated: AugmentedEvent<ApiType, [u32, u128, u128]>;
@@ -1229,11 +1238,11 @@ declare module '@polkadot/api-base/types/events' {
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, ParallelRuntimeProxyType, u16]>;
+      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u16]>;
       /**
        * A proxy was added.
        **/
-      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, ParallelRuntimeProxyType, u32]>;
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
       /**
        * A proxy was executed correctly, with the given.
        **/
@@ -1241,7 +1250,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A proxy was removed.
        **/
-      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, ParallelRuntimeProxyType, u32]>;
+      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
       /**
        * Generic event
        **/
@@ -1275,6 +1284,28 @@ declare module '@polkadot/api-base/types/events' {
        * block number as the type might suggest.
        **/
       NewSession: AugmentedEvent<ApiType, [u32]>;
+      /**
+       * Generic event
+       **/
+      [key: string]: AugmentedEvent<ApiType>;
+    };
+    stableSwap: {
+      /**
+       * Delta Calculated
+       **/
+      DeltaCalculated: AugmentedEvent<ApiType, [u32, u32, u128]>;
+      /**
+       * Add liquidity into pool
+       * [sender, base_currency_id, quote_currency_id, base_amount_added, quote_amount_added, lp_token_id, new_base_amount, new_quote_amount]
+       **/
+      LiquidityAdded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
+      /**
+       * Remove liquidity from pool
+       * [sender, base_currency_id, quote_currency_id, liquidity, base_amount_removed, quote_amount_removed, lp_token_id, new_base_amount, new_quote_amount]
+       **/
+      LiquidityRemoved: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u128, u32, u128, u128]>;
+      PoolCreated: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32]>;
+      Traded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
       /**
        * Generic event
        **/
@@ -1460,6 +1491,10 @@ declare module '@polkadot/api-base/types/events' {
        **/
       BatchCompleted: AugmentedEvent<ApiType, []>;
       /**
+       * Batch of dispatches completed but has errors.
+       **/
+      BatchCompletedWithErrors: AugmentedEvent<ApiType, []>;
+      /**
        * Batch of dispatches did not complete fully. Index of first failing dispatch given, as
        * well as the error.
        **/
@@ -1472,6 +1507,10 @@ declare module '@polkadot/api-base/types/events' {
        * A single item within a Batch of dispatches has completed with no error.
        **/
       ItemCompleted: AugmentedEvent<ApiType, []>;
+      /**
+       * A single item within a Batch of dispatches has completed with error.
+       **/
+      ItemFailed: AugmentedEvent<ApiType, [SpRuntimeDispatchError]>;
       /**
        * Generic event
        **/

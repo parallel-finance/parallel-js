@@ -895,6 +895,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       CodecError: AugmentedError<ApiType>;
       /**
+       * Collateral is reserved and cannot be liquidated
+       **/
+      CollateralReserved: AugmentedError<ApiType>;
+      /**
        * Deposits are not used as a collateral
        **/
       DepositsAreNotCollateral: AugmentedError<ApiType>;
@@ -1334,6 +1338,56 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
+    stableSwap: {
+      /**
+       * Conversion failure to u128
+       **/
+      ConversionToU128Failed: AugmentedError<ApiType>;
+      /**
+       * Identical assets
+       **/
+      IdenticalAssets: AugmentedError<ApiType>;
+      /**
+       * Insufficient amount in
+       **/
+      InsufficientAmountIn: AugmentedError<ApiType>;
+      /**
+       * Insufficient amount out
+       **/
+      InsufficientAmountOut: AugmentedError<ApiType>;
+      /**
+       * Insufficient liquidity
+       **/
+      InsufficientLiquidity: AugmentedError<ApiType>;
+      /**
+       * Insufficient supply out.
+       **/
+      InsufficientSupplyOut: AugmentedError<ApiType>;
+      /**
+       * Invariant Error
+       **/
+      InvalidInvariant: AugmentedError<ApiType>;
+      /**
+       * LP token has already been minted
+       **/
+      LpTokenAlreadyExists: AugmentedError<ApiType>;
+      /**
+       * Not an ideal price ratio
+       **/
+      NotAnIdealPrice: AugmentedError<ApiType>;
+      /**
+       * Pool does not exist
+       **/
+      PoolAlreadyExists: AugmentedError<ApiType>;
+      /**
+       * Pool does not exist
+       **/
+      PoolDoesNotExist: AugmentedError<ApiType>;
+      /**
+       * Generic error
+       **/
+      [key: string]: AugmentedError<ApiType>;
+    };
     streaming: {
       /**
        * Stream cannot be cancelled
@@ -1513,6 +1567,10 @@ declare module '@polkadot/api-base/types/errors' {
        * No proposal or bounty at that index.
        **/
       InvalidIndex: AugmentedError<ApiType>;
+      /**
+       * Proposal has not been approved.
+       **/
+      ProposalNotApproved: AugmentedError<ApiType>;
       /**
        * Too many approvals in the queue.
        **/

@@ -165,6 +165,18 @@ declare module '@polkadot/api-base/types/consts' {
     };
     crowdloans: {
       /**
+       * LeaseOffset from relaychain
+       **/
+      leaseOffset: u32 & AugmentedConst<ApiType>;
+      /**
+       * LeasePeriod from relaychain
+       **/
+      leasePeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * LeaseOffset from relaychain
+       **/
+      leasePerYear: u32 & AugmentedConst<ApiType>;
+      /**
        * Maximum keys to be migrated in one extrinsic
        **/
       migrateKeysLimit: u32 & AugmentedConst<ApiType>;
@@ -373,6 +385,7 @@ declare module '@polkadot/api-base/types/consts' {
       [key: string]: Codec;
     };
     loans: {
+      liquidationFreeAssetId: u32 & AugmentedConst<ApiType>;
       /**
        * The loan's module id, keep all collaterals of CDPs.
        **/
@@ -406,6 +419,16 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum amount of signatories allowed in the multisig.
        **/
       maxSignatories: u16 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    prices: {
+      /**
+       * Relay currency
+       **/
+      relayCurrency: u32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -465,6 +488,30 @@ declare module '@polkadot/api-base/types/consts' {
        * Not strictly enforced, but used for weight estimation.
        **/
       maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    stableSwap: {
+      /**
+       * Optimal Amplification Coefficient
+       **/
+      amplificationCoefficient: u8 & AugmentedConst<ApiType>;
+      lockAccountId: AccountId32 & AugmentedConst<ApiType>;
+      lpFee: Permill & AugmentedConst<ApiType>;
+      minimumLiquidity: u128 & AugmentedConst<ApiType>;
+      numTokens: u8 & AugmentedConst<ApiType>;
+      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Precision
+       **/
+      precision: u128 & AugmentedConst<ApiType>;
+      /**
+       * How much the protocol is taking out of each trade.
+       **/
+      protocolFee: Permill & AugmentedConst<ApiType>;
+      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

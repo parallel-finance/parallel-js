@@ -13,7 +13,7 @@ This library provides necessary types and JSON-RPC information for user to acces
 Start a local node service on ws://localhost:9948
 ```
 yarn
-yarn update-metadata
+[ENDPOINT={ENDPOINT}] yarn update-metadata
 ```
 
 ## Build
