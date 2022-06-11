@@ -2,10 +2,10 @@
 // @ts-nocheck
 
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
-import { Metadata } from '@polkadot/types';
-import { TypeRegistry } from '@polkadot/types/create';
-import { generateInterfaceTypes } from '@polkadot/typegen/generate/interfaceRegistry';
-import { generateTsDef } from '@polkadot/typegen/generate/tsDef';
+import {Metadata} from '@polkadot/types';
+import {TypeRegistry} from '@polkadot/types/create';
+import {generateInterfaceTypes} from '@polkadot/typegen/generate/interfaceRegistry';
+import {generateTsDef} from '@polkadot/typegen/generate/tsDef';
 import {
   generateDefaultLookup,
   generateDefaultConsts,
@@ -15,7 +15,7 @@ import {
   generateDefaultRpc,
   generateDefaultTx
 } from '@polkadot/typegen/generate';
-import { result as metadata } from '../src/metadata/static-latest.json';
+import {result as metadata} from '../src/metadata/static-latest.json';
 
 import * as defaultDefinations from '@polkadot/types/interfaces/definitions';
 
@@ -24,11 +24,12 @@ import * as ormlDefinations from '@open-web3/orml-types/interfaces/definitions';
 import * as parallelDefinations from '../src/interfaces/definitions';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { runtime, ...substrateDefinations } = defaultDefinations;
+const {runtime, ...substrateDefinations} = defaultDefinations;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-let { runtime: _runtime, ...ormlModulesDefinations } = ormlDefinations;
+let {runtime: _runtime, ...ormlModulesDefinations} = ormlDefinations;
 delete ormlModulesDefinations.rewards;
+delete ormlModulesDefinations.tokens;
 delete ormlModulesDefinations.__esModule;
 
 const definations = {
@@ -67,7 +68,7 @@ const customLookupDefinitions = {
 //   false,
 //   customLookupDefinitions
 // );
-// generateDefaultRpc('packages/types/src/interfaces/augment-api-rpc.ts', definations);
+generateDefaultRpc('packages/types/src/interfaces/augment-api-rpc.ts', definations);
 // generateDefaultErrors('packages/types/src/interfaces/augment-api-errors.ts', metadata, definations, false);
 // generateDefaultEvents(
 //   'packages/types/src/interfaces/augment-api-events.ts',
