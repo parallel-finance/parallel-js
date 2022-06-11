@@ -26,3 +26,4 @@ do
     fi
 done
 
+yarn
