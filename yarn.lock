@@ -2355,7 +2355,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.2
     "@open-web3/orml-api-derive": ^1.1.4
-    "@parallel-finance/types": ^1.7.4
+    "@parallel-finance/types": ^1.7.5
     "@polkadot/api": ^8.3.2-2
     "@polkadot/rpc-core": ^8.3.2-2
   languageName: unknown
@@ -2367,13 +2367,13 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.10.2
     "@open-web3/orml-api-derive": ^1.1.4
-    "@parallel-finance/types": ^1.7.4
+    "@parallel-finance/types": ^1.7.5
     "@polkadot/api": ^8.3.2-2
     "@polkadot/rpc-core": ^8.3.2-2
   languageName: unknown
   linkType: soft
 
-"@parallel-finance/type-definitions@^1.7.4, @parallel-finance/type-definitions@workspace:packages/type-definitions":
+"@parallel-finance/type-definitions@^1.7.5, @parallel-finance/type-definitions@workspace:packages/type-definitions":
   version: 0.0.0-use.local
   resolution: "@parallel-finance/type-definitions@workspace:packages/type-definitions"
   dependencies:
@@ -2381,13 +2381,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@parallel-finance/types@^1.7.4, @parallel-finance/types@workspace:packages/types":
+"@parallel-finance/types@^1.7.5, @parallel-finance/types@workspace:packages/types":
   version: 0.0.0-use.local
   resolution: "@parallel-finance/types@workspace:packages/types"
   dependencies:
     "@babel/runtime": ^7.10.2
     "@open-web3/orml-types": ^1.1.4
-    "@parallel-finance/type-definitions": ^1.7.4
+    "@parallel-finance/type-definitions": ^1.7.5
     "@polkadot/api": ^8.3.2-2
     "@polkadot/typegen": ^8.3.2-2
     "@polkadot/types": ^8.3.2-2
