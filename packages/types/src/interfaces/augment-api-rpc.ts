@@ -358,11 +358,11 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Retrieves collateral liquidity for the given user.
        **/
-      getCollateralLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
+      getCollateralLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall, Liquidity, Shortfall]>>>;
       /**
        * Retrieves liquidation threshold liquidity for the given user.
        **/
-      getLiquidationThresholdLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall]>>>;
+      getLiquidationThresholdLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall, Liquidity, Shortfall]>>>;
       /**
        * Retrieves market status data for a given asset id.
        **/

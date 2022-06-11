@@ -14,7 +14,7 @@ export default {
           isOptional: true
         }
       ],
-      type: '(Liquidity, Shortfall)',
+      type: '(Liquidity, Shortfall, Liquidity, Shortfall)',
       isSubscription: false,
       jsonrpc: 'loans_getCollateralLiquidity',
       method: 'getCollateralLiquidity',
@@ -34,7 +34,7 @@ export default {
           isOptional: true
         }
       ],
-      type: '(Liquidity, Shortfall)',
+      type: '(Liquidity, Shortfall, Liquidity, Shortfall)',
       isSubscription: false,
       jsonrpc: 'loans_getLiquidationThresholdLiquidity',
       method: 'getLiquidationThresholdLiquidity',
