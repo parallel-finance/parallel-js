@@ -333,6 +333,10 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       bondingDuration: u32 & AugmentedConst<ApiType>;
       /**
+       * Collateral currency
+       **/
+      collateralCurrency: u32 & AugmentedConst<ApiType>;
+      /**
        * Derivative index list
        **/
       derivativeIndexList: Vec<u16> & AugmentedConst<ApiType>;
@@ -350,6 +354,14 @@ declare module '@polkadot/api-base/types/consts' {
        * Liquid currency
        **/
       liquidCurrency: u32 & AugmentedConst<ApiType>;
+      /**
+       * MM fast unstake fee
+       **/
+      loansFastUnstakeFee: u128 & AugmentedConst<ApiType>;
+      /**
+       * The pallet id of loans used for fast unstake
+       **/
+      loansPalletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
        * The minimum active bond to become and maintain the role of a nominator.
        **/
@@ -488,30 +500,6 @@ declare module '@polkadot/api-base/types/consts' {
        * Not strictly enforced, but used for weight estimation.
        **/
       maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    stableSwap: {
-      /**
-       * Optimal Amplification Coefficient
-       **/
-      amplificationCoefficient: u8 & AugmentedConst<ApiType>;
-      lockAccountId: AccountId32 & AugmentedConst<ApiType>;
-      lpFee: Permill & AugmentedConst<ApiType>;
-      minimumLiquidity: u128 & AugmentedConst<ApiType>;
-      numTokens: u8 & AugmentedConst<ApiType>;
-      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
-      /**
-       * Precision
-       **/
-      precision: u128 & AugmentedConst<ApiType>;
-      /**
-       * How much the protocol is taking out of each trade.
-       **/
-      protocolFee: Permill & AugmentedConst<ApiType>;
-      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/

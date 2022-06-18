@@ -5,7 +5,7 @@ import type { ApiTypes } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256, Permill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeDispatchError, VanillaRuntimeProxyType, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, KerriaRuntimeProxyType, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 declare module '@polkadot/api-base/types/events' {
   export interface AugmentedEvents<ApiType extends ApiTypes> {
@@ -1238,11 +1238,11 @@ declare module '@polkadot/api-base/types/events' {
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u16]>;
+      AnonymousCreated: AugmentedEvent<ApiType, [AccountId32, AccountId32, KerriaRuntimeProxyType, u16]>;
       /**
        * A proxy was added.
        **/
-      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
+      ProxyAdded: AugmentedEvent<ApiType, [AccountId32, AccountId32, KerriaRuntimeProxyType, u32]>;
       /**
        * A proxy was executed correctly, with the given.
        **/
@@ -1250,7 +1250,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A proxy was removed.
        **/
-      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, VanillaRuntimeProxyType, u32]>;
+      ProxyRemoved: AugmentedEvent<ApiType, [AccountId32, AccountId32, KerriaRuntimeProxyType, u32]>;
       /**
        * Generic event
        **/
@@ -1284,28 +1284,6 @@ declare module '@polkadot/api-base/types/events' {
        * block number as the type might suggest.
        **/
       NewSession: AugmentedEvent<ApiType, [u32]>;
-      /**
-       * Generic event
-       **/
-      [key: string]: AugmentedEvent<ApiType>;
-    };
-    stableSwap: {
-      /**
-       * Delta Calculated
-       **/
-      DeltaCalculated: AugmentedEvent<ApiType, [u32, u32, u128]>;
-      /**
-       * Add liquidity into pool
-       * [sender, base_currency_id, quote_currency_id, base_amount_added, quote_amount_added, lp_token_id, new_base_amount, new_quote_amount]
-       **/
-      LiquidityAdded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
-      /**
-       * Remove liquidity from pool
-       * [sender, base_currency_id, quote_currency_id, liquidity, base_amount_removed, quote_amount_removed, lp_token_id, new_base_amount, new_quote_amount]
-       **/
-      LiquidityRemoved: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u128, u32, u128, u128]>;
-      PoolCreated: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32]>;
-      Traded: AugmentedEvent<ApiType, [AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
       /**
        * Generic event
        **/
@@ -1535,50 +1513,6 @@ declare module '@polkadot/api-base/types/events' {
       [key: string]: AugmentedEvent<ApiType>;
     };
     xcmHelper: {
-      /**
-       * Bonding
-       **/
-      Bonding: AugmentedEvent<ApiType, []>;
-      /**
-       * BondingExtra
-       **/
-      BondingExtra: AugmentedEvent<ApiType, []>;
-      /**
-       * Contributing
-       **/
-      Contributing: AugmentedEvent<ApiType, []>;
-      /**
-       * Nominating
-       **/
-      Nominating: AugmentedEvent<ApiType, []>;
-      /**
-       * ProxyAdded
-       **/
-      ProxyAdded: AugmentedEvent<ApiType, []>;
-      /**
-       * ProxyRemoved
-       **/
-      ProxyRemoved: AugmentedEvent<ApiType, []>;
-      /**
-       * Rebonding
-       **/
-      Rebonding: AugmentedEvent<ApiType, []>;
-      /**
-       * XCM message sent. \[to, message\]
-       **/
-      Sent: AugmentedEvent<ApiType, [XcmV1MultiLocation, XcmV2Xcm]>;
-      /**
-       * Unbonding
-       **/
-      Unbonding: AugmentedEvent<ApiType, []>;
-      /**
-       * Withdrawing
-       **/
-      Withdrawing: AugmentedEvent<ApiType, []>;
-      /**
-       * WithdrawingUnbonded
-       **/
-      WithdrawingUnbonded: AugmentedEvent<ApiType, []>;
       /**
        * Xcm fee and weight updated
        **/
