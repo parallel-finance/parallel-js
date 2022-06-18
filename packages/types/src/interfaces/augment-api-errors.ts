@@ -1338,56 +1338,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    stableSwap: {
-      /**
-       * Conversion failure to u128
-       **/
-      ConversionToU128Failed: AugmentedError<ApiType>;
-      /**
-       * Identical assets
-       **/
-      IdenticalAssets: AugmentedError<ApiType>;
-      /**
-       * Insufficient amount in
-       **/
-      InsufficientAmountIn: AugmentedError<ApiType>;
-      /**
-       * Insufficient amount out
-       **/
-      InsufficientAmountOut: AugmentedError<ApiType>;
-      /**
-       * Insufficient liquidity
-       **/
-      InsufficientLiquidity: AugmentedError<ApiType>;
-      /**
-       * Insufficient supply out.
-       **/
-      InsufficientSupplyOut: AugmentedError<ApiType>;
-      /**
-       * Invariant Error
-       **/
-      InvalidInvariant: AugmentedError<ApiType>;
-      /**
-       * LP token has already been minted
-       **/
-      LpTokenAlreadyExists: AugmentedError<ApiType>;
-      /**
-       * Not an ideal price ratio
-       **/
-      NotAnIdealPrice: AugmentedError<ApiType>;
-      /**
-       * Pool does not exist
-       **/
-      PoolAlreadyExists: AugmentedError<ApiType>;
-      /**
-       * Pool does not exist
-       **/
-      PoolDoesNotExist: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     streaming: {
       /**
        * Stream cannot be cancelled
@@ -1622,11 +1572,6 @@ declare module '@polkadot/api-base/types/errors' {
     };
     xcmHelper: {
       /**
-       * The version of the `Versioned` value used is not able to be
-       * interpreted.
-       **/
-      BadVersion: AugmentedError<ApiType>;
-      /**
        * Insufficient xcm fees
        **/
       InsufficientXcmFees: AugmentedError<ApiType>;
@@ -1639,11 +1584,6 @@ declare module '@polkadot/api-base/types/errors' {
        * the operation could not be completed.
        **/
       SendFailure: AugmentedError<ApiType>;
-      /**
-       * The message and destination combination was not recognized as being
-       * reachable.
-       **/
-      Unreachable: AugmentedError<ApiType>;
       /**
        * Xcm fees cannot be zero
        **/
