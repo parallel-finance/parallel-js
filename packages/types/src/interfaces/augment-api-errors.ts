@@ -1,10 +1,16 @@
 // Auto-generated via `yarn polkadot-types-from-chain`, do not edit
 /* eslint-disable */
 
-import type { ApiTypes } from '@polkadot/api-base/types';
+// import type lookup before we augment - in some environments
+// this is required to allow for ambient/previous definitions
+import '@polkadot/api-base/types/errors';
+
+import type { ApiTypes, AugmentedError } from '@polkadot/api-base/types';
+
+export type __AugmentedError<ApiType extends ApiTypes> = AugmentedError<ApiType>;
 
 declare module '@polkadot/api-base/types/errors' {
-  export interface AugmentedErrors<ApiType extends ApiTypes> {
+  interface AugmentedErrors<ApiType extends ApiTypes> {
     amm: {
       /**
        * Conversion failure to u128
@@ -313,6 +319,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -346,6 +356,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Too many candidates
        **/
       TooManyCandidates: AugmentedError<ApiType>;
+      /**
+       * Too many invulnerables
+       **/
+      TooManyInvulnerables: AugmentedError<ApiType>;
       /**
        * Unknown error
        **/
@@ -442,6 +456,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Not a member.
        **/
       NotMember: AugmentedError<ApiType>;
+      /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -573,6 +591,10 @@ declare module '@polkadot/api-base/types/errors' {
        * these are removed, either through `unvote` or `reap_vote`.
        **/
       VotesExist: AugmentedError<ApiType>;
+      /**
+       * Voting period too low
+       **/
+      VotingPeriodLow: AugmentedError<ApiType>;
       /**
        * Invalid upper bound.
        **/
@@ -713,6 +735,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Not a member.
        **/
       NotMember: AugmentedError<ApiType>;
+      /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -880,6 +906,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Not a member.
        **/
       NotMember: AugmentedError<ApiType>;
+      /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1096,6 +1126,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Not a member.
        **/
       NotMember: AugmentedError<ApiType>;
+      /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
       /**
        * Generic error
        **/
@@ -1404,16 +1438,6 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       [key: string]: AugmentedError<ApiType>;
     };
-    sudo: {
-      /**
-       * Sender must be the Sudo account
-       **/
-      RequireSudo: AugmentedError<ApiType>;
-      /**
-       * Generic error
-       **/
-      [key: string]: AugmentedError<ApiType>;
-    };
     system: {
       /**
        * The origin filter prevent the call to be dispatched.
@@ -1504,11 +1528,20 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       NotMember: AugmentedError<ApiType>;
       /**
+       * Too many members.
+       **/
+      TooManyMembers: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
     };
     treasury: {
+      /**
+       * The spend origin is valid but the amount it is allowed to spend is lower than the
+       * amount to be spent.
+       **/
+      InsufficientPermission: AugmentedError<ApiType>;
       /**
        * Proposer's balance is too low.
        **/
@@ -1667,6 +1700,10 @@ declare module '@polkadot/api-base/types/errors' {
        * Invalid transfer destination.
        **/
       InvalidDest: AugmentedError<ApiType>;
+      /**
+       * MinXcmFee not registered for certain reserve location
+       **/
+      MinXcmFeeNotDefined: AugmentedError<ApiType>;
       /**
        * Not cross-chain transfer.
        **/
