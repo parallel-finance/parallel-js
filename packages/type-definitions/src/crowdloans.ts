@@ -5,7 +5,7 @@ export default {
       _enum: ['Pending', 'Contributing', 'Closed', 'Failed', 'Succeeded', 'Expired']
     },
     ContributionStrategy: {
-      _enum: ['XCM']
+      _enum: ['XCM', 'XCMPROXY']
     },
     ChildStorageKind: {
       _enum: ['Pending', 'Flying', 'Contributed']

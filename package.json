@@ -1,5 +1,5 @@
 {
-  "version": "1.7.7",
+  "version": "1.7.8",
   "private": true,
   "repository": "git@github.com:parallel-finance/parallel-js.git",
   "author": "Parallel Finance Team",
@@ -8,8 +8,8 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^8.3.2-2",
-    "@polkadot/types": "^8.3.2-2"
+    "@polkadot/api": "^9.1.1",
+    "@polkadot/types": "^9.1.1"
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
@@ -20,8 +20,7 @@
     "test": "polkadot-dev-run-test --coverage",
     "update-metadata": "ts-node --project ./tsconfig.json packages/types/scripts/updateMetadata.ts",
     "generate:defs": "node -r ts-node/register -r tsconfig-paths/register node_modules/.bin/polkadot-types-from-defs --package @parallel-finance/types/interfaces --endpoint ./packages/types/src/metadata/static-latest.json --input packages/types/src/interfaces",
-    "generate:meta": "node -r ts-node/register -r tsconfig-paths/register node_modules/.bin/polkadot-types-from-chain --package @parallel-finance/types/interfaces --endpoint ./packages/types/src/metadata/static-latest.json --output packages/types/src/interfaces",
-    "conn-test": "ts-node packages/api/test/index.ts"
+    "generate:meta": "node -r ts-node/register -r tsconfig-paths/register node_modules/.bin/polkadot-types-from-chain --package @parallel-finance/types/interfaces --endpoint ./packages/types/src/metadata/static-latest.json --output packages/types/src/interfaces"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
@@ -35,5 +34,9 @@
     "tsconfig-paths": "^3.9.0",
     "typescript": "^4.6.4"
   },
-  "packageManager": "yarn@3.1.1"
+  "packageManager": "yarn@3.1.1",
+  "dependencies": {
+    "@polkadot/api": "^9.1.1",
+    "@polkadot/types": "^9.1.1"
+  }
 }
