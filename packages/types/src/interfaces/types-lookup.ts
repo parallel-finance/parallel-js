@@ -418,7 +418,7 @@ declare module '@polkadot/types/lookup' {
     readonly asAnonymousCreated: {
       readonly anonymous: AccountId32;
       readonly who: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: ParallelRuntimeProxyType;
       readonly disambiguationIndex: u16;
     } & Struct;
     readonly isAnnounced: boolean;
@@ -431,21 +431,21 @@ declare module '@polkadot/types/lookup' {
     readonly asProxyAdded: {
       readonly delegator: AccountId32;
       readonly delegatee: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: ParallelRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
     readonly isProxyRemoved: boolean;
     readonly asProxyRemoved: {
       readonly delegator: AccountId32;
       readonly delegatee: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: ParallelRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
     readonly type: 'ProxyExecuted' | 'AnonymousCreated' | 'Announced' | 'ProxyAdded' | 'ProxyRemoved';
   }
 
-  /** @name HeikoRuntimeProxyType (38) */
-  interface HeikoRuntimeProxyType extends Enum {
+  /** @name ParallelRuntimeProxyType (38) */
+  interface ParallelRuntimeProxyType extends Enum {
     readonly isAny: boolean;
     readonly isLoans: boolean;
     readonly isStaking: boolean;
@@ -453,7 +453,8 @@ declare module '@polkadot/types/lookup' {
     readonly isFarming: boolean;
     readonly isStreaming: boolean;
     readonly isGovernance: boolean;
-    readonly type: 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance';
+    readonly isAmm: boolean;
+    readonly type: 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | 'Amm';
   }
 
   /** @name PalletIdentityEvent (40) */
@@ -1635,7 +1636,9 @@ declare module '@polkadot/types/lookup' {
     readonly asPartiallyRefunded: ITuple<[u32, ITuple<[u32, u32]>]>;
     readonly isUserRefunded: boolean;
     readonly asUserRefunded: ITuple<[u32, ITuple<[u32, u32]>, AccountId32, PalletCrowdloansChildStorageKind, u128]>;
-    readonly type: 'VaultCreated' | 'VaultUpdated' | 'VaultPhaseUpdated' | 'VaultDoContributing' | 'VaultDoWithdrawing' | 'VaultContributed' | 'VaultClaimed' | 'VaultWithdrew' | 'VaultRedeemed' | 'VrfUpdated' | 'NotificationReceived' | 'AllMigrated' | 'PartiallyMigrated' | 'VaultDissolved' | 'AllRefunded' | 'PartiallyRefunded' | 'UserRefunded';
+    readonly isProxyUpdated: boolean;
+    readonly asProxyUpdated: AccountId32;
+    readonly type: 'VaultCreated' | 'VaultUpdated' | 'VaultPhaseUpdated' | 'VaultDoContributing' | 'VaultDoWithdrawing' | 'VaultContributed' | 'VaultClaimed' | 'VaultWithdrew' | 'VaultRedeemed' | 'VrfUpdated' | 'NotificationReceived' | 'AllMigrated' | 'PartiallyMigrated' | 'VaultDissolved' | 'AllRefunded' | 'PartiallyRefunded' | 'UserRefunded' | 'ProxyUpdated';
   }
 
   /** @name PalletCrowdloansVaultPhase (120) */
@@ -1652,7 +1655,8 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletCrowdloansContributionStrategy (121) */
   interface PalletCrowdloansContributionStrategy extends Enum {
     readonly isXcm: boolean;
-    readonly type: 'Xcm';
+    readonly isXcmproxy: boolean;
+    readonly type: 'Xcm' | 'Xcmproxy';
   }
 
   /** @name PalletCrowdloansChildStorageKind (122) */
@@ -1701,7 +1705,11 @@ declare module '@polkadot/types/lookup' {
     readonly asReservesReduced: ITuple<[AccountId32, u128]>;
     readonly isUnstakeCancelled: boolean;
     readonly asUnstakeCancelled: ITuple<[AccountId32, u128, u128]>;
-    readonly type: 'Staked' | 'Unstaked' | 'StakingLedgerUpdated' | 'Bonding' | 'BondingExtra' | 'Unbonding' | 'Rebonding' | 'WithdrawingUnbonded' | 'Nominating' | 'StakingLedgerCapUpdated' | 'ReserveFactorUpdated' | 'ExchangeRateUpdated' | 'NotificationReceived' | 'ClaimedFor' | 'NewEra' | 'Matching' | 'ReservesReduced' | 'UnstakeCancelled';
+    readonly isCommissionRateUpdated: boolean;
+    readonly asCommissionRateUpdated: u128;
+    readonly isFastUnstakeMatched: boolean;
+    readonly asFastUnstakeMatched: ITuple<[AccountId32, u128, u128, u128]>;
+    readonly type: 'Staked' | 'Unstaked' | 'StakingLedgerUpdated' | 'Bonding' | 'BondingExtra' | 'Unbonding' | 'Rebonding' | 'WithdrawingUnbonded' | 'Nominating' | 'StakingLedgerCapUpdated' | 'ReserveFactorUpdated' | 'ExchangeRateUpdated' | 'NotificationReceived' | 'ClaimedFor' | 'NewEra' | 'Matching' | 'ReservesReduced' | 'UnstakeCancelled' | 'CommissionRateUpdated' | 'FastUnstakeMatched';
   }
 
   /** @name PalletLiquidStakingStakingLedger (124) */
@@ -1751,7 +1759,11 @@ declare module '@polkadot/types/lookup' {
     readonly asPoolCreated: ITuple<[AccountId32, u32, u32, u32]>;
     readonly isTraded: boolean;
     readonly asTraded: ITuple<[AccountId32, u32, u32, u128, u128, u32, u128, u128]>;
-    readonly type: 'LiquidityAdded' | 'LiquidityRemoved' | 'PoolCreated' | 'Traded';
+    readonly isProtocolFeeUpdated: boolean;
+    readonly asProtocolFeeUpdated: Permill;
+    readonly isProtocolFeeReceiverUpdated: boolean;
+    readonly asProtocolFeeReceiverUpdated: AccountId32;
+    readonly type: 'LiquidityAdded' | 'LiquidityRemoved' | 'PoolCreated' | 'Traded' | 'ProtocolFeeUpdated' | 'ProtocolFeeReceiverUpdated';
   }
 
   /** @name PalletRouterEvent (135) */
@@ -2069,7 +2081,7 @@ declare module '@polkadot/types/lookup' {
     } & Struct;
     readonly isDispatchAs: boolean;
     readonly asDispatchAs: {
-      readonly asOrigin: HeikoRuntimeOriginCaller;
+      readonly asOrigin: ParallelRuntimeOriginCaller;
       readonly call: Call;
     } & Struct;
     readonly isForceBatch: boolean;
@@ -2313,32 +2325,32 @@ declare module '@polkadot/types/lookup' {
     readonly isProxy: boolean;
     readonly asProxy: {
       readonly real: AccountId32;
-      readonly forceProxyType: Option<HeikoRuntimeProxyType>;
+      readonly forceProxyType: Option<ParallelRuntimeProxyType>;
       readonly call: Call;
     } & Struct;
     readonly isAddProxy: boolean;
     readonly asAddProxy: {
       readonly delegate: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: ParallelRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
     readonly isRemoveProxy: boolean;
     readonly asRemoveProxy: {
       readonly delegate: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: ParallelRuntimeProxyType;
       readonly delay: u32;
     } & Struct;
     readonly isRemoveProxies: boolean;
     readonly isAnonymous: boolean;
     readonly asAnonymous: {
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: ParallelRuntimeProxyType;
       readonly delay: u32;
       readonly index: u16;
     } & Struct;
     readonly isKillAnonymous: boolean;
     readonly asKillAnonymous: {
       readonly spawner: AccountId32;
-      readonly proxyType: HeikoRuntimeProxyType;
+      readonly proxyType: ParallelRuntimeProxyType;
       readonly index: u16;
       readonly height: Compact<u32>;
       readonly extIndex: Compact<u32>;
@@ -2362,7 +2374,7 @@ declare module '@polkadot/types/lookup' {
     readonly asProxyAnnounced: {
       readonly delegate: AccountId32;
       readonly real: AccountId32;
-      readonly forceProxyType: Option<HeikoRuntimeProxyType>;
+      readonly forceProxyType: Option<ParallelRuntimeProxyType>;
       readonly call: Call;
     } & Struct;
     readonly type: 'Proxy' | 'AddProxy' | 'RemoveProxy' | 'RemoveProxies' | 'Anonymous' | 'KillAnonymous' | 'Announce' | 'RemoveAnnouncement' | 'RejectAnnouncement' | 'ProxyAnnounced';
@@ -3160,15 +3172,15 @@ declare module '@polkadot/types/lookup' {
   interface PalletSessionCall extends Enum {
     readonly isSetKeys: boolean;
     readonly asSetKeys: {
-      readonly keys_: HeikoRuntimeOpaqueSessionKeys;
+      readonly keys_: ParallelRuntimeOpaqueSessionKeys;
       readonly proof: Bytes;
     } & Struct;
     readonly isPurgeKeys: boolean;
     readonly type: 'SetKeys' | 'PurgeKeys';
   }
 
-  /** @name HeikoRuntimeOpaqueSessionKeys (267) */
-  interface HeikoRuntimeOpaqueSessionKeys extends Struct {
+  /** @name ParallelRuntimeOpaqueSessionKeys (267) */
+  interface ParallelRuntimeOpaqueSessionKeys extends Struct {
     readonly aura: SpConsensusAuraSr25519AppSr25519Public;
   }
 
@@ -3402,7 +3414,12 @@ declare module '@polkadot/types/lookup' {
     readonly asResetPrice: {
       readonly assetId: u32;
     } & Struct;
-    readonly type: 'SetPrice' | 'ResetPrice';
+    readonly isSetForeignAsset: boolean;
+    readonly asSetForeignAsset: {
+      readonly foreignAssetId: u32;
+      readonly assetId: u32;
+    } & Struct;
+    readonly type: 'SetPrice' | 'ResetPrice' | 'SetForeignAsset';
   }
 
   /** @name PalletCrowdloansCall (283) */
@@ -3521,7 +3538,11 @@ declare module '@polkadot/types/lookup' {
       readonly leaseStart: u32;
       readonly leaseEnd: u32;
     } & Struct;
-    readonly type: 'CreateVault' | 'UpdateVault' | 'Open' | 'Contribute' | 'SetVrf' | 'Close' | 'Reopen' | 'AuctionSucceeded' | 'AuctionFailed' | 'Claim' | 'ClaimFor' | 'Withdraw' | 'WithdrawFor' | 'Redeem' | 'SlotExpired' | 'MigratePending' | 'NotificationReceived' | 'Refund' | 'DissolveVault' | 'RefundFor';
+    readonly isUpdateProxy: boolean;
+    readonly asUpdateProxy: {
+      readonly proxyAddress: AccountId32;
+    } & Struct;
+    readonly type: 'CreateVault' | 'UpdateVault' | 'Open' | 'Contribute' | 'SetVrf' | 'Close' | 'Reopen' | 'AuctionSucceeded' | 'AuctionFailed' | 'Claim' | 'ClaimFor' | 'Withdraw' | 'WithdrawFor' | 'Redeem' | 'SlotExpired' | 'MigratePending' | 'NotificationReceived' | 'Refund' | 'DissolveVault' | 'RefundFor' | 'UpdateProxy';
   }
 
   /** @name PalletLiquidStakingCall (285) */
@@ -3621,14 +3642,23 @@ declare module '@polkadot/types/lookup' {
     readonly asCancelUnstake: {
       readonly amount: Compact<u128>;
     } & Struct;
-    readonly type: 'Stake' | 'Unstake' | 'UpdateReserveFactor' | 'UpdateStakingLedgerCap' | 'Bond' | 'BondExtra' | 'Unbond' | 'Rebond' | 'WithdrawUnbonded' | 'Nominate' | 'NotificationReceived' | 'ClaimFor' | 'ForceSetEraStartBlock' | 'ForceSetCurrentEra' | 'ForceAdvanceEra' | 'ForceMatching' | 'ForceSetStakingLedger' | 'SetCurrentEra' | 'SetStakingLedger' | 'ReduceReserves' | 'CancelUnstake';
+    readonly isUpdateCommissionRate: boolean;
+    readonly asUpdateCommissionRate: {
+      readonly commissionRate: u128;
+    } & Struct;
+    readonly isFastMatchUnstake: boolean;
+    readonly asFastMatchUnstake: {
+      readonly unstakerList: Vec<AccountId32>;
+    } & Struct;
+    readonly type: 'Stake' | 'Unstake' | 'UpdateReserveFactor' | 'UpdateStakingLedgerCap' | 'Bond' | 'BondExtra' | 'Unbond' | 'Rebond' | 'WithdrawUnbonded' | 'Nominate' | 'NotificationReceived' | 'ClaimFor' | 'ForceSetEraStartBlock' | 'ForceSetCurrentEra' | 'ForceAdvanceEra' | 'ForceMatching' | 'ForceSetStakingLedger' | 'SetCurrentEra' | 'SetStakingLedger' | 'ReduceReserves' | 'CancelUnstake' | 'UpdateCommissionRate' | 'FastMatchUnstake';
   }
 
   /** @name PalletLiquidStakingUnstakeProvider (286) */
   interface PalletLiquidStakingUnstakeProvider extends Enum {
     readonly isRelayChain: boolean;
     readonly isLoans: boolean;
-    readonly type: 'RelayChain' | 'Loans';
+    readonly isMatchingPool: boolean;
+    readonly type: 'RelayChain' | 'Loans' | 'MatchingPool';
   }
 
   /** @name PalletMembershipCall (287) */
@@ -3682,7 +3712,15 @@ declare module '@polkadot/types/lookup' {
       readonly lptokenReceiver: AccountId32;
       readonly lpTokenId: u32;
     } & Struct;
-    readonly type: 'AddLiquidity' | 'RemoveLiquidity' | 'CreatePool';
+    readonly isUpdateProtocolFee: boolean;
+    readonly asUpdateProtocolFee: {
+      readonly protocolFee: Permill;
+    } & Struct;
+    readonly isUpdateProtocolFeeReceiver: boolean;
+    readonly asUpdateProtocolFeeReceiver: {
+      readonly protocolFeeReceiver: AccountId32;
+    } & Struct;
+    readonly type: 'AddLiquidity' | 'RemoveLiquidity' | 'CreatePool' | 'UpdateProtocolFee' | 'UpdateProtocolFeeReceiver';
   }
 
   /** @name PalletRouterCall (295) */
@@ -4009,8 +4047,8 @@ declare module '@polkadot/types/lookup' {
     readonly data: Bytes;
   }
 
-  /** @name HeikoRuntimeOriginCaller (318) */
-  interface HeikoRuntimeOriginCaller extends Enum {
+  /** @name ParallelRuntimeOriginCaller (318) */
+  interface ParallelRuntimeOriginCaller extends Enum {
     readonly isSystem: boolean;
     readonly asSystem: FrameSupportDispatchRawOrigin;
     readonly isVoid: boolean;
@@ -4217,7 +4255,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletProxyProxyDefinition (351) */
   interface PalletProxyProxyDefinition extends Struct {
     readonly delegate: AccountId32;
-    readonly proxyType: HeikoRuntimeProxyType;
+    readonly proxyType: ParallelRuntimeProxyType;
     readonly delay: u32;
   }
 
@@ -4438,7 +4476,7 @@ declare module '@polkadot/types/lookup' {
     readonly priority: u8;
     readonly call: FrameSupportScheduleMaybeHashed;
     readonly maybePeriodic: Option<ITuple<[u32, u32]>>;
-    readonly origin: HeikoRuntimeOriginCaller;
+    readonly origin: ParallelRuntimeOriginCaller;
   }
 
   /** @name PalletSchedulerError (397) */
@@ -4788,10 +4826,9 @@ declare module '@polkadot/types/lookup' {
     readonly isInvalidExchangeRate: boolean;
     readonly isInvalidAmount: boolean;
     readonly isPayerIsSigner: boolean;
-    readonly isInsufficientMarketLiquidity: boolean;
     readonly isCodecError: boolean;
     readonly isCollateralReserved: boolean;
-    readonly type: 'InsufficientLiquidity' | 'InsufficientDeposit' | 'TooMuchRepay' | 'DuplicateOperation' | 'NoDeposit' | 'InsufficientCollateral' | 'LiquidatorIsBorrower' | 'DepositsAreNotCollateral' | 'InsufficientShortfall' | 'InsufficientReserves' | 'InvalidRateModelParam' | 'MarketNotActivated' | 'PriceOracleNotReady' | 'PriceIsZero' | 'InvalidCurrencyId' | 'InvalidPtokenId' | 'MarketDoesNotExist' | 'MarketAlreadyExists' | 'NewMarketMustHavePendingState' | 'SupplyCapacityExceeded' | 'BorrowCapacityExceeded' | 'InsufficientCash' | 'InvalidFactor' | 'InvalidSupplyCap' | 'InvalidExchangeRate' | 'InvalidAmount' | 'PayerIsSigner' | 'InsufficientMarketLiquidity' | 'CodecError' | 'CollateralReserved';
+    readonly type: 'InsufficientLiquidity' | 'InsufficientDeposit' | 'TooMuchRepay' | 'DuplicateOperation' | 'NoDeposit' | 'InsufficientCollateral' | 'LiquidatorIsBorrower' | 'DepositsAreNotCollateral' | 'InsufficientShortfall' | 'InsufficientReserves' | 'InvalidRateModelParam' | 'MarketNotActivated' | 'PriceOracleNotReady' | 'PriceIsZero' | 'InvalidCurrencyId' | 'InvalidPtokenId' | 'MarketDoesNotExist' | 'MarketAlreadyExists' | 'NewMarketMustHavePendingState' | 'SupplyCapacityExceeded' | 'BorrowCapacityExceeded' | 'InsufficientCash' | 'InvalidFactor' | 'InvalidSupplyCap' | 'InvalidExchangeRate' | 'InvalidAmount' | 'PayerIsSigner' | 'CodecError' | 'CollateralReserved';
   }
 
   /** @name PalletCrowdloansVault (467) */
@@ -4856,7 +4893,8 @@ declare module '@polkadot/types/lookup' {
     readonly isInvalidCap: boolean;
     readonly isInvalidParams: boolean;
     readonly isNotReadyToDissolve: boolean;
-    readonly type: 'IncorrectVaultPhase' | 'CrowdloanAlreadyExists' | 'InsufficientContribution' | 'NoContributions' | 'InsufficientBalance' | 'LastPeriodBeforeFirstPeriod' | 'CTokenDoesNotExist' | 'VaultAlreadyExists' | 'VaultDoesNotExist' | 'InvalidCToken' | 'VaultNotEnded' | 'VrfDelayInProgress' | 'CapExceeded' | 'EndBlockExceeded' | 'InvalidCap' | 'InvalidParams' | 'NotReadyToDissolve';
+    readonly isEmptyProxyAddress: boolean;
+    readonly type: 'IncorrectVaultPhase' | 'CrowdloanAlreadyExists' | 'InsufficientContribution' | 'NoContributions' | 'InsufficientBalance' | 'LastPeriodBeforeFirstPeriod' | 'CTokenDoesNotExist' | 'VaultAlreadyExists' | 'VaultDoesNotExist' | 'InvalidCToken' | 'VaultNotEnded' | 'VrfDelayInProgress' | 'CapExceeded' | 'EndBlockExceeded' | 'InvalidCap' | 'InvalidParams' | 'NotReadyToDissolve' | 'EmptyProxyAddress';
   }
 
   /** @name PalletLiquidStakingMatchingLedger (471) */
@@ -4935,7 +4973,8 @@ declare module '@polkadot/types/lookup' {
     readonly isInsufficientBond: boolean;
     readonly isInvalidProof: boolean;
     readonly isNoUnlockings: boolean;
-    readonly type: 'InvalidExchangeRate' | 'StakeTooSmall' | 'UnstakeTooSmall' | 'InvalidLiquidCurrency' | 'InvalidStakingCurrency' | 'InvalidDerivativeIndex' | 'InvalidStakingLedger' | 'CapExceeded' | 'InvalidCap' | 'InvalidFactor' | 'NothingToClaim' | 'NotBonded' | 'AlreadyBonded' | 'NoMoreChunks' | 'StakingLedgerLocked' | 'NotWithdrawn' | 'InsufficientBond' | 'InvalidProof' | 'NoUnlockings';
+    readonly isInvalidCommissionRate: boolean;
+    readonly type: 'InvalidExchangeRate' | 'StakeTooSmall' | 'UnstakeTooSmall' | 'InvalidLiquidCurrency' | 'InvalidStakingCurrency' | 'InvalidDerivativeIndex' | 'InvalidStakingLedger' | 'CapExceeded' | 'InvalidCap' | 'InvalidFactor' | 'NothingToClaim' | 'NotBonded' | 'AlreadyBonded' | 'NoMoreChunks' | 'StakingLedgerLocked' | 'NotWithdrawn' | 'InsufficientBond' | 'InvalidProof' | 'NoUnlockings' | 'InvalidCommissionRate';
   }
 
   /** @name PalletMembershipError (478) */
@@ -4970,7 +5009,8 @@ declare module '@polkadot/types/lookup' {
     readonly isIdenticalAssets: boolean;
     readonly isLpTokenAlreadyExists: boolean;
     readonly isConversionToU128Failed: boolean;
-    readonly type: 'PoolDoesNotExist' | 'InsufficientLiquidity' | 'NotAnIdealPrice' | 'PoolAlreadyExists' | 'InsufficientAmountOut' | 'InsufficientAmountIn' | 'InsufficientSupplyOut' | 'IdenticalAssets' | 'LpTokenAlreadyExists' | 'ConversionToU128Failed';
+    readonly isProtocolFeeReceiverNotSet: boolean;
+    readonly type: 'PoolDoesNotExist' | 'InsufficientLiquidity' | 'NotAnIdealPrice' | 'PoolAlreadyExists' | 'InsufficientAmountOut' | 'InsufficientAmountIn' | 'InsufficientSupplyOut' | 'IdenticalAssets' | 'LpTokenAlreadyExists' | 'ConversionToU128Failed' | 'ProtocolFeeReceiverNotSet';
   }
 
   /** @name PalletRouterError (491) */
@@ -5082,7 +5122,8 @@ declare module '@polkadot/types/lookup' {
     readonly isZeroXcmFees: boolean;
     readonly isInsufficientXcmFees: boolean;
     readonly isSendFailure: boolean;
-    readonly type: 'MultiLocationNotInvertible' | 'ZeroXcmWeightMisc' | 'ZeroXcmFees' | 'InsufficientXcmFees' | 'SendFailure';
+    readonly isConvertAccountError: boolean;
+    readonly type: 'MultiLocationNotInvertible' | 'ZeroXcmWeightMisc' | 'ZeroXcmFees' | 'InsufficientXcmFees' | 'SendFailure' | 'ConvertAccountError';
   }
 
   /** @name PalletStreamingStream (510) */
@@ -5244,7 +5285,7 @@ declare module '@polkadot/types/lookup' {
   /** @name PalletTransactionPaymentChargeTransactionPayment (549) */
   interface PalletTransactionPaymentChargeTransactionPayment extends Compact<u128> {}
 
-  /** @name HeikoRuntimeRuntime (550) */
-  type HeikoRuntimeRuntime = Null;
+  /** @name ParallelRuntimeRuntime (550) */
+  type ParallelRuntimeRuntime = Null;
 
 } // declare module

@@ -53,6 +53,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       PoolDoesNotExist: AugmentedError<ApiType>;
       /**
+       * Protocol fee receiver not set
+       **/
+      ProtocolFeeReceiverNotSet: AugmentedError<ApiType>;
+      /**
        * Generic error
        **/
       [key: string]: AugmentedError<ApiType>;
@@ -386,6 +390,10 @@ declare module '@polkadot/api-base/types/errors' {
        * CToken does not exist
        **/
       CTokenDoesNotExist: AugmentedError<ApiType>;
+      /**
+       * Proxy address is empty
+       **/
+      EmptyProxyAddress: AugmentedError<ApiType>;
       /**
        * Current relay block is greater than vault end block
        **/
@@ -833,6 +841,10 @@ declare module '@polkadot/api-base/types/errors' {
        **/
       InvalidCap: AugmentedError<ApiType>;
       /**
+       * Invalid commission rate
+       **/
+      InvalidCommissionRate: AugmentedError<ApiType>;
+      /**
        * Invalid derivative index
        **/
       InvalidDerivativeIndex: AugmentedError<ApiType>;
@@ -952,10 +964,6 @@ declare module '@polkadot/api-base/types/errors' {
        * Insufficient liquidity to borrow more or disable collateral
        **/
       InsufficientLiquidity: AugmentedError<ApiType>;
-      /**
-       * Insufficient Market Liquidity
-       **/
-      InsufficientMarketLiquidity: AugmentedError<ApiType>;
       /**
        * Insufficient reserves
        **/
@@ -1604,6 +1612,10 @@ declare module '@polkadot/api-base/types/errors' {
       [key: string]: AugmentedError<ApiType>;
     };
     xcmHelper: {
+      /**
+       * Can not convert account success
+       **/
+      ConvertAccountError: AugmentedError<ApiType>;
       /**
        * Insufficient xcm fees
        **/

@@ -10,7 +10,7 @@ import type { Data } from '@polkadot/types';
 import type { Bytes, Compact, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H256, MultiAddress, Perbill, Permill } from '@polkadot/types/interfaces/runtime';
-import type { CumulusPrimitivesParachainInherentParachainInherentData, FrameSupportScheduleMaybeHashed, HeikoRuntimeOpaqueSessionKeys, HeikoRuntimeOriginCaller, HeikoRuntimeProxyType, OrmlVestingVestingSchedule, PalletAssetsDestroyWitness, PalletBridgeBridgeToken, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletLiquidStakingStakingLedger, PalletLiquidStakingUnstakeProvider, PalletLoansMarket, PalletLoansRateModelInterestRateModel, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeHeader, XcmV1MultiLocation, XcmV2Response, XcmV2WeightLimit, XcmVersionedMultiAsset, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { CumulusPrimitivesParachainInherentParachainInherentData, FrameSupportScheduleMaybeHashed, OrmlVestingVestingSchedule, PalletAssetsDestroyWitness, PalletBridgeBridgeToken, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletLiquidStakingStakingLedger, PalletLiquidStakingUnstakeProvider, PalletLoansMarket, PalletLoansRateModelInterestRateModel, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, ParallelRuntimeOpaqueSessionKeys, ParallelRuntimeOriginCaller, ParallelRuntimeProxyType, SpRuntimeHeader, XcmV1MultiLocation, XcmV2Response, XcmV2WeightLimit, XcmVersionedMultiAsset, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -43,6 +43,8 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `liquidity`: liquidity to be removed from user's liquidity
        **/
       removeLiquidity: AugmentedSubmittable<(pair: ITuple<[u32, u32]> | [u32 | AnyNumber | Uint8Array, u32 | AnyNumber | Uint8Array], liquidity: Compact<u128> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ITuple<[u32, u32]>, Compact<u128>]>;
+      updateProtocolFee: AugmentedSubmittable<(protocolFee: Permill | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [Permill]>;
+      updateProtocolFeeReceiver: AugmentedSubmittable<(protocolFeeReceiver: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
       /**
        * Generic tx
        **/
@@ -832,7 +834,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - `cap`: the capacity limit for the vault
        * - `end_block`: the crowdloan end block for the vault
        **/
-      createVault: AugmentedSubmittable<(crowdloan: u32 | AnyNumber | Uint8Array, ctoken: u32 | AnyNumber | Uint8Array, leaseStart: u32 | AnyNumber | Uint8Array, leaseEnd: u32 | AnyNumber | Uint8Array, contributionStrategy: PalletCrowdloansContributionStrategy | 'XCM' | number | Uint8Array, cap: Compact<u128> | AnyNumber | Uint8Array, endBlock: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, u32, PalletCrowdloansContributionStrategy, Compact<u128>, u32]>;
+      createVault: AugmentedSubmittable<(crowdloan: u32 | AnyNumber | Uint8Array, ctoken: u32 | AnyNumber | Uint8Array, leaseStart: u32 | AnyNumber | Uint8Array, leaseEnd: u32 | AnyNumber | Uint8Array, contributionStrategy: PalletCrowdloansContributionStrategy | 'XCM' | 'XCMPROXY' | number | Uint8Array, cap: Compact<u128> | AnyNumber | Uint8Array, endBlock: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32, u32, u32, PalletCrowdloansContributionStrategy, Compact<u128>, u32]>;
       /**
        * Dissolve vault
        **/
@@ -877,9 +879,13 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       slotExpired: AugmentedSubmittable<(crowdloan: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
+       * Update crowdloans proxy address in relaychain
+       **/
+      updateProxy: AugmentedSubmittable<(proxyAddress: AccountId32 | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32]>;
+      /**
        * Update an existing vault via a governance decision
        **/
-      updateVault: AugmentedSubmittable<(crowdloan: u32 | AnyNumber | Uint8Array, cap: Option<u128> | null | Uint8Array | u128 | AnyNumber, endBlock: Option<u32> | null | Uint8Array | u32 | AnyNumber, contributionStrategy: Option<PalletCrowdloansContributionStrategy> | null | Uint8Array | PalletCrowdloansContributionStrategy | 'XCM' | number) => SubmittableExtrinsic<ApiType>, [u32, Option<u128>, Option<u32>, Option<PalletCrowdloansContributionStrategy>]>;
+      updateVault: AugmentedSubmittable<(crowdloan: u32 | AnyNumber | Uint8Array, cap: Option<u128> | null | Uint8Array | u128 | AnyNumber, endBlock: Option<u32> | null | Uint8Array | u32 | AnyNumber, contributionStrategy: Option<PalletCrowdloansContributionStrategy> | null | Uint8Array | PalletCrowdloansContributionStrategy | 'XCM' | 'XCMPROXY' | number) => SubmittableExtrinsic<ApiType>, [u32, Option<u128>, Option<u32>, Option<PalletCrowdloansContributionStrategy>]>;
       /**
        * If a `crowdloan` failed, withdraw the contributed assets
        **/
@@ -1927,6 +1933,10 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       claimFor: AugmentedSubmittable<(dest: MultiAddress | { Id: any } | { Index: any } | { Raw: any } | { Address32: any } | { Address20: any } | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
       /**
+       * Fast match unstake through matching pool
+       **/
+      fastMatchUnstake: AugmentedSubmittable<(unstakerList: Vec<AccountId32> | (AccountId32 | string | Uint8Array)[]) => SubmittableExtrinsic<ApiType>, [Vec<AccountId32>]>;
+      /**
        * Force advance era
        **/
       forceAdvanceEra: AugmentedSubmittable<(offset: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
@@ -1989,7 +1999,11 @@ declare module '@polkadot/api-base/types/submittable' {
        * 
        * - `amount`: the amount of derivative
        **/
-      unstake: AugmentedSubmittable<(liquidAmount: Compact<u128> | AnyNumber | Uint8Array, unstakeProvider: PalletLiquidStakingUnstakeProvider | 'RelayChain' | 'Loans' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, PalletLiquidStakingUnstakeProvider]>;
+      unstake: AugmentedSubmittable<(liquidAmount: Compact<u128> | AnyNumber | Uint8Array, unstakeProvider: PalletLiquidStakingUnstakeProvider | 'RelayChain' | 'Loans' | 'MatchingPool' | number | Uint8Array) => SubmittableExtrinsic<ApiType>, [Compact<u128>, PalletLiquidStakingUnstakeProvider]>;
+      /**
+       * Update commission rate
+       **/
+      updateCommissionRate: AugmentedSubmittable<(commissionRate: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u128]>;
       /**
        * Update insurance pool's reserve_factor
        **/
@@ -2644,6 +2658,10 @@ declare module '@polkadot/api-base/types/submittable' {
        **/
       resetPrice: AugmentedSubmittable<(assetId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32]>;
       /**
+       * Set foreign vault token mapping
+       **/
+      setForeignAsset: AugmentedSubmittable<(foreignAssetId: u32 | AnyNumber | Uint8Array, assetId: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u32]>;
+      /**
        * Set emergency price
        **/
       setPrice: AugmentedSubmittable<(assetId: u32 | AnyNumber | Uint8Array, price: u128 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [u32, u128]>;
@@ -2668,7 +2686,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: HeikoRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, HeikoRuntimeProxyType, u32]>;
+      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | 'AMM' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
       /**
        * Publish the hash of a proxy-call that will be made in the future.
        * 
@@ -2718,7 +2736,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        * TODO: Might be over counting 1 read
        **/
-      anonymous: AugmentedSubmittable<(proxyType: HeikoRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array, index: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [HeikoRuntimeProxyType, u32, u16]>;
+      anonymous: AugmentedSubmittable<(proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | 'AMM' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array, index: u16 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeProxyType, u32, u16]>;
       /**
        * Removes a previously spawned anonymous proxy.
        * 
@@ -2741,7 +2759,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: HeikoRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, HeikoRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
+      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | 'AMM' | number | Uint8Array, index: u16 | AnyNumber | Uint8Array, height: Compact<u32> | AnyNumber | Uint8Array, extIndex: Compact<u32> | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
       /**
        * Dispatch the given `call` from an account that the sender is authorised for through
        * `add_proxy`.
@@ -2759,7 +2777,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      proxy: AugmentedSubmittable<(real: AccountId32 | string | Uint8Array, forceProxyType: Option<HeikoRuntimeProxyType> | null | Uint8Array | HeikoRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | number, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Option<HeikoRuntimeProxyType>, Call]>;
+      proxy: AugmentedSubmittable<(real: AccountId32 | string | Uint8Array, forceProxyType: Option<ParallelRuntimeProxyType> | null | Uint8Array | ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | 'AMM' | number, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Option<ParallelRuntimeProxyType>, Call]>;
       /**
        * Dispatch the given `call` from an account that the sender is authorized for through
        * `add_proxy`.
@@ -2779,7 +2797,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - P: the number of proxies the user has.
        * # </weight>
        **/
-      proxyAnnounced: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, real: AccountId32 | string | Uint8Array, forceProxyType: Option<HeikoRuntimeProxyType> | null | Uint8Array | HeikoRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | number, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, AccountId32, Option<HeikoRuntimeProxyType>, Call]>;
+      proxyAnnounced: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, real: AccountId32 | string | Uint8Array, forceProxyType: Option<ParallelRuntimeProxyType> | null | Uint8Array | ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | 'AMM' | number, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, AccountId32, Option<ParallelRuntimeProxyType>, Call]>;
       /**
        * Remove the given announcement of a delegate.
        * 
@@ -2844,7 +2862,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: HeikoRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, HeikoRuntimeProxyType, u32]>;
+      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType | 'Any' | 'Loans' | 'Staking' | 'Crowdloans' | 'Farming' | 'Streaming' | 'Governance' | 'AMM' | number | Uint8Array, delay: u32 | AnyNumber | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
       /**
        * Generic tx
        **/
@@ -2924,7 +2942,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - DbWrites per key id: `KeyOwner`
        * # </weight>
        **/
-      setKeys: AugmentedSubmittable<(keys: HeikoRuntimeOpaqueSessionKeys | { aura?: any } | string | Uint8Array, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [HeikoRuntimeOpaqueSessionKeys, Bytes]>;
+      setKeys: AugmentedSubmittable<(keys: ParallelRuntimeOpaqueSessionKeys | { aura?: any } | string | Uint8Array, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeOpaqueSessionKeys, Bytes]>;
       /**
        * Generic tx
        **/
@@ -3418,7 +3436,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Weight of derivative `call` execution + T::WeightInfo::dispatch_as().
        * # </weight>
        **/
-      dispatchAs: AugmentedSubmittable<(asOrigin: HeikoRuntimeOriginCaller | { system: any } | { Void: any } | { GeneralCouncil: any } | { TechnicalCommittee: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [HeikoRuntimeOriginCaller, Call]>;
+      dispatchAs: AugmentedSubmittable<(asOrigin: ParallelRuntimeOriginCaller | { system: any } | { Void: any } | { GeneralCouncil: any } | { TechnicalCommittee: any } | { PolkadotXcm: any } | { CumulusXcm: any } | string | Uint8Array, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeOriginCaller, Call]>;
       /**
        * Send a batch of dispatch calls.
        * Unlike `batch`, it allows errors and won't interrupt.

@@ -54,7 +54,7 @@ export default {
     }
   },
   /**
-   * Lookup16: frame_system::EventRecord<heiko_runtime::Event, primitive_types::H256>
+   * Lookup16: frame_system::EventRecord<parallel_runtime::Event, primitive_types::H256>
    **/
   FrameSystemEventRecord: {
     phase: 'FrameSystemPhase',
@@ -379,7 +379,7 @@ export default {
       AnonymousCreated: {
         anonymous: 'AccountId32',
         who: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'ParallelRuntimeProxyType',
         disambiguationIndex: 'u16',
       },
       Announced: {
@@ -390,22 +390,22 @@ export default {
       ProxyAdded: {
         delegator: 'AccountId32',
         delegatee: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'ParallelRuntimeProxyType',
         delay: 'u32',
       },
       ProxyRemoved: {
         delegator: 'AccountId32',
         delegatee: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'ParallelRuntimeProxyType',
         delay: 'u32'
       }
     }
   },
   /**
-   * Lookup38: heiko_runtime::ProxyType
+   * Lookup38: parallel_runtime::ProxyType
    **/
-  HeikoRuntimeProxyType: {
-    _enum: ['Any', 'Loans', 'Staking', 'Crowdloans', 'Farming', 'Streaming', 'Governance']
+  ParallelRuntimeProxyType: {
+    _enum: ['Any', 'Loans', 'Staking', 'Crowdloans', 'Farming', 'Streaming', 'Governance', 'AMM']
   },
   /**
    * Lookup40: pallet_identity::pallet::Event<T>
@@ -1441,7 +1441,8 @@ export default {
       VaultDissolved: '(u32,(u32,u32))',
       AllRefunded: '(u32,(u32,u32))',
       PartiallyRefunded: '(u32,(u32,u32))',
-      UserRefunded: '(u32,(u32,u32),AccountId32,PalletCrowdloansChildStorageKind,u128)'
+      UserRefunded: '(u32,(u32,u32),AccountId32,PalletCrowdloansChildStorageKind,u128)',
+      ProxyUpdated: 'AccountId32'
     }
   },
   /**
@@ -1454,7 +1455,7 @@ export default {
    * Lookup121: pallet_crowdloans::types::ContributionStrategy
    **/
   PalletCrowdloansContributionStrategy: {
-    _enum: ['XCM']
+    _enum: ['XCM', 'XCMPROXY']
   },
   /**
    * Lookup122: pallet_crowdloans::types::ChildStorageKind
@@ -1484,7 +1485,9 @@ export default {
       NewEra: 'u32',
       Matching: '(u128,u128,u128)',
       ReservesReduced: '(AccountId32,u128)',
-      UnstakeCancelled: '(AccountId32,u128,u128)'
+      UnstakeCancelled: '(AccountId32,u128,u128)',
+      CommissionRateUpdated: 'u128',
+      FastUnstakeMatched: '(AccountId32,u128,u128,u128)'
     }
   },
   /**
@@ -1530,7 +1533,9 @@ export default {
       LiquidityAdded: '(AccountId32,u32,u32,u128,u128,u32,u128,u128)',
       LiquidityRemoved: '(AccountId32,u32,u32,u128,u128,u128,u32,u128,u128)',
       PoolCreated: '(AccountId32,u32,u32,u32)',
-      Traded: '(AccountId32,u32,u32,u128,u128,u32,u128,u128)'
+      Traded: '(AccountId32,u32,u32,u128,u128,u32,u128,u128)',
+      ProtocolFeeUpdated: 'Permill',
+      ProtocolFeeReceiverUpdated: 'AccountId32'
     }
   },
   /**
@@ -1823,7 +1828,7 @@ export default {
         calls: 'Vec<Call>',
       },
       dispatch_as: {
-        asOrigin: 'HeikoRuntimeOriginCaller',
+        asOrigin: 'ParallelRuntimeOriginCaller',
         call: 'Call',
       },
       force_batch: {
@@ -2039,28 +2044,28 @@ export default {
     _enum: {
       proxy: {
         real: 'AccountId32',
-        forceProxyType: 'Option<HeikoRuntimeProxyType>',
+        forceProxyType: 'Option<ParallelRuntimeProxyType>',
         call: 'Call',
       },
       add_proxy: {
         delegate: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'ParallelRuntimeProxyType',
         delay: 'u32',
       },
       remove_proxy: {
         delegate: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'ParallelRuntimeProxyType',
         delay: 'u32',
       },
       remove_proxies: 'Null',
       anonymous: {
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'ParallelRuntimeProxyType',
         delay: 'u32',
         index: 'u16',
       },
       kill_anonymous: {
         spawner: 'AccountId32',
-        proxyType: 'HeikoRuntimeProxyType',
+        proxyType: 'ParallelRuntimeProxyType',
         index: 'u16',
         height: 'Compact<u32>',
         extIndex: 'Compact<u32>',
@@ -2080,7 +2085,7 @@ export default {
       proxy_announced: {
         delegate: 'AccountId32',
         real: 'AccountId32',
-        forceProxyType: 'Option<HeikoRuntimeProxyType>',
+        forceProxyType: 'Option<ParallelRuntimeProxyType>',
         call: 'Call'
       }
     }
@@ -2387,7 +2392,7 @@ export default {
     }
   },
   /**
-   * Lookup231: frame_support::traits::schedule::MaybeHashed<heiko_runtime::Call, primitive_types::H256>
+   * Lookup231: frame_support::traits::schedule::MaybeHashed<parallel_runtime::Call, primitive_types::H256>
    **/
   FrameSupportScheduleMaybeHashed: {
     _enum: {
@@ -2823,16 +2828,16 @@ export default {
         _alias: {
           keys_: 'keys',
         },
-        keys_: 'HeikoRuntimeOpaqueSessionKeys',
+        keys_: 'ParallelRuntimeOpaqueSessionKeys',
         proof: 'Bytes',
       },
       purge_keys: 'Null'
     }
   },
   /**
-   * Lookup267: heiko_runtime::opaque::SessionKeys
+   * Lookup267: parallel_runtime::opaque::SessionKeys
    **/
-  HeikoRuntimeOpaqueSessionKeys: {
+  ParallelRuntimeOpaqueSessionKeys: {
     aura: 'SpConsensusAuraSr25519AppSr25519Public'
   },
   /**
@@ -3044,6 +3049,10 @@ export default {
         price: 'u128',
       },
       reset_price: {
+        assetId: 'u32',
+      },
+      set_foreign_asset: {
+        foreignAssetId: 'u32',
         assetId: 'u32'
       }
     }
@@ -3145,7 +3154,10 @@ export default {
         kind: 'PalletCrowdloansChildStorageKind',
         amount: 'Compact<u128>',
         leaseStart: 'u32',
-        leaseEnd: 'u32'
+        leaseEnd: 'u32',
+      },
+      update_proxy: {
+        proxyAddress: 'AccountId32'
       }
     }
   },
@@ -3227,7 +3239,13 @@ export default {
         reduceAmount: 'Compact<u128>',
       },
       cancel_unstake: {
-        amount: 'Compact<u128>'
+        amount: 'Compact<u128>',
+      },
+      update_commission_rate: {
+        commissionRate: 'u128',
+      },
+      fast_match_unstake: {
+        unstakerList: 'Vec<AccountId32>'
       }
     }
   },
@@ -3235,7 +3253,7 @@ export default {
    * Lookup286: pallet_liquid_staking::types::UnstakeProvider
    **/
   PalletLiquidStakingUnstakeProvider: {
-    _enum: ['RelayChain', 'Loans']
+    _enum: ['RelayChain', 'Loans', 'MatchingPool']
   },
   /**
    * Lookup287: pallet_membership::pallet::Call<T, I>
@@ -3285,7 +3303,13 @@ export default {
         pair: '(u32,u32)',
         liquidityAmounts: '(u128,u128)',
         lptokenReceiver: 'AccountId32',
-        lpTokenId: 'u32'
+        lpTokenId: 'u32',
+      },
+      update_protocol_fee: {
+        protocolFee: 'Permill',
+      },
+      update_protocol_fee_receiver: {
+        protocolFeeReceiver: 'AccountId32'
       }
     }
   },
@@ -3600,9 +3624,9 @@ export default {
     data: 'Bytes'
   },
   /**
-   * Lookup318: heiko_runtime::OriginCaller
+   * Lookup318: parallel_runtime::OriginCaller
    **/
-  HeikoRuntimeOriginCaller: {
+  ParallelRuntimeOriginCaller: {
     _enum: {
       system: 'FrameSupportDispatchRawOrigin',
       __Unused1: 'Null',
@@ -3795,11 +3819,11 @@ export default {
     _enum: ['BalanceLow', 'NoAccount', 'NoPermission', 'Unknown', 'Frozen', 'InUse', 'BadWitness', 'MinBalanceZero', 'NoProvider', 'BadMetadata', 'Unapproved', 'WouldDie', 'AlreadyExists', 'NoDeposit', 'WouldBurn']
   },
   /**
-   * Lookup351: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, heiko_runtime::ProxyType, BlockNumber>
+   * Lookup351: pallet_proxy::ProxyDefinition<sp_core::crypto::AccountId32, parallel_runtime::ProxyType, BlockNumber>
    **/
   PalletProxyProxyDefinition: {
     delegate: 'AccountId32',
-    proxyType: 'HeikoRuntimeProxyType',
+    proxyType: 'ParallelRuntimeProxyType',
     delay: 'u32'
   },
   /**
@@ -3961,14 +3985,14 @@ export default {
     _enum: ['InsufficientProposersBalance', 'InvalidIndex', 'TooManyApprovals', 'InsufficientPermission', 'ProposalNotApproved']
   },
   /**
-   * Lookup396: pallet_scheduler::ScheduledV3<frame_support::traits::schedule::MaybeHashed<heiko_runtime::Call, primitive_types::H256>, BlockNumber, heiko_runtime::OriginCaller, sp_core::crypto::AccountId32>
+   * Lookup396: pallet_scheduler::ScheduledV3<frame_support::traits::schedule::MaybeHashed<parallel_runtime::Call, primitive_types::H256>, BlockNumber, parallel_runtime::OriginCaller, sp_core::crypto::AccountId32>
    **/
   PalletSchedulerScheduledV3: {
     maybeId: 'Option<Bytes>',
     priority: 'u8',
     call: 'FrameSupportScheduleMaybeHashed',
     maybePeriodic: 'Option<(u32,u32)>',
-    origin: 'HeikoRuntimeOriginCaller'
+    origin: 'ParallelRuntimeOriginCaller'
   },
   /**
    * Lookup397: pallet_scheduler::pallet::Error<T>
@@ -4226,7 +4250,7 @@ export default {
    * Lookup465: pallet_loans::pallet::Error<T>
    **/
   PalletLoansError: {
-    _enum: ['InsufficientLiquidity', 'InsufficientDeposit', 'TooMuchRepay', 'DuplicateOperation', 'NoDeposit', 'InsufficientCollateral', 'LiquidatorIsBorrower', 'DepositsAreNotCollateral', 'InsufficientShortfall', 'InsufficientReserves', 'InvalidRateModelParam', 'MarketNotActivated', 'PriceOracleNotReady', 'PriceIsZero', 'InvalidCurrencyId', 'InvalidPtokenId', 'MarketDoesNotExist', 'MarketAlreadyExists', 'NewMarketMustHavePendingState', 'SupplyCapacityExceeded', 'BorrowCapacityExceeded', 'InsufficientCash', 'InvalidFactor', 'InvalidSupplyCap', 'InvalidExchangeRate', 'InvalidAmount', 'PayerIsSigner', 'InsufficientMarketLiquidity', 'CodecError', 'CollateralReserved']
+    _enum: ['InsufficientLiquidity', 'InsufficientDeposit', 'TooMuchRepay', 'DuplicateOperation', 'NoDeposit', 'InsufficientCollateral', 'LiquidatorIsBorrower', 'DepositsAreNotCollateral', 'InsufficientShortfall', 'InsufficientReserves', 'InvalidRateModelParam', 'MarketNotActivated', 'PriceOracleNotReady', 'PriceIsZero', 'InvalidCurrencyId', 'InvalidPtokenId', 'MarketDoesNotExist', 'MarketAlreadyExists', 'NewMarketMustHavePendingState', 'SupplyCapacityExceeded', 'BorrowCapacityExceeded', 'InsufficientCash', 'InvalidFactor', 'InvalidSupplyCap', 'InvalidExchangeRate', 'InvalidAmount', 'PayerIsSigner', 'CodecError', 'CollateralReserved']
   },
   /**
    * Lookup467: pallet_crowdloans::types::Vault<T>
@@ -4274,7 +4298,7 @@ export default {
    * Lookup470: pallet_crowdloans::pallet::Error<T>
    **/
   PalletCrowdloansError: {
-    _enum: ['IncorrectVaultPhase', 'CrowdloanAlreadyExists', 'InsufficientContribution', 'NoContributions', 'InsufficientBalance', 'LastPeriodBeforeFirstPeriod', 'CTokenDoesNotExist', 'VaultAlreadyExists', 'VaultDoesNotExist', 'InvalidCToken', 'VaultNotEnded', 'VrfDelayInProgress', 'CapExceeded', 'EndBlockExceeded', 'InvalidCap', 'InvalidParams', 'NotReadyToDissolve']
+    _enum: ['IncorrectVaultPhase', 'CrowdloanAlreadyExists', 'InsufficientContribution', 'NoContributions', 'InsufficientBalance', 'LastPeriodBeforeFirstPeriod', 'CTokenDoesNotExist', 'VaultAlreadyExists', 'VaultDoesNotExist', 'InvalidCToken', 'VaultNotEnded', 'VrfDelayInProgress', 'CapExceeded', 'EndBlockExceeded', 'InvalidCap', 'InvalidParams', 'NotReadyToDissolve', 'EmptyProxyAddress']
   },
   /**
    * Lookup471: pallet_liquid_staking::types::MatchingLedger<Balance>
@@ -4331,7 +4355,7 @@ export default {
    * Lookup476: pallet_liquid_staking::pallet::Error<T>
    **/
   PalletLiquidStakingError: {
-    _enum: ['InvalidExchangeRate', 'StakeTooSmall', 'UnstakeTooSmall', 'InvalidLiquidCurrency', 'InvalidStakingCurrency', 'InvalidDerivativeIndex', 'InvalidStakingLedger', 'CapExceeded', 'InvalidCap', 'InvalidFactor', 'NothingToClaim', 'NotBonded', 'AlreadyBonded', 'NoMoreChunks', 'StakingLedgerLocked', 'NotWithdrawn', 'InsufficientBond', 'InvalidProof', 'NoUnlockings']
+    _enum: ['InvalidExchangeRate', 'StakeTooSmall', 'UnstakeTooSmall', 'InvalidLiquidCurrency', 'InvalidStakingCurrency', 'InvalidDerivativeIndex', 'InvalidStakingLedger', 'CapExceeded', 'InvalidCap', 'InvalidFactor', 'NothingToClaim', 'NotBonded', 'AlreadyBonded', 'NoMoreChunks', 'StakingLedgerLocked', 'NotWithdrawn', 'InsufficientBond', 'InvalidProof', 'NoUnlockings', 'InvalidCommissionRate']
   },
   /**
    * Lookup478: pallet_membership::pallet::Error<T, I>
@@ -4356,7 +4380,7 @@ export default {
    * Lookup490: pallet_amm::pallet::Error<T, I>
    **/
   PalletAmmError: {
-    _enum: ['PoolDoesNotExist', 'InsufficientLiquidity', 'NotAnIdealPrice', 'PoolAlreadyExists', 'InsufficientAmountOut', 'InsufficientAmountIn', 'InsufficientSupplyOut', 'IdenticalAssets', 'LpTokenAlreadyExists', 'ConversionToU128Failed']
+    _enum: ['PoolDoesNotExist', 'InsufficientLiquidity', 'NotAnIdealPrice', 'PoolAlreadyExists', 'InsufficientAmountOut', 'InsufficientAmountIn', 'InsufficientSupplyOut', 'IdenticalAssets', 'LpTokenAlreadyExists', 'ConversionToU128Failed', 'ProtocolFeeReceiverNotSet']
   },
   /**
    * Lookup491: pallet_router::pallet::Error<T, I>
@@ -4432,7 +4456,7 @@ export default {
    * Lookup509: pallet_xcm_helper::pallet::Error<T>
    **/
   PalletXcmHelperError: {
-    _enum: ['MultiLocationNotInvertible', 'ZeroXcmWeightMisc', 'ZeroXcmFees', 'InsufficientXcmFees', 'SendFailure']
+    _enum: ['MultiLocationNotInvertible', 'ZeroXcmWeightMisc', 'ZeroXcmFees', 'InsufficientXcmFees', 'SendFailure', 'ConvertAccountError']
   },
   /**
    * Lookup510: pallet_streaming::types::Stream<T>
@@ -4584,7 +4608,7 @@ export default {
    **/
   PalletTransactionPaymentChargeTransactionPayment: 'Compact<u128>',
   /**
-   * Lookup550: heiko_runtime::Runtime
+   * Lookup550: parallel_runtime::Runtime
    **/
-  HeikoRuntimeRuntime: 'Null'
+  ParallelRuntimeRuntime: 'Null'
 };
