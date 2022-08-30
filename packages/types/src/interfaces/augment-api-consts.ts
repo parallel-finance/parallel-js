@@ -41,19 +41,15 @@ declare module '@polkadot/api-base/types/consts' {
       minimumLiquidity: u128 & AugmentedConst<ApiType>;
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
       /**
-       * How much the protocol is taking out of each trade.
-       **/
-      protocolFee: Permill & AugmentedConst<ApiType>;
-      /**
-       * Who/where to send the protocol fees
-       **/
-      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
-      /**
        * Generic const
        **/
       [key: string]: Codec;
     };
     ammRoute: {
+      /**
+       * The asset id for native currency.
+       **/
+      getNativeCurrencyId: u32 & AugmentedConst<ApiType>;
       /**
        * How many routes we support at most
        **/
@@ -361,13 +357,17 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       liquidCurrency: u32 & AugmentedConst<ApiType>;
       /**
-       * MM fast unstake fee
+       * Loans instant unstake fee
        **/
-      loansFastUnstakeFee: u128 & AugmentedConst<ApiType>;
+      loansInstantUnstakeFee: u128 & AugmentedConst<ApiType>;
       /**
        * The pallet id of loans used for fast unstake
        **/
       loansPalletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * MatchingPool fast unstake fee
+       **/
+      matchingPoolFastUnstakeFee: u128 & AugmentedConst<ApiType>;
       /**
        * The minimum active bond to become and maintain the role of a nominator.
        **/
@@ -385,6 +385,10 @@ declare module '@polkadot/api-base/types/consts' {
        * The pallet id of liquid staking, keeps all the staking assets
        **/
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
+      /**
+       * Who/where to send the protocol fees
+       **/
+      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
       /**
        * Returns the parachain ID we are running with.
        **/

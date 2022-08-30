@@ -367,7 +367,8 @@
                         },
                         "ContributionStrategy": {
                             "_enum": [
-                                "XCM"
+                                "XCM",
+                                "XCMPROXY"
                             ]
                         },
                         "ChildStorageKind": {

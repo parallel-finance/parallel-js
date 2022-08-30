@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H256, Permill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, HeikoRuntimeProxyType, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportScheduleLookupError, FrameSupportTokensMiscBalanceStatus, FrameSupportWeightsDispatchInfo, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, ParallelRuntimeProxyType, SpRuntimeDispatchError, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -31,6 +31,14 @@ declare module '@polkadot/api-base/types/events' {
        * [trader, currency_id_in, currency_id_out, lp_token_id]
        **/
       PoolCreated: AugmentedEvent<ApiType, [AccountId32, u32, u32, u32]>;
+      /**
+       * Protocol fee receiver updated
+       **/
+      ProtocolFeeReceiverUpdated: AugmentedEvent<ApiType, [AccountId32]>;
+      /**
+       * Protocol fee proportion of LP fee updated.
+       **/
+      ProtocolFeeUpdated: AugmentedEvent<ApiType, [Permill]>;
       /**
        * Trade using liquidity
        * [trader, currency_id_in, currency_id_out, amount_in, amount_out, lp_token_id, new_quote_amount, new_base_amount]
@@ -358,6 +366,11 @@ declare module '@polkadot/api-base/types/events' {
        * [para_id, vault_id]
        **/
       PartiallyRefunded: AugmentedEvent<ApiType, [u32, ITuple<[u32, u32]>]>;
+      /**
+       * Update proxy address
+       * [account]
+       **/
+      ProxyUpdated: AugmentedEvent<ApiType, [AccountId32]>;
       /**
        * Refunded
        * [para_id, vault_id, account, child_storage_kind, amount]
@@ -776,9 +789,18 @@ declare module '@polkadot/api-base/types/events' {
        **/
       ClaimedFor: AugmentedEvent<ApiType, [AccountId32, u128]>;
       /**
+       * Commission rate was updated
+       **/
+      CommissionRateUpdated: AugmentedEvent<ApiType, [u128]>;
+      /**
        * Exchange rate was updated
        **/
       ExchangeRateUpdated: AugmentedEvent<ApiType, [u128]>;
+      /**
+       * Fast Unstake Matched
+       * [unstaker, received_staking_amount, matched_liquid_amount, fee_in_liquid_currency]
+       **/
+      FastUnstakeMatched: AugmentedEvent<ApiType, [AccountId32, u128, u128, u128]>;
       /**
        * Matching stakes & unstakes for optimizing operations to be done
        * on relay chain
@@ -1240,11 +1262,11 @@ declare module '@polkadot/api-base/types/events' {
        * Anonymous account has been created by new proxy with given
        * disambiguation index and proxy type.
        **/
-      AnonymousCreated: AugmentedEvent<ApiType, [anonymous: AccountId32, who: AccountId32, proxyType: HeikoRuntimeProxyType, disambiguationIndex: u16], { anonymous: AccountId32, who: AccountId32, proxyType: HeikoRuntimeProxyType, disambiguationIndex: u16 }>;
+      AnonymousCreated: AugmentedEvent<ApiType, [anonymous: AccountId32, who: AccountId32, proxyType: ParallelRuntimeProxyType, disambiguationIndex: u16], { anonymous: AccountId32, who: AccountId32, proxyType: ParallelRuntimeProxyType, disambiguationIndex: u16 }>;
       /**
        * A proxy was added.
        **/
-      ProxyAdded: AugmentedEvent<ApiType, [delegator: AccountId32, delegatee: AccountId32, proxyType: HeikoRuntimeProxyType, delay: u32], { delegator: AccountId32, delegatee: AccountId32, proxyType: HeikoRuntimeProxyType, delay: u32 }>;
+      ProxyAdded: AugmentedEvent<ApiType, [delegator: AccountId32, delegatee: AccountId32, proxyType: ParallelRuntimeProxyType, delay: u32], { delegator: AccountId32, delegatee: AccountId32, proxyType: ParallelRuntimeProxyType, delay: u32 }>;
       /**
        * A proxy was executed correctly, with the given.
        **/
@@ -1252,7 +1274,7 @@ declare module '@polkadot/api-base/types/events' {
       /**
        * A proxy was removed.
        **/
-      ProxyRemoved: AugmentedEvent<ApiType, [delegator: AccountId32, delegatee: AccountId32, proxyType: HeikoRuntimeProxyType, delay: u32], { delegator: AccountId32, delegatee: AccountId32, proxyType: HeikoRuntimeProxyType, delay: u32 }>;
+      ProxyRemoved: AugmentedEvent<ApiType, [delegator: AccountId32, delegatee: AccountId32, proxyType: ParallelRuntimeProxyType, delay: u32], { delegator: AccountId32, delegatee: AccountId32, proxyType: ParallelRuntimeProxyType, delay: u32 }>;
       /**
        * Generic event
        **/
