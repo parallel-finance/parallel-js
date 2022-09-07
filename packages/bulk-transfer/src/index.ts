@@ -1,5 +1,7 @@
 import { ApiPromise } from '@polkadot/api';
-import { AddressOrPair } from '@polkadot/api/types';
+import type { AddressOrPair } from '@polkadot/api/types';
+import type { Vec } from '@polkadot/types';
+import type { Call } from '@polkadot/types/interfaces';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const bulkTransfer = async (
@@ -17,7 +19,7 @@ export const bulkTransfer = async (
     const tx = api.tx.balances.transfer(recipients[i], amounts[i]);
     txs.push(tx);
   }
-  const unsub = await api.tx.utility.batch(txs).signAndSend(sender, (result) => {
+  const unsub = await api.tx.utility.batch(txs as unknown as Vec<Call>).signAndSend(sender, (result) => {
     if (result.status.isInBlock) {
       console.log(`included in ${result.status.asInBlock}`);
     } else if (result.status.isFinalized) {
