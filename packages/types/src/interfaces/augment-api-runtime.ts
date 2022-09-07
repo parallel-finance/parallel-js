@@ -7,7 +7,7 @@ import '@polkadot/api-base/types/calls';
 
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Raw, Result, Text, U256, Vec, bool, u256, u32, u64 } from '@polkadot/types-codec';
-import type { ITuple } from '@polkadot/types-codec/types';
+import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { BenchmarkBatch, BenchmarkConfig, BenchmarkList } from '@polkadot/types/interfaces/benchmark';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
@@ -60,11 +60,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Get the benchmark metadata available for this runtime.
        **/
-      benchmarkMetadata: AugmentedCall<ApiType, (extra: bool) => Observable<ITuple<[Vec<BenchmarkList>, Vec<StorageInfo>]>>>;
+      benchmarkMetadata: AugmentedCall<ApiType, (extra: bool | boolean | Uint8Array) => Observable<ITuple<[Vec<BenchmarkList>, Vec<StorageInfo>]>>>;
       /**
        * Dispatch the given benchmark.
        **/
-      dispatchBenchmark: AugmentedCall<ApiType, (config: BenchmarkConfig) => Observable<Result<Vec<BenchmarkBatch>, Text>>>;
+      dispatchBenchmark: AugmentedCall<ApiType, (config: BenchmarkConfig | { pallet?: any; benchmark?: any; selectedComponents?: any; verify?: any; internalRepeats?: any } | string | Uint8Array) => Observable<Result<Vec<BenchmarkBatch>, Text>>>;
       /**
        * Generic call
        **/
@@ -79,7 +79,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Check that the inherents are valid.
        **/
-      checkInherents: AugmentedCall<ApiType, (block: Block, data: InherentData) => Observable<CheckInherentsResult>>;
+      checkInherents: AugmentedCall<ApiType, (block: Block | { header?: any; extrinsics?: any } | string | Uint8Array, data: InherentData | { data?: any } | string | Uint8Array) => Observable<CheckInherentsResult>>;
       /**
        * Finish the current block.
        **/
@@ -87,7 +87,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Generate inherent extrinsics.
        **/
-      inherentExtrinsics: AugmentedCall<ApiType, (inherent: InherentData) => Observable<Vec<Extrinsic>>>;
+      inherentExtrinsics: AugmentedCall<ApiType, (inherent: InherentData | { data?: any } | string | Uint8Array) => Observable<Vec<Extrinsic>>>;
       /**
        * Generic call
        **/
@@ -98,7 +98,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Collect information about a collation.
        **/
-      collectCollationInfo: AugmentedCall<ApiType, (header: Header) => Observable<CollationInfo>>;
+      collectCollationInfo: AugmentedCall<ApiType, (header: Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array) => Observable<CollationInfo>>;
       /**
        * Generic call
        **/
@@ -109,7 +109,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Converts an Ethereum-style transaction to Extrinsic
        **/
-      convertTransaction: AugmentedCall<ApiType, (transaction: TransactionV2) => Observable<Extrinsic>>;
+      convertTransaction: AugmentedCall<ApiType, (transaction: TransactionV2 | { Legacy: any } | { EIP2930: any } | { EIP1559: any } | string | Uint8Array) => Observable<Extrinsic>>;
       /**
        * Generic call
        **/
@@ -120,11 +120,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Execute the given block.
        **/
-      executeBlock: AugmentedCall<ApiType, (block: Block) => Observable<Null>>;
+      executeBlock: AugmentedCall<ApiType, (block: Block | { header?: any; extrinsics?: any } | string | Uint8Array) => Observable<Null>>;
       /**
        * Initialize a block with the given header.
        **/
-      initializeBlock: AugmentedCall<ApiType, (header: Header) => Observable<Null>>;
+      initializeBlock: AugmentedCall<ApiType, (header: Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array) => Observable<Null>>;
       /**
        * Returns the version of the runtime.
        **/
@@ -151,7 +151,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns a frame_ethereum::call response. If `estimate` is true,
        **/
-      call: AugmentedCall<ApiType, (from: H160 | string | Uint8Array, to: H160 | string | Uint8Array, data: Bytes | string | Uint8Array, value: U256, gasLimit: U256, maxFeePerGas: Option<U256>, maxPriorityFeePerGas: Option<U256>, nonce: Option<U256>, estimate: bool, accessList: Option<Vec<ITuple<[H160, Vec<H256>]>>>) => Observable<Result<EvmCallInfo, DispatchError>>>;
+      call: AugmentedCall<ApiType, (from: H160 | string | Uint8Array, to: H160 | string | Uint8Array, data: Bytes | string | Uint8Array, value: U256 | AnyNumber | Uint8Array, gasLimit: U256 | AnyNumber | Uint8Array, maxFeePerGas: Option<U256> | null | Uint8Array | U256 | AnyNumber, maxPriorityFeePerGas: Option<U256> | null | Uint8Array | U256 | AnyNumber, nonce: Option<U256> | null | Uint8Array | U256 | AnyNumber, estimate: bool | boolean | Uint8Array, accessList: Option<Vec<ITuple<[H160, Vec<H256>]>>> | null | Uint8Array | Vec<ITuple<[H160, Vec<H256>]>> | ([H160 | string | Uint8Array, Vec<H256> | (H256 | string | Uint8Array)[]])[]) => Observable<Result<EvmCallInfo, DispatchError>>>;
       /**
        * Returns runtime defined pallet_evm::ChainId.
        **/
@@ -159,7 +159,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns a frame_ethereum::call response. If `estimate` is true,
        **/
-      create: AugmentedCall<ApiType, (from: H160 | string | Uint8Array, data: Bytes | string | Uint8Array, value: U256, gasLimit: U256, maxFeePerGas: Option<U256>, maxPriorityFeePerGas: Option<U256>, nonce: Option<U256>, estimate: bool, accessList: Option<Vec<ITuple<[H160, Vec<H256>]>>>) => Observable<Result<EvmCreateInfo, DispatchError>>>;
+      create: AugmentedCall<ApiType, (from: H160 | string | Uint8Array, data: Bytes | string | Uint8Array, value: U256 | AnyNumber | Uint8Array, gasLimit: U256 | AnyNumber | Uint8Array, maxFeePerGas: Option<U256> | null | Uint8Array | U256 | AnyNumber, maxPriorityFeePerGas: Option<U256> | null | Uint8Array | U256 | AnyNumber, nonce: Option<U256> | null | Uint8Array | U256 | AnyNumber, estimate: bool | boolean | Uint8Array, accessList: Option<Vec<ITuple<[H160, Vec<H256>]>>> | null | Uint8Array | Vec<ITuple<[H160, Vec<H256>]>> | ([H160 | string | Uint8Array, Vec<H256> | (H256 | string | Uint8Array)[]])[]) => Observable<Result<EvmCreateInfo, DispatchError>>>;
       /**
        * Return all the current data for a block in a single runtime call.
        **/
@@ -183,7 +183,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Receives a `Vec<OpaqueExtrinsic>` and filters all the ethereum transactions.
        **/
-      extrinsicFilter: AugmentedCall<ApiType, (xts: Vec<Extrinsic>) => Observable<Vec<TransactionV2>>>;
+      extrinsicFilter: AugmentedCall<ApiType, (xts: Vec<Extrinsic> | (Extrinsic | IExtrinsic | string | Uint8Array)[]) => Observable<Vec<TransactionV2>>>;
       /**
        * Returns FixedGasPrice::min_gas_price
        **/
@@ -191,7 +191,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * For a given account address and index, returns pallet_evm::AccountStorages.
        **/
-      storageAt: AugmentedCall<ApiType, (address: H160 | string | Uint8Array, index: u256) => Observable<H256>>;
+      storageAt: AugmentedCall<ApiType, (address: H160 | string | Uint8Array, index: u256 | AnyNumber | Uint8Array) => Observable<H256>>;
       /**
        * Generic call
        **/
@@ -213,7 +213,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Starts the off-chain task for given block header.
        **/
-      offchainWorker: AugmentedCall<ApiType, (header: Header) => Observable<Null>>;
+      offchainWorker: AugmentedCall<ApiType, (header: Header | { parentHash?: any; number?: any; stateRoot?: any; extrinsicsRoot?: any; digest?: any } | string | Uint8Array) => Observable<Null>>;
       /**
        * Generic call
        **/
@@ -243,7 +243,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Generate a set of session keys with optionally using the given seed.
        **/
-      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes>) => Observable<Bytes>>;
+      generateSessionKeys: AugmentedCall<ApiType, (seed: Option<Bytes> | null | Uint8Array | Bytes | string) => Observable<Bytes>>;
       /**
        * Generic call
        **/
@@ -254,7 +254,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Validate the transaction.
        **/
-      validateTransaction: AugmentedCall<ApiType, (source: TransactionSource, tx: Extrinsic | IExtrinsic | string | Uint8Array, blockHash: BlockHash | string | Uint8Array) => Observable<TransactionValidity>>;
+      validateTransaction: AugmentedCall<ApiType, (source: TransactionSource | 'InBlock' | 'Local' | 'External' | number | Uint8Array, tx: Extrinsic | IExtrinsic | string | Uint8Array, blockHash: BlockHash | string | Uint8Array) => Observable<TransactionValidity>>;
       /**
        * Generic call
        **/
@@ -265,11 +265,11 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * The transaction fee details
        **/
-      queryFeeDetails: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32) => Observable<FeeDetails>>;
+      queryFeeDetails: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<FeeDetails>>;
       /**
        * The transaction info
        **/
-      queryInfo: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32) => Observable<RuntimeDispatchInfo>>;
+      queryInfo: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<RuntimeDispatchInfo>>;
       /**
        * Generic call
        **/
