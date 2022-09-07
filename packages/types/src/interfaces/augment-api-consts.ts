@@ -539,6 +539,14 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       maxStreamsCount: u32 & AugmentedConst<ApiType>;
       /**
+       * Currency id of the native token
+       **/
+      nativeCurrencyId: u32 & AugmentedConst<ApiType>;
+      /**
+       * The essential balance for an existed account
+       **/
+      nativeExistentialDeposit: u128 & AugmentedConst<ApiType>;
+      /**
        * The streaming module id, keep all collaterals of CDPs.
        **/
       palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
