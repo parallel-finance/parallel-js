@@ -55,9 +55,9 @@ yarn build
 ```
 # For patch update(eg: 0.0.1 -> 0.0.2)
 yarn bump patch
-# For patch update(eg: 0.1.0 -> 0.2.0)
+# For minor update(eg: 0.1.0 -> 0.2.0)
 yarn bump minor
-# For patch update(eg: 1.0.0 -> 2.0.0)
+# For major update(eg: 1.0.0 -> 2.0.0)
 yarn bump major
 
 ```
