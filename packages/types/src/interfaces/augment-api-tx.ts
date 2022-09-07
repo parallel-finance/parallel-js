@@ -7,10 +7,10 @@ import '@polkadot/api-base/types/submittable';
 
 import type { ApiTypes, AugmentedSubmittable, SubmittableExtrinsic, SubmittableExtrinsicFunction } from '@polkadot/api-base/types';
 import type { Data } from '@polkadot/types';
-import type { Bytes, Compact, Option, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
+import type { Bytes, Compact, Option, U256, U8aFixed, Vec, WrapperKeepOpaque, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { IMethod, ITuple } from '@polkadot/types-codec/types';
-import type { AccountId32, Call, H256, MultiAddress, Perbill, Permill } from '@polkadot/types/interfaces/runtime';
-import type { CumulusPrimitivesParachainInherentParachainInherentData, FrameSupportScheduleMaybeHashed, OrmlVestingVestingSchedule, PalletAssetsDestroyWitness, PalletBridgeBridgeToken, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletLiquidStakingStakingLedger, PalletLiquidStakingUnstakeProvider, PalletLoansMarket, PalletLoansRateModelInterestRateModel, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, ParallelRuntimeOpaqueSessionKeys, ParallelRuntimeOriginCaller, ParallelRuntimeProxyType, SpRuntimeHeader, XcmV1MultiLocation, XcmV2Response, XcmV2WeightLimit, XcmVersionedMultiAsset, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
+import type { AccountId32, Call, H160, H256, MultiAddress, Perbill, Permill } from '@polkadot/types/interfaces/runtime';
+import type { CumulusPrimitivesParachainInherentParachainInherentData, EthereumTransactionTransactionV2, FrameSupportScheduleMaybeHashed, KerriaRuntimeOpaqueSessionKeys, KerriaRuntimeOriginCaller, KerriaRuntimeProxyType, OrmlVestingVestingSchedule, PalletAssetsDestroyWitness, PalletBridgeBridgeToken, PalletBridgeBridgeType, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletDemocracyConviction, PalletDemocracyVoteAccountVote, PalletIdentityBitFlags, PalletIdentityIdentityInfo, PalletIdentityJudgement, PalletLiquidStakingStakingLedger, PalletLiquidStakingUnstakeProvider, PalletLoansMarket, PalletLoansRateModelInterestRateModel, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeHeader, XcmV1MultiLocation, XcmV2Response, XcmV2WeightLimit, XcmVersionedMultiAsset, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmVersionedXcm } from '@polkadot/types/lookup';
 
 export type __AugmentedSubmittable = AugmentedSubmittable<() => unknown>;
 export type __SubmittableExtrinsic<ApiType extends ApiTypes> = SubmittableExtrinsic<ApiType>;
@@ -627,6 +627,15 @@ declare module '@polkadot/api-base/types/submittable' {
        * [`transfer`]: struct.Pallet.html#method.transfer
        **/
       transferKeepAlive: AugmentedSubmittable<(dest: MultiAddress, value: Compact<u128>) => SubmittableExtrinsic<ApiType>, [MultiAddress, Compact<u128>]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    baseFee: {
+      setBaseFeePerGas: AugmentedSubmittable<(fee: U256) => SubmittableExtrinsic<ApiType>, [U256]>;
+      setElasticity: AugmentedSubmittable<(elasticity: Permill) => SubmittableExtrinsic<ApiType>, [Permill]>;
+      setIsActive: AugmentedSubmittable<(isActive: bool) => SubmittableExtrinsic<ApiType>, [bool]>;
       /**
        * Generic tx
        **/
@@ -1330,6 +1339,39 @@ declare module '@polkadot/api-base/types/submittable' {
        * Toggle the shutdown flag
        **/
       togglePallet: AugmentedSubmittable<(palletIdx: u8) => SubmittableExtrinsic<ApiType>, [u8]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    ethereum: {
+      /**
+       * Transact an Ethereum transaction.
+       **/
+      transact: AugmentedSubmittable<(transaction: EthereumTransactionTransactionV2) => SubmittableExtrinsic<ApiType>, [EthereumTransactionTransactionV2]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    evm: {
+      /**
+       * Issue an EVM call operation. This is similar to a message call transaction in Ethereum.
+       **/
+      call: AugmentedSubmittable<(source: H160 | string | Uint8Array, target: H160 | string | Uint8Array, input: Bytes | string | Uint8Array, value: U256, gasLimit: u64, maxFeePerGas: U256, maxPriorityFeePerGas: Option<U256>, nonce: Option<U256>, accessList: Vec<ITuple<[H160, Vec<H256>]>>) => SubmittableExtrinsic<ApiType>, [H160, H160, Bytes, U256, u64, U256, Option<U256>, Option<U256>, Vec<ITuple<[H160, Vec<H256>]>>]>;
+      /**
+       * Issue an EVM create operation. This is similar to a contract creation transaction in
+       * Ethereum.
+       **/
+      create: AugmentedSubmittable<(source: H160 | string | Uint8Array, init: Bytes | string | Uint8Array, value: U256, gasLimit: u64, maxFeePerGas: U256, maxPriorityFeePerGas: Option<U256>, nonce: Option<U256>, accessList: Vec<ITuple<[H160, Vec<H256>]>>) => SubmittableExtrinsic<ApiType>, [H160, Bytes, U256, u64, U256, Option<U256>, Option<U256>, Vec<ITuple<[H160, Vec<H256>]>>]>;
+      /**
+       * Issue an EVM create2 operation.
+       **/
+      create2: AugmentedSubmittable<(source: H160 | string | Uint8Array, init: Bytes | string | Uint8Array, salt: H256 | string | Uint8Array, value: U256, gasLimit: u64, maxFeePerGas: U256, maxPriorityFeePerGas: Option<U256>, nonce: Option<U256>, accessList: Vec<ITuple<[H160, Vec<H256>]>>) => SubmittableExtrinsic<ApiType>, [H160, Bytes, H256, U256, u64, U256, Option<U256>, Option<U256>, Vec<ITuple<[H160, Vec<H256>]>>]>;
+      /**
+       * Withdraw balance from EVM into currency/balances pallet.
+       **/
+      withdraw: AugmentedSubmittable<(address: H160 | string | Uint8Array, value: u128) => SubmittableExtrinsic<ApiType>, [H160, u128]>;
       /**
        * Generic tx
        **/
@@ -2686,7 +2728,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType, delay: u32) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
+      addProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: KerriaRuntimeProxyType, delay: u32) => SubmittableExtrinsic<ApiType>, [AccountId32, KerriaRuntimeProxyType, u32]>;
       /**
        * Publish the hash of a proxy-call that will be made in the future.
        * 
@@ -2736,7 +2778,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * # </weight>
        * TODO: Might be over counting 1 read
        **/
-      anonymous: AugmentedSubmittable<(proxyType: ParallelRuntimeProxyType, delay: u32, index: u16) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeProxyType, u32, u16]>;
+      anonymous: AugmentedSubmittable<(proxyType: KerriaRuntimeProxyType, delay: u32, index: u16) => SubmittableExtrinsic<ApiType>, [KerriaRuntimeProxyType, u32, u16]>;
       /**
        * Removes a previously spawned anonymous proxy.
        * 
@@ -2759,7 +2801,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType, index: u16, height: Compact<u32>, extIndex: Compact<u32>) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
+      killAnonymous: AugmentedSubmittable<(spawner: AccountId32 | string | Uint8Array, proxyType: KerriaRuntimeProxyType, index: u16, height: Compact<u32>, extIndex: Compact<u32>) => SubmittableExtrinsic<ApiType>, [AccountId32, KerriaRuntimeProxyType, u16, Compact<u32>, Compact<u32>]>;
       /**
        * Dispatch the given `call` from an account that the sender is authorised for through
        * `add_proxy`.
@@ -2777,7 +2819,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      proxy: AugmentedSubmittable<(real: AccountId32 | string | Uint8Array, forceProxyType: Option<ParallelRuntimeProxyType>, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Option<ParallelRuntimeProxyType>, Call]>;
+      proxy: AugmentedSubmittable<(real: AccountId32 | string | Uint8Array, forceProxyType: Option<KerriaRuntimeProxyType>, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, Option<KerriaRuntimeProxyType>, Call]>;
       /**
        * Dispatch the given `call` from an account that the sender is authorized for through
        * `add_proxy`.
@@ -2797,7 +2839,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - P: the number of proxies the user has.
        * # </weight>
        **/
-      proxyAnnounced: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, real: AccountId32 | string | Uint8Array, forceProxyType: Option<ParallelRuntimeProxyType>, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, AccountId32, Option<ParallelRuntimeProxyType>, Call]>;
+      proxyAnnounced: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, real: AccountId32 | string | Uint8Array, forceProxyType: Option<KerriaRuntimeProxyType>, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [AccountId32, AccountId32, Option<KerriaRuntimeProxyType>, Call]>;
       /**
        * Remove the given announcement of a delegate.
        * 
@@ -2862,7 +2904,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * Weight is a function of the number of proxies the user has (P).
        * # </weight>
        **/
-      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: ParallelRuntimeProxyType, delay: u32) => SubmittableExtrinsic<ApiType>, [AccountId32, ParallelRuntimeProxyType, u32]>;
+      removeProxy: AugmentedSubmittable<(delegate: AccountId32 | string | Uint8Array, proxyType: KerriaRuntimeProxyType, delay: u32) => SubmittableExtrinsic<ApiType>, [AccountId32, KerriaRuntimeProxyType, u32]>;
       /**
        * Generic tx
        **/
@@ -2942,7 +2984,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - DbWrites per key id: `KeyOwner`
        * # </weight>
        **/
-      setKeys: AugmentedSubmittable<(keys: ParallelRuntimeOpaqueSessionKeys, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeOpaqueSessionKeys, Bytes]>;
+      setKeys: AugmentedSubmittable<(keys: KerriaRuntimeOpaqueSessionKeys, proof: Bytes | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KerriaRuntimeOpaqueSessionKeys, Bytes]>;
       /**
        * Generic tx
        **/
@@ -2990,6 +3032,65 @@ declare module '@polkadot/api-base/types/submittable' {
        * ` `amount`: the amount of asset to withdraw
        **/
       withdraw: AugmentedSubmittable<(streamId: u128, amount: u128) => SubmittableExtrinsic<ApiType>, [u128, u128]>;
+      /**
+       * Generic tx
+       **/
+      [key: string]: SubmittableExtrinsicFunction<ApiType>;
+    };
+    sudo: {
+      /**
+       * Authenticates the current sudo key and sets the given AccountId (`new`) as the new sudo
+       * key.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * # <weight>
+       * - O(1).
+       * - Limited storage reads.
+       * - One DB change.
+       * # </weight>
+       **/
+      setKey: AugmentedSubmittable<(updated: MultiAddress) => SubmittableExtrinsic<ApiType>, [MultiAddress]>;
+      /**
+       * Authenticates the sudo key and dispatches a function call with `Root` origin.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * # <weight>
+       * - O(1).
+       * - Limited storage reads.
+       * - One DB write (event).
+       * - Weight of derivative `call` execution + 10,000.
+       * # </weight>
+       **/
+      sudo: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [Call]>;
+      /**
+       * Authenticates the sudo key and dispatches a function call with `Signed` origin from
+       * a given account.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * # <weight>
+       * - O(1).
+       * - Limited storage reads.
+       * - One DB write (event).
+       * - Weight of derivative `call` execution + 10,000.
+       * # </weight>
+       **/
+      sudoAs: AugmentedSubmittable<(who: MultiAddress, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [MultiAddress, Call]>;
+      /**
+       * Authenticates the sudo key and dispatches a function call with `Root` origin.
+       * This function does not check the weight of the call, and instead allows the
+       * Sudo user to specify the weight of the call.
+       * 
+       * The dispatch origin for this call must be _Signed_.
+       * 
+       * # <weight>
+       * - O(1).
+       * - The weight of this call is defined by the caller.
+       * # </weight>
+       **/
+      sudoUncheckedWeight: AugmentedSubmittable<(call: Call | IMethod | string | Uint8Array, weight: u64) => SubmittableExtrinsic<ApiType>, [Call, u64]>;
       /**
        * Generic tx
        **/
@@ -3436,7 +3537,7 @@ declare module '@polkadot/api-base/types/submittable' {
        * - Weight of derivative `call` execution + T::WeightInfo::dispatch_as().
        * # </weight>
        **/
-      dispatchAs: AugmentedSubmittable<(asOrigin: ParallelRuntimeOriginCaller, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [ParallelRuntimeOriginCaller, Call]>;
+      dispatchAs: AugmentedSubmittable<(asOrigin: KerriaRuntimeOriginCaller, call: Call | IMethod | string | Uint8Array) => SubmittableExtrinsic<ApiType>, [KerriaRuntimeOriginCaller, Call]>;
       /**
        * Send a batch of dispatch calls.
        * Unlike `batch`, it allows errors and won't interrupt.

@@ -441,7 +441,7 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
       /**
        * Returns the route that results in the largest amount out for amount in
        **/
-      getBestRoute: AugmentedRpc<(amount_in: Balance, token_in: CurrencyId, token_out: CurrencyId, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Vec<CurrencyId>, FixedU128]>>>;
+      getBestRoute: AugmentedRpc<(amount: Balance, token_in: CurrencyId, token_out: CurrencyId, reversed: bool, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Vec<CurrencyId>, FixedU128]>>>;
     };
     rpc: {
       /**

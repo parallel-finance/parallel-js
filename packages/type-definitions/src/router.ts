@@ -4,7 +4,7 @@ export default {
       description: 'Returns the route that results in the largest amount out for amount in',
       params: [
         {
-          name: 'amount_in',
+          name: 'amount',
           type: 'Balance'
         },
         {
@@ -14,6 +14,10 @@ export default {
         {
           name: 'token_out',
           type: 'CurrencyId'
+        },
+        {
+          name: 'reversed',
+          type: 'bool'
         },
         {
           name: 'at',
