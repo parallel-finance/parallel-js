@@ -8,6 +8,9 @@ import {
   signedExtensions as parallelSignedExtensions
 } from '@parallel-finance/types';
 
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#import_a_module_for_its_side_effects_only
+import '@parallel-finance/types';
+
 export const defaultOptions: ApiOptions = {
   types: parallelTypes,
   rpc: parallelRpc
