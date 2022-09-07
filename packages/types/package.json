@@ -17,11 +17,9 @@
     "@babel/runtime": "^7.10.2",
     "@open-web3/orml-types": "^1.1.4",
     "@parallel-finance/type-definitions": "^1.7.11",
-    "@polkadot/types": "^9.1.1"
+    "@polkadot/types": "^9.3.2"
   },
   "devDependencies": {
-    "@polkadot/api": "^9.1.1",
-    "@polkadot/typegen": "^9.1.1",
     "@types/websocket": "^1.0.0",
     "websocket": "^1.0.31"
   }

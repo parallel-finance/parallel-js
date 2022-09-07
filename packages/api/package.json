@@ -17,10 +17,10 @@
   "dependencies": {
     "@open-web3/orml-api-derive": "^1.1.4",
     "@parallel-finance/types": "^1.7.11",
-    "@polkadot/api": "^9.1.1"
+    "@polkadot/api": "^9.3.2"
   },
   "devDependencies": {
     "@babel/runtime": "^7.10.2",
-    "@polkadot/rpc-core": "^9.1.1"
+    "@polkadot/rpc-core": "^9.3.2"
   }
 }
