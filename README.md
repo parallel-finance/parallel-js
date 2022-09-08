@@ -23,6 +23,8 @@ const main = async () => {
   const signer = keyring.addFromUri("//Alice")
 
   await api.tx.system.remark("hello").signAndSend(signer);
+  
+  const [route, amount] = await api.rpc.router.getBestRoute("10000000", 100, 1, true);
 }
 
 ```
