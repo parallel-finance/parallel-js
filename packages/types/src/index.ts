@@ -14,12 +14,6 @@ import type {
 } from '@polkadot/types/types';
 
 import './interfaces/augment-api';
-import './interfaces/augment-api-runtime';
-import './interfaces/augment-api-consts';
-import './interfaces/augment-api-events';
-import './interfaces/augment-api-query';
-import './interfaces/augment-api-rpc';
-import './interfaces/augment-api-tx';
 import './interfaces/augment-types';
 import './interfaces/types-lookup';
 
@@ -34,3 +28,4 @@ export const typesBundle = parallelTypesBundle as unknown as OverrideBundleType;
 export const signedExtensions = parallelSignedExtensions;
 
 export * from '@polkadot/types';
+export * from '@polkadot/types/lookup';
