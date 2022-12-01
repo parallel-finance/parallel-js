@@ -8,8 +8,8 @@
     "packages/*"
   ],
   "resolutions": {
-    "@polkadot/api": "^9.3.2",
-    "@polkadot/types": "^9.3.2"
+    "@polkadot/api": "^9.9.1",
+    "@polkadot/types": "^9.9.1"
   },
   "scripts": {
     "build": "yarn build:interfaces && polkadot-dev-build-ts",
@@ -24,10 +24,10 @@
     "bump": "yarn workspaces foreach version"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.3",
+    "@babel/core": "^7.20.5",
     "@babel/register": "^7.13.6",
     "@babel/runtime": "^7.14.0",
-    "@open-web3/dev-config": "^0.2.2",
+    "@open-web3/dev-config": "^0.2.3",
     "@open-web3/util": "^1.1.4",
     "@types/jest": "^25.2.3",
     "@typescript-eslint/eslint-plugin": "latest",
@@ -37,6 +37,6 @@
   },
   "packageManager": "yarn@3.1.1",
   "dependencies": {
-    "@polkadot/typegen": "^9.3.3"
+    "@polkadot/typegen": "^9.9.1"
   }
 }
