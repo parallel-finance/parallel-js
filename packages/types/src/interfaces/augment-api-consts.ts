@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Option, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
 import type { AccountId32, Permill } from '@polkadot/types/interfaces/runtime';
-import type { FrameSupportPalletId, FrameSupportWeightsRuntimeDbWeight, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpVersionRuntimeVersion, XcmV0JunctionNetworkId, XcmV1MultiLocation } from '@polkadot/types/lookup';
+import type { FrameSupportPalletId, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpVersionRuntimeVersion, SpWeightsRuntimeDbWeight, SpWeightsWeightV2Weight, XcmV0JunctionNetworkId, XcmV1MultiLocation } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -167,6 +167,10 @@ declare module '@polkadot/api-base/types/consts' {
     };
     crowdloans: {
       /**
+       * The asset id for native currency.
+       **/
+      getNativeCurrencyId: u32 & AugmentedConst<ApiType>;
+      /**
        * LeaseOffset from relaychain
        **/
       leaseOffset: u32 & AugmentedConst<ApiType>;
@@ -239,6 +243,14 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       launchPeriod: u32 & AugmentedConst<ApiType>;
       /**
+       * The maximum number of items which can be blacklisted.
+       **/
+      maxBlacklisted: u32 & AugmentedConst<ApiType>;
+      /**
+       * The maximum number of deposits a public proposal may have at any time.
+       **/
+      maxDeposits: u32 & AugmentedConst<ApiType>;
+      /**
        * The maximum number of public proposals that can exist at any time.
        **/
       maxProposals: u32 & AugmentedConst<ApiType>;
@@ -254,10 +266,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       minimumDeposit: u128 & AugmentedConst<ApiType>;
       /**
-       * The amount of balance that must be deposited per byte of preimage stored.
-       **/
-      preimageByteDeposit: u128 & AugmentedConst<ApiType>;
-      /**
        * The minimum period of vote locking.
        * 
        * It should be no shorter than enactment period to ensure that in the case of an approval,
@@ -268,6 +276,25 @@ declare module '@polkadot/api-base/types/consts' {
        * How often (in blocks) to check for new votes.
        **/
       votingPeriod: u32 & AugmentedConst<ApiType>;
+      /**
+       * Generic const
+       **/
+      [key: string]: Codec;
+    };
+    evmSignatureCall: {
+      /**
+       * The call processing fee amount.
+       **/
+      callFee: u128 & AugmentedConst<ApiType>;
+      /**
+       * The call magic number.
+       **/
+      callMagicNumber: u16 & AugmentedConst<ApiType>;
+      getNativeCurrencyId: u32 & AugmentedConst<ApiType>;
+      /**
+       * Enable signature verify or not
+       **/
+      verifySignature: bool & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
@@ -515,13 +542,11 @@ declare module '@polkadot/api-base/types/consts' {
     };
     scheduler: {
       /**
-       * The maximum weight that may be scheduled per block for any dispatchables of less
-       * priority than `schedule::HARD_DEADLINE`.
+       * The maximum weight that may be scheduled per block for any dispatchables.
        **/
-      maximumWeight: u64 & AugmentedConst<ApiType>;
+      maximumWeight: SpWeightsWeightV2Weight & AugmentedConst<ApiType>;
       /**
        * The maximum number of scheduled calls in the queue for a single block.
-       * Not strictly enforced, but used for weight estimation.
        **/
       maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
       /**
@@ -571,9 +596,9 @@ declare module '@polkadot/api-base/types/consts' {
       /**
        * The weight of runtime database operations the runtime can invoke.
        **/
-      dbWeight: FrameSupportWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
+      dbWeight: SpWeightsRuntimeDbWeight & AugmentedConst<ApiType>;
       /**
-       * The designated SS85 prefix of this chain.
+       * The designated SS58 prefix of this chain.
        * 
        * This replaces the "ss58Format" property declared in the chain spec. Reason is
        * that the runtime should know about the prefix in order to make use of it as

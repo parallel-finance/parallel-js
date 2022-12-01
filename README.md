@@ -42,7 +42,7 @@ const main = async () => {
 Start a local node service on ws://localhost:9948
 ```
 yarn
-[ENDPOINT={ENDPOINT}] yarn update-metadata
+ENDPOINT=ws://localhost:9948 yarn update-metadata
 ```
 
 ## Build
