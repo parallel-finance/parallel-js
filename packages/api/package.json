@@ -1,6 +1,6 @@
 {
   "name": "@parallel-finance/api",
-  "version": "1.7.14",
+  "version": "1.7.15",
   "description": "Parallel Finance JS API",
   "main": "index.js",
   "author": "Parallel Team",
@@ -16,7 +16,7 @@
   "homepage": "https://github.com/parallel-finance/parallel-js",
   "dependencies": {
     "@open-web3/orml-api-derive": "^1.1.4",
-    "@parallel-finance/types": "^1.7.14",
+    "@parallel-finance/types": "^1.7.15",
     "@polkadot/api": "^9.3.2"
   },
   "devDependencies": {

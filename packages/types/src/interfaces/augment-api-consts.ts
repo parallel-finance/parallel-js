@@ -407,6 +407,10 @@ declare module '@polkadot/api-base/types/consts' {
        * Minimum unstake amount
        **/
       minUnstake: u128 & AugmentedConst<ApiType>;
+      /**
+       * The asset id for native currency.
+       **/
+      nativeCurrency: u32 & AugmentedConst<ApiType>;
       numSlashingSpans: u32 & AugmentedConst<ApiType>;
       /**
        * The pallet id of liquid staking, keeps all the staking assets
