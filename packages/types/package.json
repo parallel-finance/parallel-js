@@ -14,13 +14,13 @@
   },
   "homepage": "https://github.com/parallel-finance/parallel-js",
   "dependencies": {
-    "@babel/runtime": "^7.10.2",
-    "@open-web3/orml-types": "^1.1.4",
+    "@babel/runtime": "^7.21.0",
+    "@open-web3/orml-types": "^2.0.1",
     "@parallel-finance/type-definitions": "^1.7.16",
-    "@polkadot/types": "^9.3.2"
+    "@polkadot/types": "^10.0.1"
   },
   "devDependencies": {
-    "@types/websocket": "^1.0.0",
-    "websocket": "^1.0.31"
+    "@types/websocket": "^1.0.5",
+    "websocket": "^1.0.34"
   }
 }

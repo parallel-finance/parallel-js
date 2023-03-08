@@ -15,12 +15,12 @@
   },
   "homepage": "https://github.com/parallel-finance/parallel-js",
   "dependencies": {
-    "@open-web3/orml-api-derive": "^1.1.4",
+    "@open-web3/orml-api-derive": "^2.0.1",
     "@parallel-finance/types": "^1.7.16"
   },
   "devDependencies": {
-    "@babel/runtime": "^7.10.2",
-    "@polkadot/api": "^9.3.2",
-    "@polkadot/rpc-core": "^9.3.2"
+    "@babel/runtime": "^7.21.0",
+    "@polkadot/api": "^10.0.1",
+    "@polkadot/rpc-core": "^10.0.1"
   }
 }
