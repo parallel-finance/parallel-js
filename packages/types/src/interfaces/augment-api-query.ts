@@ -10,8 +10,8 @@ import type { Data } from '@polkadot/types';
 import type { BTreeMap, Bytes, Option, U256, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H160, H256, Permill } from '@polkadot/types/interfaces/runtime';
-import type { CumulusPalletDmpQueueConfigData, CumulusPalletDmpQueuePageIndexData, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, CumulusPalletXcmpQueueInboundChannelDetails, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueQueueConfigData, EthereumBlock, EthereumReceiptReceiptV3, EthereumTransactionTransactionV2, FpRpcTransactionStatus, FrameSupportDispatchPerDispatchClassWeight, FrameSupportPreimagesBounded, FrameSystemAccountInfo, FrameSystemEventRecord, FrameSystemLastRuntimeUpgradeInfo, FrameSystemPhase, HeikoRuntimeOpaqueSessionKeys, OrmlOracleModuleTimestampedValue, OrmlUtilitiesOrderedSet, OrmlVestingVestingSchedule, PalletAssetsApproval, PalletAssetsAssetAccount, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, PalletAuthorshipUncleEntryItem, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReleases, PalletBalancesReserveData, PalletBridgeBridgeToken, PalletBridgeMaterializeCall, PalletBridgeProposal, PalletCollatorSelectionCandidateInfo, PalletCollectiveVotes, PalletCrowdloansBonusConfig, PalletCrowdloansReleases, PalletCrowdloansVault, PalletCrowdloansXcmRequest, PalletDemocracyReferendumInfo, PalletDemocracyVoteThreshold, PalletDemocracyVoteVoting, PalletFarmingPoolInfo, PalletFarmingUserPosition, PalletIdentityRegistrarInfo, PalletIdentityRegistration, PalletLiquidStakingMatchingLedger, PalletLiquidStakingStakingLedger, PalletLiquidStakingUnlockChunk, PalletLiquidStakingVersions, PalletLiquidStakingXcmRequest, PalletLoansBorrowSnapshot, PalletLoansDeposits, PalletLoansEarnedSnapshot, PalletLoansMarket, PalletLoansRewardMarketState, PalletLoansVersions, PalletMultisigMultisig, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletSchedulerScheduled, PalletStreamingStream, PalletStreamingStreamKind, PalletTraitsPool, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, PalletTransactionPaymentReleases, PalletTreasuryProposal, PalletXcmQueryStatus, PalletXcmVersionMigrationStage, PolkadotCorePrimitivesOutboundHrmpMessage, PolkadotPrimitivesV2AbridgedHostConfiguration, PolkadotPrimitivesV2PersistedValidationData, PolkadotPrimitivesV2UpgradeRestriction, SpConsensusAuraSr25519AppSr25519Public, SpCoreCryptoKeyTypeId, SpRuntimeDigest, SpTrieStorageProof, SpWeightsWeightV2Weight, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
 import type { Observable } from '@polkadot/types/types';
+import { PalletTraitsPool, PalletTraitsXcmAssetType, PalletAssetsAssetAccount, PalletAssetsApproval, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, SpConsensusAuraSr25519AppSr25519Public, PalletAuthorshipUncleEntryItem, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBridgeBridgeToken, PalletBridgeMaterializeCall, PalletBridgeProposal, PalletCollatorSelectionCandidateInfo, PalletCrowdloansBonusConfig, PalletCrowdloansReleases, PalletCrowdloansVault, PalletCrowdloansXcmRequest, FrameSupportPreimagesBounded, PalletDemocracyVoteThreshold, PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting, CumulusPalletDmpQueueConfigData, CumulusPalletDmpQueuePageIndexData, EthereumBlock, EthereumReceiptReceiptV3, FpRpcTransactionStatus, EthereumTransactionTransactionV2, PalletFarmingPoolInfo, PalletFarmingUserPosition, PalletCollectiveVotes, PalletIdentityRegistration, PalletIdentityRegistrarInfo, PalletLiquidStakingMatchingLedger, PalletLiquidStakingStakingLedger, PalletLiquidStakingVersions, PalletLiquidStakingUnlockChunk, PolkadotPrimitivesV2PersistedValidationData, PalletLiquidStakingXcmRequest, PalletLoansBorrowSnapshot, PalletLoansDeposits, PalletLoansEarnedSnapshot, PalletLoansMarket, PalletLoansRewardMarketState, PalletLoansVersions, PalletMultisigMultisig, OrmlOracleModuleTimestampedValue, PolkadotPrimitivesV2AbridgedHostConfiguration, PolkadotCorePrimitivesOutboundHrmpMessage, SpTrieStorageProof, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, SpWeightsWeightV2Weight, PolkadotPrimitivesV2UpgradeRestriction, PalletXcmVersionMigrationStage, PalletXcmQueryStatus, XcmVersionedMultiLocation, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletSchedulerScheduled, SpCoreCryptoKeyTypeId, HeikoRuntimeOpaqueSessionKeys, PalletStreamingStreamKind, PalletStreamingStream, FrameSystemAccountInfo, FrameSupportDispatchPerDispatchClassWeight, SpRuntimeDigest, FrameSystemEventRecord, FrameSystemPhase, FrameSystemLastRuntimeUpgradeInfo, PalletTransactionPaymentReleases, PalletTreasuryProposal, OrmlVestingVestingSchedule, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, CumulusPalletXcmpQueueInboundChannelDetails, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueQueueConfigData } from '@polkadot/types/lookup';
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
 export type __QueryableStorageEntry<ApiType extends ApiTypes> = QueryableStorageEntry<ApiType>;
@@ -163,6 +163,10 @@ declare module '@polkadot/api-base/types/storage' {
        **/
       account: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<PalletBalancesAccountData>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
+       * The total units of outstanding deactivated balance in the system.
+       **/
+      inactiveIssuance: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
        * Any liquidity locks on some account balances.
        * NOTE: Should only be accessed when setting, changing and freeing a lock.
        **/
@@ -171,12 +175,6 @@ declare module '@polkadot/api-base/types/storage' {
        * Named reserves on some account balances.
        **/
       reserves: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Vec<PalletBalancesReserveData>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
-      /**
-       * Storage version of the pallet.
-       * 
-       * This is set to v2.0.0 for new networks.
-       **/
-      storageVersion: AugmentedQuery<ApiType, () => Observable<PalletBalancesReleases>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The total units issued in the system.
        **/
@@ -1217,6 +1215,10 @@ declare module '@polkadot/api-base/types/storage' {
        * Proposal indices that have been approved but not yet awarded.
        **/
       approvals: AugmentedQuery<ApiType, () => Observable<Vec<u32>>, []> & QueryableStorageEntry<ApiType, []>;
+      /**
+       * The amount which has been reported as inactive to Currency.
+       **/
+      inactive: AugmentedQuery<ApiType, () => Observable<u128>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * Number of proposals that have been made.
        **/

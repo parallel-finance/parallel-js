@@ -9,7 +9,7 @@ import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U256, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H160, H256, Permill } from '@polkadot/types/interfaces/runtime';
-import type { EthereumLog, EvmCoreErrorExitReason, FrameSupportDispatchDispatchInfo, FrameSupportTokensMiscBalanceStatus, HeikoRuntimeProxyType, OrmlVestingVestingSchedule, PalletBridgeBridgeType, PalletCrowdloansBonusConfig, PalletCrowdloansChildStorageKind, PalletCrowdloansContributionStrategy, PalletCrowdloansVaultPhase, PalletDemocracyVoteAccountVote, PalletDemocracyVoteThreshold, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, PalletTraitsUmpRewardDestination, PalletTraitsUmpXcmWeightFeeMisc, PalletTraitsXcmAssetType, SpRuntimeDispatchError, SpWeightsWeightV2Weight, XcmV1MultiAsset, XcmV1MultiLocation, XcmV1MultiassetMultiAssets, XcmV2Response, XcmV2TraitsError, XcmV2TraitsOutcome, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation } from '@polkadot/types/lookup';
+import { PalletTraitsXcmAssetType, FrameSupportTokensMiscBalanceStatus, PalletBridgeBridgeType, PalletCrowdloansBonusConfig, XcmV1MultiLocation, XcmV2TraitsError, PalletCrowdloansChildStorageKind, PalletCrowdloansVaultPhase, PalletCrowdloansContributionStrategy, XcmV2TraitsOutcome, PalletDemocracyVoteThreshold, PalletDemocracyVoteAccountVote, SpWeightsWeightV2Weight, EvmCoreErrorExitReason, EthereumLog, SpRuntimeDispatchError, PalletTraitsUmpRewardDestination, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmV2Response, HeikoRuntimeProxyType, FrameSupportDispatchDispatchInfo, OrmlVestingVestingSchedule, PalletTraitsUmpXcmWeightFeeMisc, XcmV1MultiassetMultiAssets, XcmV1MultiAsset } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
@@ -88,9 +88,17 @@ declare module '@polkadot/api-base/types/events' {
     };
     assets: {
       /**
+       * Accounts were destroyed for given asset.
+       **/
+      AccountsDestroyed: AugmentedEvent<ApiType, [assetId: u32, accountsDestroyed: u32, accountsRemaining: u32], { assetId: u32, accountsDestroyed: u32, accountsRemaining: u32 }>;
+      /**
        * An approval for account `delegate` was cancelled by `owner`.
        **/
       ApprovalCancelled: AugmentedEvent<ApiType, [assetId: u32, owner: AccountId32, delegate: AccountId32], { assetId: u32, owner: AccountId32, delegate: AccountId32 }>;
+      /**
+       * Approvals were destroyed for given asset.
+       **/
+      ApprovalsDestroyed: AugmentedEvent<ApiType, [assetId: u32, approvalsDestroyed: u32, approvalsRemaining: u32], { assetId: u32, approvalsDestroyed: u32, approvalsRemaining: u32 }>;
       /**
        * (Additional) funds have been approved for transfer to a destination account.
        **/
@@ -119,6 +127,10 @@ declare module '@polkadot/api-base/types/events' {
        * An asset class was destroyed.
        **/
       Destroyed: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
+      /**
+       * An asset class is in the process of being destroyed.
+       **/
+      DestructionStarted: AugmentedEvent<ApiType, [assetId: u32], { assetId: u32 }>;
       /**
        * Some asset class was force-created.
        **/
