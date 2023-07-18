@@ -5,10 +5,14 @@
 // this is required to allow for ambient/previous definitions
 import '@polkadot/rpc-core/types/jsonrpc';
 
+import type { RpcDataProviderId, TimestampedValue } from '@open-web3/orml-types/interfaces/oracle';
+import type { Liquidity, Shortfall } from '@parallel-finance/types/interfaces/loans';
+import type { CurrencyId, Rate, Ratio } from '@parallel-finance/types/interfaces/primitives';
+import type { AccountId, Balance, BlockNumber, FixedU128, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, OracleKey, SignedBlock, StorageData } from '@parallel-finance/types/interfaces/runtime';
 import type { AugmentedRpc } from '@polkadot/rpc-core/types';
 import type { Metadata, StorageKey } from '@polkadot/types';
 import type { Bytes, HashMap, Json, Null, Option, Text, U256, U64, Vec, bool, f64, u32, u64 } from '@polkadot/types-codec';
-import type { AnyNumber, Codec } from '@polkadot/types-codec/types';
+import type { AnyNumber, Codec, ITuple } from '@polkadot/types-codec/types';
 import type { ExtrinsicOrHash, ExtrinsicStatus } from '@polkadot/types/interfaces/author';
 import type { EpochAuthorship } from '@polkadot/types/interfaces/babe';
 import type { BeefySignedCommitment } from '@polkadot/types/interfaces/beefy';
@@ -25,7 +29,6 @@ import type { MmrHash, MmrLeafBatchProof } from '@polkadot/types/interfaces/mmr'
 import type { StorageKind } from '@polkadot/types/interfaces/offchain';
 import type { FeeDetails, RuntimeDispatchInfoV1 } from '@polkadot/types/interfaces/payment';
 import type { RpcMethods } from '@polkadot/types/interfaces/rpc';
-import type { AccountId, BlockNumber, H160, H256, H64, Hash, Header, Index, Justification, KeyValue, SignedBlock, StorageData } from '@polkadot/types/interfaces/runtime';
 import type { MigrationStatusResult, ReadProof, RuntimeVersion, TraceBlockResponse } from '@polkadot/types/interfaces/state';
 import type { ApplyExtrinsicResult, ChainProperties, ChainType, Health, NetworkState, NodeRole, PeerInfo, SyncState } from '@polkadot/types/interfaces/system';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
@@ -371,6 +374,20 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        **/
       subscribeJustifications: AugmentedRpc<() => Observable<JustificationNotification>>;
     };
+    loans: {
+      /**
+       * Retrieves collateral liquidity for the given user.
+       **/
+      getCollateralLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall, Liquidity, Shortfall]>>>;
+      /**
+       * Retrieves liquidation threshold liquidity for the given user.
+       **/
+      getLiquidationThresholdLiquidity: AugmentedRpc<(account: AccountId | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Liquidity, Shortfall, Liquidity, Shortfall]>>>;
+      /**
+       * Retrieves market status data for a given asset id.
+       **/
+      getMarketStatus: AugmentedRpc<(asset_id: CurrencyId | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Rate, Rate, Rate, Ratio, Balance, Balance, FixedU128]>>>;
+    };
     mmr: {
       /**
        * Generate MMR proof for the given block numbers.
@@ -413,6 +430,16 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        **/
       localStorageSet: AugmentedRpc<(kind: StorageKind | 'PERSISTENT' | 'LOCAL' | number | Uint8Array, key: Bytes | string | Uint8Array, value: Bytes | string | Uint8Array) => Observable<Null>>;
     };
+    oracle: {
+      /**
+       * Retrieves all oracle values.
+       **/
+      getAllValues: AugmentedRpc<(providerId: RpcDataProviderId | string, at?: BlockHash | string | Uint8Array) => Observable<Vec<ITuple<[OracleKey, Option<TimestampedValue>]>>>>;
+      /**
+       * Retrieves the oracle value for a given key.
+       **/
+      getValue: AugmentedRpc<(providerId: RpcDataProviderId | string, key: OracleKey | AnyNumber | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<Option<TimestampedValue>>>;
+    };
     payment: {
       /**
        * @deprecated Use `api.call.transactionPaymentApi.queryFeeDetails` instead
@@ -424,6 +451,12 @@ declare module '@polkadot/rpc-core/types/jsonrpc' {
        * Retrieves the fee information for an encoded extrinsic
        **/
       queryInfo: AugmentedRpc<(extrinsic: Bytes | string | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<RuntimeDispatchInfoV1>>;
+    };
+    router: {
+      /**
+       * Returns the route that results in the largest amount out for amount in
+       **/
+      getBestRoute: AugmentedRpc<(amount: Balance | AnyNumber | Uint8Array, token_in: CurrencyId | AnyNumber | Uint8Array, token_out: CurrencyId | AnyNumber | Uint8Array, reversed: bool | boolean | Uint8Array, at?: BlockHash | string | Uint8Array) => Observable<ITuple<[Vec<CurrencyId>, FixedU128]>>>;
     };
     rpc: {
       /**
