@@ -9,6 +9,7 @@ import type { ApiTypes, AugmentedEvent } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Result, U256, U8aFixed, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, H160, H256, Permill } from '@polkadot/types/interfaces/runtime';
+import { PalletTraitsXcmAssetType, FrameSupportTokensMiscBalanceStatus, PalletBridgeBridgeType, PalletCrowdloansBonusConfig, XcmV3Response, XcmV3MultiLocation, XcmV3TraitsError, PalletCrowdloansChildStorageKind, PalletCrowdloansVaultPhase, PalletCrowdloansContributionStrategy, XcmV3TraitsOutcome, PalletDemocracyVoteThreshold, PalletDemocracyVoteAccountVote, XcmV3Xcm, SpWeightsWeightV2Weight, EvmCoreErrorExitReason, EthereumLog, SpRuntimeDispatchError, PalletTraitsUmpRewardDestination, PalletLiquidStakingStakingLedger, PalletLoansMarket, PalletMultisigTimepoint, XcmV2Xcm, XcmVersionedMultiAssets, XcmVersionedMultiLocation, XcmV2Response, VanillaRuntimeProxyType, FrameSupportDispatchDispatchInfo, OrmlVestingVestingSchedule, PalletTraitsUmpXcmWeightFeeMisc, XcmV3MultiassetMultiAssets, XcmV3MultiAsset } from '@polkadot/types/lookup';
 
 export type __AugmentedEvent<ApiType extends ApiTypes> = AugmentedEvent<ApiType>;
 
