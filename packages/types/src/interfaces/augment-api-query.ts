@@ -11,7 +11,7 @@ import type { BTreeMap, Bytes, Option, U256, U8aFixed, Vec, bool, u128, u16, u32
 import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
 import type { AccountId32, Call, H160, H256, Permill } from '@polkadot/types/interfaces/runtime';
 import type { Observable } from '@polkadot/types/types';
-import { PalletTraitsPool, PalletTraitsXcmAssetType, PalletAssetsAssetAccount, PalletAssetsApproval, PalletStableswapPool, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, SpConsensusAuraSr25519AppSr25519Public, PalletBalancesAccountData, PalletBalancesBalanceLock, PalletBalancesReserveData, PalletBridgeBridgeToken, PalletBridgeMaterializeCall, PalletBridgeProposal, PalletCollatorSelectionCandidateInfo, PalletCrowdloansBonusConfig, PalletCrowdloansReleases, PalletCrowdloansVault, PalletCrowdloansXcmRequest, FrameSupportPreimagesBounded, PalletDemocracyVoteThreshold, PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting, CumulusPalletDmpQueueConfigData, CumulusPalletDmpQueuePageIndexData, EthereumBlock, EthereumReceiptReceiptV3, FpRpcTransactionStatus, EthereumTransactionTransactionV2, PalletFarmingPoolInfo, PalletFarmingUserPosition, PalletCollectiveVotes, PalletIdentityRegistration, PalletIdentityRegistrarInfo, PalletLiquidStakingMatchingLedger, PalletLiquidStakingStakingLedger, PalletLiquidStakingVersions, PalletLiquidStakingUnlockChunk, PolkadotPrimitivesV2PersistedValidationData, PalletLiquidStakingXcmRequest, PalletLoansBorrowSnapshot, PalletLoansDeposits, PalletLoansEarnedSnapshot, PalletLoansMarket, PalletLoansRewardMarketState, PalletLoansVersions, PalletMultisigMultisig, OrmlOracleModuleTimestampedValue, PolkadotPrimitivesV2AbridgedHostConfiguration, PolkadotCorePrimitivesOutboundHrmpMessage, SpTrieStorageProof, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, SpWeightsWeightV2Weight, PolkadotPrimitivesV2UpgradeRestriction, PalletXcmVersionMigrationStage, PalletXcmQueryStatus, XcmVersionedMultiLocation, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletSchedulerScheduled, SpCoreCryptoKeyTypeId, VanillaRuntimeOpaqueSessionKeys, PalletStreamingStreamKind, PalletStreamingStream, FrameSystemAccountInfo, FrameSupportDispatchPerDispatchClassWeight, SpRuntimeDigest, FrameSystemEventRecord, FrameSystemPhase, FrameSystemLastRuntimeUpgradeInfo, PalletTransactionPaymentReleases, PalletTreasuryProposal, OrmlVestingVestingSchedule, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, CumulusPalletXcmpQueueInboundChannelDetails, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueQueueConfigData,PalletXcmRemoteLockedFungibleRecord, XcmVersionedAssetId } from '@polkadot/types/lookup';
+import { PalletTraitsPool, PalletTraitsXcmAssetType, PalletAssetsAssetAccount, PalletAssetsApproval, PalletAssetsAssetDetails, PalletAssetsAssetMetadata, SpConsensusAuraSr25519AppSr25519Public, PalletBalancesAccountData, PalletBalancesBalanceLock, KerriaRuntimeOpaqueSessionKeys, PalletBalancesReserveData, PalletBridgeBridgeToken, PalletBridgeMaterializeCall, PalletBridgeProposal, PalletCollatorSelectionCandidateInfo, PalletCrowdloansBonusConfig, PalletCrowdloansReleases, PalletCrowdloansVault, PalletCrowdloansXcmRequest, FrameSupportPreimagesBounded, PalletDemocracyVoteThreshold, PalletDemocracyReferendumInfo, PalletDemocracyVoteVoting, CumulusPalletDmpQueueConfigData, CumulusPalletDmpQueuePageIndexData, EthereumBlock, EthereumReceiptReceiptV3, FpRpcTransactionStatus, EthereumTransactionTransactionV2, PalletFarmingPoolInfo, PalletFarmingUserPosition, PalletCollectiveVotes, PalletIdentityRegistration, PalletIdentityRegistrarInfo, PalletLiquidStakingMatchingLedger, PalletLiquidStakingStakingLedger, PalletLiquidStakingVersions, PalletLiquidStakingUnlockChunk, PolkadotPrimitivesV2PersistedValidationData, PalletLiquidStakingXcmRequest, PalletLoansBorrowSnapshot, PalletLoansDeposits, PalletLoansEarnedSnapshot, PalletLoansMarket, PalletLoansRewardMarketState, PalletLoansVersions, PalletMultisigMultisig, OrmlOracleModuleTimestampedValue, PolkadotPrimitivesV2AbridgedHostConfiguration, PolkadotCorePrimitivesOutboundHrmpMessage, SpTrieStorageProof, CumulusPalletParachainSystemRelayStateSnapshotMessagingStateSnapshot, SpWeightsWeightV2Weight, PolkadotPrimitivesV2UpgradeRestriction, PalletXcmVersionMigrationStage, PalletXcmQueryStatus, XcmVersionedMultiLocation, PalletPreimageRequestStatus, PalletProxyAnnouncement, PalletProxyProxyDefinition, PalletSchedulerScheduled, SpCoreCryptoKeyTypeId, KerriaRuntimeProxyType, PalletStreamingStreamKind, PalletStreamingStream, FrameSystemAccountInfo, FrameSupportDispatchPerDispatchClassWeight, SpRuntimeDigest, FrameSystemEventRecord, FrameSystemPhase, FrameSystemLastRuntimeUpgradeInfo, PalletTransactionPaymentReleases, PalletTreasuryProposal, OrmlVestingVestingSchedule, PalletTraitsUmpXcmCall, PalletTraitsUmpXcmWeightFeeMisc, CumulusPalletXcmpQueueInboundChannelDetails, CumulusPalletXcmpQueueOutboundChannelDetails, CumulusPalletXcmpQueueQueueConfigData,PalletXcmRemoteLockedFungibleRecord, XcmVersionedAssetId } from '@polkadot/types/lookup';
 
 export type __AugmentedQuery<ApiType extends ApiTypes> = AugmentedQuery<ApiType, () => unknown>;
 export type __QueryableStorageEntry<ApiType extends ApiTypes> = QueryableStorageEntry<ApiType>;
@@ -1019,7 +1019,7 @@ declare module '@polkadot/api-base/types/storage' {
       /**
        * The next session keys for a validator.
        **/
-      nextKeys: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<VanillaRuntimeOpaqueSessionKeys>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
+      nextKeys: AugmentedQuery<ApiType, (arg: AccountId32 | string | Uint8Array) => Observable<Option<KerriaRuntimeOpaqueSessionKeys>>, [AccountId32]> & QueryableStorageEntry<ApiType, [AccountId32]>;
       /**
        * True if the underlying economic identities or weighting behind the validators
        * has changed in the queued validator set.
@@ -1029,21 +1029,11 @@ declare module '@polkadot/api-base/types/storage' {
        * The queued keys for the next session. When the next session begins, these keys
        * will be used to determine the validator's session keys.
        **/
-      queuedKeys: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId32, VanillaRuntimeOpaqueSessionKeys]>>>, []> & QueryableStorageEntry<ApiType, []>;
+      queuedKeys: AugmentedQuery<ApiType, () => Observable<Vec<ITuple<[AccountId32, KerriaRuntimeOpaqueSessionKeys]>>>, []> & QueryableStorageEntry<ApiType, []>;
       /**
        * The current set of validators.
        **/
       validators: AugmentedQuery<ApiType, () => Observable<Vec<AccountId32>>, []> & QueryableStorageEntry<ApiType, []>;
-      /**
-       * Generic query
-       **/
-      [key: string]: QueryableStorageEntry<ApiType>;
-    };
-    stableSwap: {
-      /**
-       * A bag of liquidity composed by two different assets
-       **/
-      pools: AugmentedQuery<ApiType, (arg1: u32 | AnyNumber | Uint8Array, arg2: u32 | AnyNumber | Uint8Array) => Observable<Option<PalletStableswapPool>>, [u32, u32]> & QueryableStorageEntry<ApiType, [u32, u32]>;
       /**
        * Generic query
        **/

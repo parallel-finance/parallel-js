@@ -552,30 +552,6 @@ declare module '@polkadot/api-base/types/consts' {
        **/
       [key: string]: Codec;
     };
-    stableSwap: {
-      /**
-       * Optimal Amplification Coefficient
-       **/
-      amplificationCoefficient: u8 & AugmentedConst<ApiType>;
-      lockAccountId: AccountId32 & AugmentedConst<ApiType>;
-      lpFee: Permill & AugmentedConst<ApiType>;
-      minimumLiquidity: u128 & AugmentedConst<ApiType>;
-      numTokens: u8 & AugmentedConst<ApiType>;
-      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
-      /**
-       * Precision
-       **/
-      precision: u128 & AugmentedConst<ApiType>;
-      /**
-       * How much the protocol is taking out of each trade.
-       **/
-      protocolFee: Permill & AugmentedConst<ApiType>;
-      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
     streaming: {
       /**
        * The max count of streams that has been cancelled or completed for an account
