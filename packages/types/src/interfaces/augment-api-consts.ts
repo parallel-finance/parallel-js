@@ -9,7 +9,6 @@ import type { ApiTypes, AugmentedConst } from '@polkadot/api-base/types';
 import type { Option, Vec, bool, u128, u16, u32, u64, u8 } from '@polkadot/types-codec';
 import type { Codec } from '@polkadot/types-codec/types';
 import type { AccountId32, Permill } from '@polkadot/types/interfaces/runtime';
-import { FrameSupportPalletId, SpWeightsWeightV2Weight, FrameSystemLimitsBlockLength, FrameSystemLimitsBlockWeights, SpWeightsRuntimeDbWeight, SpVersionRuntimeVersion, XcmV3MultiLocation, XcmV3JunctionNetworkId } from '@polkadot/types/lookup';
 
 export type __AugmentedConst<ApiType extends ApiTypes> = AugmentedConst<ApiType>;
 
@@ -547,30 +546,6 @@ declare module '@polkadot/api-base/types/consts' {
        * The maximum number of scheduled calls in the queue for a single block.
        **/
       maxScheduledPerBlock: u32 & AugmentedConst<ApiType>;
-      /**
-       * Generic const
-       **/
-      [key: string]: Codec;
-    };
-    stableSwap: {
-      /**
-       * Optimal Amplification Coefficient
-       **/
-      amplificationCoefficient: u8 & AugmentedConst<ApiType>;
-      lockAccountId: AccountId32 & AugmentedConst<ApiType>;
-      lpFee: Permill & AugmentedConst<ApiType>;
-      minimumLiquidity: u128 & AugmentedConst<ApiType>;
-      numTokens: u8 & AugmentedConst<ApiType>;
-      palletId: FrameSupportPalletId & AugmentedConst<ApiType>;
-      /**
-       * Precision
-       **/
-      precision: u128 & AugmentedConst<ApiType>;
-      /**
-       * How much the protocol is taking out of each trade.
-       **/
-      protocolFee: Permill & AugmentedConst<ApiType>;
-      protocolFeeReceiver: AccountId32 & AugmentedConst<ApiType>;
       /**
        * Generic const
        **/
