@@ -1,6 +1,6 @@
 {
   "name": "@parallel-finance/types",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Polkadot.js type definitions for Parallel Finance",
   "main": "index.js",
   "license": "Apache-2.0",
@@ -16,7 +16,7 @@
   "dependencies": {
     "@babel/runtime": "^7.21.0",
     "@open-web3/orml-types": "^2.0.1",
-    "@parallel-finance/type-definitions": "^2.0.3",
+    "@parallel-finance/type-definitions": "^2.0.4",
     "@polkadot/types": "12.3.1"
   },
   "devDependencies": {
