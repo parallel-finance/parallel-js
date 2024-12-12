@@ -1,6 +1,6 @@
 {
   "name": "@parallel-finance/bulk-transfer",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "API library for bulk transfer",
   "main": "index.js",
   "author": "Parallel Team",
@@ -16,11 +16,11 @@
   "homepage": "https://github.com/parallel-finance/parallel-js",
   "dependencies": {
     "@open-web3/orml-api-derive": "^2.0.1",
-    "@parallel-finance/types": "^2.0.2"
+    "@parallel-finance/types": "^2.0.3"
   },
   "devDependencies": {
     "@babel/runtime": "^7.21.0",
-    "@polkadot/api": "^10.3.2",
-    "@polkadot/rpc-core": "^10.3.2"
+    "@polkadot/api": "12.3.1",
+    "@polkadot/rpc-core": "12.3.1"
   }
 }
